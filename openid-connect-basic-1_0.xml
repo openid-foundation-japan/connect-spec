@@ -75,6 +75,11 @@
       -->
 
       <t>
+        本ドキュメント OpenID Connect Basic Client Implementer's Guide 1.0 は, OpenID Connect Core 1.0 仕様のサブセットであり, OAuth Authorization Code Flow を利用して Web ベースの Relying Party を実装する際に読みやすいように構成されている.
+        本仕様は Core 仕様と重複したコンテンツを含んでいるが, それは実装者が本仕様を読むだけで OAuth Authorization Code Flow を利用した Relying Party を実装できるよう意図したものである.
+      </t>
+      <!--
+      <t>
         This OpenID Connect Basic Client Implementer's Guide 1.0 contains a subset of the
         OpenID Connect Core 1.0 specification
         that is designed to be easy to read and implement for basic
@@ -85,10 +90,16 @@
         Web-based Relying Parties using the
         OAuth Authorization Code Flow.
       </t>
+      -->
+      <t>
+        OpenID Provider および Web ベース以外のアプリケーションの実装者は, Core 仕様を参照のこと.
+      </t>
+      <!--
       <t>
         OpenID Providers and non-Web-based applications
         should instead consult the Core specification.
       </t>
+      -->
     </abstract>
   </front>
 
