@@ -108,6 +108,12 @@
     <section anchor="Introduction" title="Introduction">
 
       <t>
+        本ドキュメント OpenID Connect Basic Client Implementer's Guide 1.0 は, <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> 仕様のサブセットであり, OAuth 2.0 <xref target="RFC6749"/> Authorization Code Flow を利用して Web ベースの Relying Party を実装する際に読みやすいように構成されている.
+        本仕様は Core 仕様と重複したコンテンツを含んでいるが, それは実装者が本仕様を読むだけで OAuth Authorization Code Flow を利用した Relying Party を実装できるよう意図したものである.
+        本実装者ガイドと OpenID Connect Core 仕様の間に齟齬がある場合は, Core 仕様を優先する.
+      </t>
+      <!--
+      <t>
         This OpenID Connect Basic Client Implementer's Guide 1.0 contains a subset of the
         <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> specification
         that is designed to be easy to read and implement for basic
@@ -120,6 +126,13 @@
         Should there be any conflicts between the contents of this implementer's guide
         and the OpenID Connect Core specification, the latter takes precedence.
       </t>
+      -->
+      <t>
+        OAuth Implicit Flow を利用する Web ベースの Relying Party を実装する場合には, <xref target="OpenID.Implicit">OpenID Connect Implicit Client Implementer's Guide 1.0</xref> を参照のこと.
+        OpenID Provider および Web ベース以外のアプリケーションの実装者は, Core 仕様を参照のこと.
+        本ガイドは OpenID Provider および Web ベース以外のアプリケーションに関する Implimentation Consideration および Security Considerations を省略している.
+      </t>
+      <!--
       <t>
         See the
         <xref target="OpenID.Implicit">OpenID Connect Implicit Client Implementer's Guide 1.0</xref>
@@ -131,7 +144,15 @@
         This guide omits implementation and security
         considerations for OpenID Providers and non-Web-based applications.
       </t>
+      -->
 
+      <t>
+        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの制限付きアクセス権を取得および行使するための全般的フレームワークを提供している.
+        これらはリソースアクセスのための Access Token を取得および行使する方法は定義するが, アイデンティティ情報を提供するための標準的手段は定義しない.
+        とりわけ, OAuth 2.0 のプロファイリングを行わずに End-User の認証に必要な情報を提供することは不可能である.
+        本ドキュメント読者は上記2つの仕様を理解していることが期待される.
+      </t>
+      <!--
       <t>
         As background,
         the <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref>
@@ -144,6 +165,13 @@
         providing information about the authentication of an End-User.
         Readers are expected to be familiar with these specifications.
       </t>
+      -->
+      <t>
+        OpenID Connect は OAuth 2.0 認可プロセスを拡張し, 認証目的で利用できるようにする.
+        本拡張を利用する場合, Client は <spanx style="verb">openid</spanx> scope を指定して Authorization Request を送信する.
+        本拡張を利用した Authorization Request は, Authentication Request と呼ばれる.
+      </t>
+      <!--
       <t>
         OpenID Connect implements authentication as an extension to the
         OAuth 2.0 authorization process.
@@ -153,6 +181,7 @@
         An Authorization Request using these extensions
         is called an Authentication Request.
       </t>
+      -->
       <t>
         Information about the authentication performed is returned
         in a <xref target="JWT">JSON Web Token (JWT)</xref>
