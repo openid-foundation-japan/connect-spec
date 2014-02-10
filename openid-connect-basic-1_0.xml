@@ -183,6 +183,12 @@
       </t>
       -->
       <t>
+        認証結果は ID Token (<xref target="IDToken"/> 参照) と呼ばれる <xref target="JWT">JSON Web Token (JWT)</xref> として返される.
+        OpenID Connect をサポートする OAuth 2.0 Authentication Server は, OpenID Provider (OP) とも呼ばれる.
+        OpenID Connect を利用する OAuth 2.0 Client は Relying Party (RP) とも呼ばれる.
+      </t>
+      <!--
+      <t>
         Information about the authentication performed is returned
         in a <xref target="JWT">JSON Web Token (JWT)</xref>
         called an ID Token (see <xref target="IDToken"/>).
@@ -191,6 +197,12 @@
         OAuth 2.0 Clients using OpenID Connect
         are also referred to as Relying Parties (RPs).
       </t>
+      -->
+      <t>
+        本ドキュメントでは, Relying Party は既に Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
+        これらの情報は通常 <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> にある Discovery を通じて得られるが, その他の手段で得られることもある.
+      </t>
+      <!--
       <t>
         This specification assumes that the Relying Party has already obtained
         configuration information about the OpenID Provider, including its
@@ -199,6 +211,12 @@
         as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
         or may be obtained via other mechanisms.
       </t>
+      -->
+      <t>
+        また同様に, Relying Party は OpenID Provider 利用に必要なクレデンシャルを取得し, OP 利用に必要な情報を登録しているものとする.
+        これの処理は通常 <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> にある Dynamic Registration を通じて行われるが, その他の手段で行われることもある.
+      </t>
+      <!--
       <t>
         Likewise, this specification assumes that the Relying Party has already obtained
         sufficient credentials and provided information needed to use the OpenID Provider.
@@ -207,6 +225,7 @@
         <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
         or may be obtained via other mechanisms.
       </t>
+      -->
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
