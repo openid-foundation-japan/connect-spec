@@ -566,6 +566,14 @@
 
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
+        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいづれかのフローに従う.
+        Authorization Code Flow は, 認可サーバーとクライアント自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
+        それが不可能な Client は Implicit Flow を用いる.
+        しかしながら, Client Secret をセキュアに保持できないにも関わらず, Refresh Token 取得のためにしばしば Native アプリケーションやその他の Client が Authorization Code flow を利用することもある.
+        Hybrid Flow は Authorization Code Flow と Implicit Flow をあわせたものであり, Client が Authorization Server から直接 ID Token およびオプションで Access Token を受け取ることでレイテンシ低下を防ぎつつも, 後から Client が Token Endpoint にアクセスして各種トークン (特に Refresh Token) を取得できるようにするものである.
+      </t>
+      <!--
+      <t>
         Authentication Requests can follow one of three paths:
         the Authorization Code Flow,
         the Implicit Flow, or
@@ -584,33 +592,79 @@
         while still enabling Clients to later get tokens from the Token Endpoint
         -- especially a Refresh Token.
       </t>
+      -->
 
+      <t>
+        このドキュメントは Code Flow を利用する Client に対して必要十分な情報のみを提供する.
+      </t>
+      <!--
       <t>
         This specification only provides information that is sufficient for
         basic Clients using the Code Flow.
       </t>
+      -->
 
       <section anchor="CodeFlow" title="Code Flow">
+        <t>
+          Code Flow は以下のステップからなる.
+        </t>
+        <!--
         <t>The Code Flow consists of the following steps:</t>
+        -->
         <t>
           <list style="numbers">
+            <t>
+              Client は必要なリクエストパラメータを含んだ Authentication Request を構築する.
+            </t>
+            <!--
             <t>Client prepares an Authentication Request containing the desired
             request parameters.</t>
+            -->
 
+            <t>
+              Client は Authorization Server にリクエストを送信する.
+            </t>
+            <!--
             <t>Client sends the request to the Authorization Server.</t>
+            -->
 
+            <t>
+              Authorization Server は End-User を認証する.
+            </t>
+            <!--
             <t>Authorization Server authenticates the End-User.</t>
+            -->
 
+            <t>
+              Authorization Server は End-User の Consent/Authorization を取得する.
+            </t>
+            <!--
             <t>Authorization Server obtains End-User Consent/Authorization.</t>
+            -->
 
+            <t>
+              Authorization Server は End-User を <spanx style="verb">code</spanx> とともに Client に戻す.
+            </t>
+            <!--
             <t>Authorization Server sends the End-User back to the Client with
             <spanx style="verb">code</spanx>.</t>
+            -->
 
+            <t>
+              Client は <spanx style="verb">code</spanx> を Token Endpoint に送信し, Access Token と ID Token を受け取る.
+            </t>
+            <!--
             <t>Client sends the <spanx style="verb">code</spanx> to the
             Token Endpoint to receive an Access Token and ID Token in the response.</t>
+            -->
 
+            <t>
+              Client はそれらのトークンを検証し, End-User の Subject Identifier を取得する.
+            </t>
+            <!--
             <t>Client validates the tokens and retrieves the End-User's
             Subject Identifier.</t>
+            -->
           </list>
         </t>
 
