@@ -670,21 +670,42 @@
 
         <section anchor="AuthenticationRequest" title="Client Prepares Authentication Request">
           <t>
+            RP が End-User を Authenticate したい, もしくは End-User が既に Authenticated であるかどうか知りたい場合, Client は Authorization Endpoint に Authorization Request を送る.
+          </t>
+          <!--
+          <t>
             When the RP wishes to Authenticate the End-User
             or determine whether the End-User is already Authenticated,
             the Client prepares an Authentication Request
             to be sent to the Authorization Endpoint.
           </t>
+          -->
+          <t>
+            Authorization Endpoint との間の通信は TLS を利用しなければならない (MUST).
+            TLS の詳細については <xref target="TLSRequirements"/> を参照のこと.
+          </t>
+          <!--
           <t>
             Communication with the Authorization Endpoint MUST utilize TLS.
             See <xref target="TLSRequirements"/> for more information on using TLS.
           </t>
+          -->
 
+          <t>
+            Client は <xref target="RFC2616">RFC 2616</xref> に定義される HTTP <spanx style="verb">GET</spanx> もしくは HTTP <spanx style="verb">POST</spanx> を利用できる (MAY).
+          </t>
+          <!--
           <t>Clients MAY construct the request using the HTTP
           <spanx style="verb">GET</spanx> or the HTTP
           <spanx style="verb">POST</spanx> method as defined in
           <xref target="RFC2616">RFC 2616</xref>.</t>
+          -->
 
+          <t>
+            HTTP <spanx style="verb">GET</spanx> を利用する場合, パラメータは <xref target="QuerySerialization"/> にある Query String Serialization を用いてシリアライズされる.
+            HTTP <spanx style="verb">POST</spanx> を利用する場合, パラメータは <xref target="W3C.REC-html401-19991224"/> にある <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを用いてエンティティボディ中に含まれる.
+          </t>
+          <!--
           <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
           parameters are serialized using
           the Query String Serialization, per <xref target="QuerySerialization"/>.
@@ -693,11 +714,18 @@
           added to the HTTP request entity-body using the
           <spanx style="verb">application/x-www-form-urlencoded</spanx> format
           as defined by <xref target="W3C.REC-html401-19991224"/>.</t>
+          -->
 
           <figure>
+            <preamble>
+              以下は Authorization Request URL の一例である.
+              (改行は掲載上の都合による)
+            </preamble>
+            <!--
             <preamble>The following is a non-normative example of an
             Authentication Request URL
             (with line wraps within values for display purposes only):</preamble>
+            -->
 
             <artwork><![CDATA[
   https://server.example.com/authorize?
