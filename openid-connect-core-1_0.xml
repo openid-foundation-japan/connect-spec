@@ -60,12 +60,24 @@
     <workgroup>OpenID Connect Working Group</workgroup>
 
     <abstract>
+      <t>
+        OpenIC Connect 1.0 は, OAuth 2.0 プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
+        このプロトコルは Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証可能にする.
+        また同時に End-User の必要最低限のプロフィール情報を, 相互運用可能かつ RESTful な形で取得することも可能にする.
+      </t>
+      <!--
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
       protocol. It enables Clients to verify the identity of the End-User based
       on the authentication performed by an Authorization Server, as well as to
       obtain basic profile information about the End-User in an interoperable and 
       REST-like manner.</t>
+      -->
 
+      <t>
+        この仕様は, OpenID Connect の主要な機能である OAuth 2.0 上で End-User の情報伝達のためにクレームを用いる認証機能 を定義する.
+        この仕様はまた, OpenID Connect を利用するための Security, Privacy Considerations を説明する. 
+      </t>
+      <!--
       <t>
 	This specification defines
 	the core OpenID Connect functionality:
@@ -73,6 +85,7 @@
 	the use of Claims to communicate information about the End-User.
 	It also describes the security and privacy considerations for using OpenID Connect.
       </t>
+      -->
     </abstract>
   </front>
 
