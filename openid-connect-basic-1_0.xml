@@ -1268,11 +1268,20 @@
         <section anchor="CodeResponse"
                  title="Authorization Server Sends End-User Back to Client">
 
+          <t>
+            認可結果が得られると, Authorization Server はサクセスレスポンスまたはエラーレスポンスを返す.
+          </t>
+          <!--
           <t>Once the authorization is determined, the Authorization Server
           returns a successful response or an error response.</t>
+          -->
 
           <section anchor="CodeOK" title="End-User Grants Authorization">
 
+            <t>
+              End-User がアクセス権要求を承認した場合, Authorization Server は <spanx style="verb">code</spanx> を発行し, <xref target="RFC6749">OAuth 2.0</xref> の Section 4.1.2 に従い, 以下のクエリパラメータを Redirection URI のクエリー部に <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットで付与して Client に渡す.
+            </t>
+            <!--
             <t>If the End-User grants the access request, the
             Authorization Server issues a <spanx style="verb">code</spanx> and delivers
             it to the Client by adding the following query parameters to the query
@@ -1280,6 +1289,7 @@
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format as defined in Section 4.1.2 of
             <xref target="RFC6749">OAuth 2.0</xref>.</t>
+            -->
 
             <t>
               <list style="hanging">
@@ -1289,6 +1299,10 @@
                 </t>
 
                 <t hangText="state">
+                  OAuth 2.0 state 値.
+                  Authorization Request に <spanx style="verb">state</spanx> パラメータが含まれていた場合は必須 (REQUIRED).
+                  Clients は <spanx style="verb">state</spanx> 値が Authorization Request に含めた値と同一であることを検証しなければならない (MUST).
+                  <!--
                   OAuth 2.0 state value.
                   REQUIRED if the
                   <spanx style="verb">state</spanx> parameter is present in the
@@ -1296,13 +1310,19 @@
                   <spanx style="verb">state</spanx> value is equal to the
                   value of <spanx style="verb">state</spanx> parameter in the
                   Authorization Request.
+                  -->
                 </t>
               </list>
             </t>
 
             <figure>
+              <preamble>
+                以下に例を示す. (改行は掲載上の都合による)
+              </preamble>
+              <!--
               <preamble>The following is a non-normative example
               (with line wraps for the display purposes only):</preamble>
+              -->
 
               <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -1315,7 +1335,11 @@
 
           <section anchor="CodeAuthzError"
                    title="End-User Denies Authorization or Invalid Request">
-
+            <t>
+              End-User が認可を拒否したり, End-User の認証に失敗した場合, Authorization Server は <xref target="RFC6749">OAuth 2.0</xref> Section 4.1.2.1 に従ってエラーの Authorization Response を返さなければならない (MUST).
+              (RFC 6749 に関係のないエラーは, 適切な HTTP ステータスコードを用いて User Agent に返すこと)
+            </t>
+            <!--
             <t>
               If the End-User denies the authorization or the End-User authentication
               fails, the Authorization Server MUST return the error
@@ -1324,6 +1348,7 @@
               (HTTP errors unrelated to RFC 6749 are returned to the User Agent using the
               appropriate HTTP status code.)
             </t>
+            -->
           </section>
         </section>
 
