@@ -1167,16 +1167,25 @@
 
         <section anchor="CodeRequest"
                  title="Client Sends Request to Authorization Server">
+          <t>
+            Client は Authorization Endpoint に HTTPS で Authentication Request を送信する.
+          </t>
+          <!--
           <t>Having constructed the Authentication Request, the Client sends it
           to the Authorization Endpoint using HTTPS.</t>
+          -->
 
           <figure>
             <preamble>
+              以下の例では Client が User Agent に HTTP 302 リダイレクトレスポンスを返し, User Agent に対して Authorization Endpoint に Authentication Request を送るよう指示している. (改行は掲載上の都合による)
+
+              <!--
               The following is a non-normative example
               HTTP 302 redirect response by the Client, which triggers
               the User Agent to make an Authentication Request
               to the Authorization Endpoint
               (with line wraps within values for display purposes only):
+              -->
             </preamble>
 
             <artwork><![CDATA[
@@ -1192,10 +1201,13 @@
 
           <figure>
             <preamble>
+              User Agent は上記の Client からの HTTP 302 リダイレクトレスポンスに従い, Authorization Server に以下のようなリクエストを送る. (改行は掲載上の都合による)
+              <!--
               The following is the non-normative example request
               that would be sent by the User Agent to the Authorization Server
               in response to the HTTP 302 redirect response by the Client above
               (with line wraps within values for display purposes only):
+              -->
             </preamble>
 
             <artwork><![CDATA[
