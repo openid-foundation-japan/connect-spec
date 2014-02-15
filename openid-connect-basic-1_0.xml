@@ -1223,7 +1223,12 @@
         </section>
 
         <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
-
+          <t>
+            Authorization Server は, リクエストパラメータ値に基づき, End-User をログインさせたり既にログイン済みであることを検証する.
+            End-User とのインタラクションが HTTP で行われる場合は, <xref target="TLSRequirements"/> に基づきTLS を用いること (MUST).
+            認証手段の詳細については, 本仕様の定めるところではない.
+          </t>
+          <!--
           <t>
             The Authorization Server logs in the End-User or verifies whether
             the End-User is logged in, depending upon the request parameter values used.
@@ -1231,21 +1236,33 @@
             it MUST use TLS, as per <xref target="TLSRequirements"/>.
             The exact authentication methods used are out of scope for this specification.
           </t>
+          -->
         </section>
 
         <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
-
+          <t>
+            Authorization Server は要求された Claim に対する認可結果を得る.
+            認可取得には, End-User が何に同意をしようとしているのかを明示する同意ダイアログを用いることもあれば, その他の何らかの手段 (事前の管理者による同意等) を用いることもあろう.
+          </t>
+          <!--
           <t>The Authorization Server obtains an authorization decision
           for the requested Claims. This can done by presenting the End-User
           with a dialogue that enables the End-User to recognize what is being
           consenting to and grant consent or by establishing consent via
           other means (for example, via previous administrative consent).</t>
+          -->
 
+          <t>
+            <spanx style="verb">openid</spanx> scope 値は, その OAuth 2.0 リクエストが OpenID Connect リクエストであることを宣言する.
+            その他の scope 値の利用は任意である (OPTIONAL).
+          </t>
+          <!--
           <t>
             The <spanx style="verb">openid</spanx> scope value declares
             that this OAuth 2.0 request is an OpenID Connect request.
             Use of all other scope values is OPTIONAL.
           </t>
+          -->
         </section>
 
         <section anchor="CodeResponse"
