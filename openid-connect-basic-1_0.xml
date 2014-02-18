@@ -1836,26 +1836,48 @@
         <section anchor="IDTokenValidation" title="ID Token Validation">
 
           <t>
+            本仕様の定めるバリデーションが1つでも失敗した場合, バリデーションが失敗した情報を必要とする処理を全て中止し (MUST), バリデーションが失敗した情報を利用してはならない (MUST NOT).
+          </t>
+          <!--
+          <t>
             If any of the validation procedures defined in this specification fail, any operations requiring
             the information that failed to correctly validate MUST be aborted and
             the information that failed to validate MUST NOT be used.
           </t>
+          -->
 
+          <t>
+            Client は Token Response に含まれる ID Token をバリデートしなければならない (MUST).
+            ID Token のバリデーションの為に, Client は ID Token をピリオド (".") で分割し, 2番目のセグメントを Base64URL デコードして ID Token Claim を含む JSON オブジェクトを取得する.
+            この JSON オブジェクトのバリデーションは以下の通りとする (MUST).
+          </t>
+          <!--
           <t>The Client MUST validate the ID Token in the Token Response.  To do this,
           the Client can split the ID Token at the
           period (".") characters, take the second segment, and base64url decode it to
           obtain a JSON object containing the ID Token Claims, which MUST be validated
           as follows:</t>
+          -->
 
           <t>
             <list style="numbers">
 
+              <t>
+                OpenID Provider の Issuer Identifier (これは通常 Discovery によって得られる) が <spanx style="verb">iss</spanx> (issuer) Claim と一致すること (MUST).
+              </t>
+              <!--
               <t>
                 The Issuer Identifier for the OpenID Provider
                 (which is typically obtained during Discovery)
                 MUST exactly match the value of the
                 <spanx style="verb">iss</spanx> (issuer) Claim.
               </t>
+              -->
+              <t>
+                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> を含むこと.
+                ID Token のオーディエンスに Client が含まれていなかったり, Client にとって信頼できない主体がオーディエンスに含まれている場合, その ID Token を拒絶しなければならない (MUST).
+              </t>
+              <!--
               <t>
                 The Client MUST validate that the
                 <spanx style="verb">aud</spanx> (audience) Claim
@@ -1866,38 +1888,73 @@
                 The ID Token MUST be rejected if the ID Token does not list
                 the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
               </t>
+              -->
+              <t>
+                ID Token が複数のオーディエンスを含む場合, Client は <spanx style="verb">azp</spanx> Claim が存在することを検証すべきである (SHOULD).
+              </t>
+              <!--
               <t>
                 If the ID Token contains multiple audiences, the Client SHOULD verify
                 that an <spanx style="verb">azp</spanx> Claim is present.
               </t>
+              -->
+              <t>
+                <spanx style="verb">azp</spanx> Claim が存在する場合, Client はそれが自身の <spanx style="verb">client_id</spanx> と一致することを検証すべきである (SHOULD).
+              </t>
+              <!--
               <t>
                 If an <spanx style="verb">azp</spanx> (authorized party) Claim is present,
                 the Client SHOULD verify that its <spanx style="verb">client_id</spanx>
                 is the Claim Value.
               </t>
+              -->
 
+              <t>
+                現在時刻が <spanx style="verb">exp</spanx> Claim より前でなければならない (MUST).
+                (時計のズレを考慮した多少の猶予は許容される)
+              </t>
+              <!--
               <t>
                 The current time MUST be before the time represented by the
                 <spanx style="verb">exp</spanx> Claim
                 (possibly allowing for some small leeway to account for clock skew).
               </t>
+              -->
 
+              <t>
+                <spanx style="verb">iat</spanx> Claim が現在時刻からあまりにかけ離れている場合は, そのトークンを拒絶してもよい.
+                これにより nonce の保存期間を制限することができる.
+                適切な閾値は, Client ごとにことなる.
+              </t>
+              <!--
               <t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
               were issued too far away from the current time, limiting the amount of
               time that nonces need to be stored to prevent attacks.
               The acceptable range is Client specific.</t>
+              -->
 
+              <t>
+                <spanx style="verb">acr</spanx> Claim がリクエストに含まれていた場合, Client は ID Token の <spanx style="verb">acr</spanx> Claim が適切かどうか検証すべきである (SHOULD).
+                <spanx style="verb">acr</spanx> Claim 値とその意味は, 本仕様の定めるところではない.
+              </t>
+              <!--
               <t>If the <spanx style="verb">acr</spanx> Claim was requested, the
               Client SHOULD check that the asserted Claim Value is appropriate.
               The meaning and processing of
               <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
+              -->
 
+              <t>
+                <spanx style="verb">max_age</spanx> Claim がリクエストに含まれていた場合, Client は ID Token の <spanx style="verb">auth_time</spanx> Claim をチェックし, 最後の End-User 認証からあまりに時間が経過している場合には再認証を要求すべきである (SHOULD).
+              </t>
+              <!--
               <t>
                 When a <spanx style="verb">max_age</spanx> request is made,
                 the Client SHOULD check the <spanx style="verb">auth_time</spanx> Claim
                 value and request re-authentication if it determines too much time
                 has elapsed since the last End-User authentication.
               </t>
+              -->
 
             </list>
           </t>
