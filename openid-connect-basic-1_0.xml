@@ -2109,6 +2109,13 @@
       </section>
 
       <section anchor="Scopes" title="Scope Values">
+        <t>
+          OpenID Connect Client は <xref target="RFC6749">OAuth 2.0</xref> Section 3.3 に従い, Access Token に要求されるアクセス権限を <spanx style="verb">scope</spanx> 値を通じて指定する.
+          Access Tokens に紐づく scope は, そのトークンを使って OAuth 2.0 で保護されたエンドポイントにアクセスした際にどのようなリソースが得られるかを規定する.
+          OpenID Connect では, scope は Claim Value として取得可能な情報セットを指定する為に利用できる.
+          本仕様では OpenID Connect で用いられる scope についてのみ述べる.
+        </t>
+        <!--
         <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of
         <xref target="RFC6749">OAuth 2.0</xref> to specify what
         access privileges are being requested for Access Tokens. The scopes associated
@@ -2117,27 +2124,56 @@
         can be used to request that specific sets of information
         be made available as Claim Values.
         This specification describes only the scope values used by OpenID Connect.</t>
+        -->
+        <t>
+          OpenID Connect は, ここで述べる scope 値以外の値を定義および利用することを制限しない.
+          また実装が理解できない scope 値は無視されるべきである (SHOULD).
+        </t>
+        <!--
         <t>
           OpenID Connect allows additional scope values to be defined and used.
           Scope values used that are not understood by an implementation SHOULD be ignored.
         </t>
+        -->
+        <t>
+          Authorization Server は, 以下の scope によって要求される Claim を Voluntary Claim として扱う.
+        </t>
+        <!--
         <t>
           Claims requested by the following scopes are treated by Authorization Servers
           as Voluntary Claims.
         </t>
+        -->
 
+        <t>
+          OpenID Connect は以下の <spanx style="verb">scope</spanx> 値を定義する.
+        </t>
+        <!--
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
+        -->
         <t>
           <list style="hanging">
+            <t hangText="openid">
+              REQUIRED.
+              Client が Authorization Server に OpenID Connect リクエストを投げていることを示す.
+              <spanx style="verb">openid</spanx> scope 値が存在しない場合の挙動は定義しない.
+            </t>
+            <!--
             <t hangText="openid">REQUIRED. Informs the Authorization Server
             that the Client is making an OpenID Connect request. If the
             <spanx style="verb">openid</spanx> scope value is not present,
             the behavior is entirely unspecified.
             </t>
+            -->
 
+            <t hangText="profile">
+              OPTIONAL.
+              この scope 値は, 以下に示す End-User のデフォルトプロフィール Claim へのアクセス要求に用いる.
+            <!--
             <t hangText="profile">OPTIONAL. This scope value
             requests access to the End-User's default profile Claims,
             which are:
+            -->
 
             <spanx style="verb">name</spanx>,
             <spanx style="verb">family_name</spanx>,
@@ -2154,28 +2190,65 @@
             <spanx style="verb">locale</spanx>, and
             <spanx style="verb">updated_at</spanx>.</t>
 
+            <t hangText="email">
+              OPTIONAL.
+              <spanx style="verb">email</spanx> および <spanx style="verb">email_verified</spanx> Claim へのアクセス要求に用いる.
+            </t>
+            <!--
             <t hangText="email">OPTIONAL. This scope value requests access to
             the <spanx style="verb">email</spanx> and
             <spanx style="verb">email_verified</spanx> Claims.</t>
+            -->
 
+            <t hangText="address">
+              OPTIONAL.
+              <spanx style="verb">address</spanx> Claim へのアクセス要求に用いる.
+            </t>
+            <!--
             <t hangText="address">OPTIONAL. This scope value requests access to
             the <spanx style="verb">address</spanx> Claim.</t>
+            -->
 
+            <t hangText="phone">
+              OPTIONAL.
+              <spanx style="verb">phone_number</spanx> および <spanx style="verb">phone_number_verified</spanx> Claim へのアクセス要求に用いる.
+            </t>
+            <!--
             <t hangText="phone">OPTIONAL. This scope value requests access to
             the <spanx style="verb">phone_number</spanx> and
             <spanx style="verb">phone_number_verified</spanx> Claims.</t>
+            -->
 
+            <t hangText="offline_access">
+              OPTIONAL.
+              OAuth 2.0 Refresh Token 発行要求に用いる.
+              Refresh Token は End-User とのインタラクションを介さずに UserInfo Endpoint にアクセスするための Access Token を発行する為に用いる.
+            </t>
+            <!--
             <t hangText="offline_access">OPTIONAL. This scope value requests
             that an OAuth 2.0 Refresh Token be issued that can be used to
             obtain an Access Token that grants access to the End-User's
             UserInfo Endpoint even when the End-User is not present (not logged in).</t>
+            -->
 
           </list>
         </t>
 
+        <t>
+          複数の scope 値は, スペース区切りの大文字小文字を区別した ASCII scope 値のリストによって指定することができる (MAY).
+        </t>
+        <!--
         <t>Multiple scope values MAY be used by creating a space delimited, case
         sensitive list of ASCII scope values.</t>
+        -->
 
+        <t>
+          <spanx style="verb">profile</spanx>,
+          <spanx style="verb">email</spanx>,
+          <spanx style="verb">address</spanx>, および
+          <spanx style="verb">phone</spanx> scope 値により要求される Claim は, <xref target="UserInfoResponse"/> にある通り UserInfo Endpoint から返される.
+        </t>
+        <!--
         <t>
           The Claims requested by the
           <spanx style="verb">profile</spanx>,
@@ -2185,7 +2258,13 @@
           are returned from the UserInfo Endpoint,
           as described in <xref target="UserInfoResponse"/>.
         </t>
+        -->
 
+        <t>
+          End-User が OpenID Provider に対して RP に要求された情報の一部もしくは全ての提供を拒否することもある.
+          End-User に要求する情報を最小化するために, RP は UserInfo Endpoint で提供される情報の一部のみをリクエストすることもできる.
+        </t>
+        <!--
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
         information requested by RPs.
@@ -2193,11 +2272,17 @@
         to disclose, an RP can elect to
         only request a subset of the information available from the
         UserInfo Endpoint.</t>
+        -->
 
         <t>
           <figure>
+            <preamble>
+              以下に <spanx style="verb">scope</spanx> リクエスト例を示す.
+            </preamble>
+            <!--
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             Request:</preamble>
+            -->
 
             <artwork><![CDATA[
   scope=openid profile email phone
