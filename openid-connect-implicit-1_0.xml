@@ -3759,7 +3759,10 @@
 
     <section anchor="Serializations" title="Serializations">
       <t>
+        リクエストメッセージは以下の手法の一つを使ってシリアライズしてもよい (MAY):
+        <!--
         A request message MAY be serialized using one of the following methods:
+        -->
         <list style="numbers">
           <t>Query String Serialization</t>
           <!--
