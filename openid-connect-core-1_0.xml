@@ -607,27 +607,50 @@
 
       <section anchor="Overview" title="Overview">
 
+  <!--
 	<t>The OpenID Connect protocol, in abstract, follows the following
 	steps.</t>
+  -->
+	<t>概要にある OpenID Connect プロトコルは以下の手順に従う.</t>
 
 	<t>
 	  <list style="numbers">
-	    <t>The RP (Client) sends a request to the OpenID Provider (OP).</t>
+      <!--
+      <t>The RP (Client) sends a request to the OpenID Provider (OP).</t>
+      -->
+	    <t>RP (クライアント)は OpenID プロバイダー (OP) にリクエストを送る.</t>
 
-	    <t>The OP authenticates the End-User and obtains authorization.</t>
+      <!--
+      <t>The OP authenticates the End-User and obtains authorization.</t>
+      -->
+	    <t>OP は End-User を認証し認可を与える.</t>
 
-	    <t>The OP responds with an ID Token and usually an Access Token.</t>
+      <!--
+      <t>The OP responds with an ID Token and usually an Access Token.</t>
+      -->
+	    <t>OP は ID トークンと通常はアクセストークンによって応答する.</t>
 
-	    <t>The RP can send a request with the Access Token to the UserInfo Endpoint.</t>
+      <!--
+      <t>The RP can send a request with the Access Token to the UserInfo Endpoint.</t>
+      -->
+	    <t>RP はアクセストークンを使って UserInfo エンドポイントにリクエストを送ることができる.</t>
 
-	    <t>The UserInfo Endpoint returns Claims about the End-User.</t>
+      <!--
+      <t>The UserInfo Endpoint returns Claims about the End-User.</t>
+      -->
+	    <t>UserInfo エンドポイントは End-User についてクレームを返却する.</t>
 
 	  </list>
 	</t>
 
 	<figure>
-	  <preamble>
+    <!--
+    <preamble>
 	    These steps are illustrated in the following diagram:
+    </preamble>
+    -->
+	  <preamble>
+	    これらの手順は以下の図に示されている:
 	  </preamble>
 
 	  <artwork><![CDATA[
@@ -657,6 +680,7 @@
 
     <section anchor="IDToken" title="ID Token">
 
+      <!--
       <t>
 	The primary extension that OpenID Connect makes to OAuth 2.0
 	to enable End-Users to be Authenticated
@@ -667,13 +691,23 @@
 	The ID Token is represented as a
 	<xref target="JWT">JSON Web Token (JWT)</xref>.
       </t>
+      -->
+      <t>
+        End-Users の認証を可能にするために OpenID Connect が OAuth 2.0 に行う主要な拡張機能は ID トークンデータ構造である.ID トークンは, あるクライアントを使用している際に認可サーバーによる End-User の認証についてのクレームと, 潜在的な他の要求されるクレームを含むセキュリティトークンである.
+      </t>
+      <!--
       <t>
 	The following Claims are used within the ID Token
 	for all OAuth 2.0 flows used by OpenID Connect:
       </t>
+      -->
+      <t>
+        OpenID Connect で使用されている全ての OAuth 2.0 のフローのために, ID トークン内で以下のクレームが使用される:
+      </t>
 
       <t>
 	<list style="hanging">
+    <!--
 	  <t hangText="iss">
 	    REQUIRED.
 	    Issuer Identifier for the Issuer of the response.
@@ -681,8 +715,13 @@
 	    using the <spanx style="verb">https</spanx> scheme that
 	    contains scheme, host, and optionally, port number and path
 	    components and no query or fragment components.
-	  </t>
+    </t>
+    -->
+	  <t hangText="iss">
+      必須(REQUIRED).レスポンスの発行者のための Issuer 識別子.<spanx style="verb">iss</spanx> の値は, クエリやフラグメントの要素を含まないスキーム, ホスト, 任意のポート番号とパスからなる <spanx style="verb">https</spanx> スキームを使用した大文字と小文字を区別する URL である.
+    </t>
 
+    <!--
 	  <t hangText="sub">
 	    REQUIRED.
 	    Subject Identifier.  A locally unique and never
@@ -692,8 +731,13 @@
 	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
 	    It MUST NOT exceed 255 ASCII characters in length.
 	    The <spanx style="verb">sub</spanx> value is a case sensitive string.
-	  </t>
+    </t>
+    -->
+	  <t hangText="sub">
+      必須(REQUIRED).Subject 識別子.例えば, <spanx style="verb">24400320</spanx> や <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx> のようなクライアントに使われることを意図し, End-User のための発行者内で一意であり決して再割り当てされない識別子である.ASCII で255文字を超えてはならない(MUST NOT).<spanx style="verb">sub</spanx> の値は大文字と小文字を区別する文字列である.
+    </t>
 
+    <!--
 	  <t hangText="aud">
 	    REQUIRED.
 	    Audience(s) that this ID Token is intended for.
@@ -706,8 +750,13 @@
 	    In the common special case when there is one audience,
 	    the <spanx style="verb">aud</spanx> value MAY be a single
 	    case sensitive string.
-	  </t>
+    </t>
+    -->
+	  <t hangText="aud">
+      必須(REQUIRED).この ID トークンを対象とする Audience(s).audience の値として Relying Party のOAuth 2.0 の <spanx style="verb">client_id</spanx> を含まなければならない(MUST).また他の audiences のための識別子を含んでもよい(MAY).一般的な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別する文字列の配列である. audience が1つである際の共通の特殊な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別した文字列でもよい(MAY).
+    </t>
 
+    <!--
 	  <t hangText="exp">REQUIRED.
 	  Expiration time on or after which the ID Token MUST NOT be
 	  accepted for processing. The processing of this parameter
@@ -720,14 +769,24 @@
 	  See <xref target="RFC3339">RFC 3339</xref>
 	  for details regarding date/times in general and UTC in
 	  particular.
-	  </t>
+    </t>
+    -->
+	  <t hangText="exp">
+      必須(REQUIRED).それ以降, ID トークンを処理のために受け入れてはいけない有効期限(MUST NOT).このパラメーターの処理は, 現在の日付/時刻が値の中に記載されている有効期限の日付/時刻以前でなければならない(MUST).実装者は, クロック・キューを考慮するために, 通常は数分間以下の多少の余地を提供してもよい(MAY).その値は, その日付/時刻まで UTC で計測される 1970-01-01T0:0:0Z から秒数を表す JSON 番号である.通常, そして特殊な UTC の日付/時刻に関する詳細は <xref target="RFC3339">RFC 3339</xref> を参照すること.
+    </t>
 
+    <!--
 	  <t hangText="iat">REQUIRED.
 	  Time at which the JWT was issued.
 	  Its value is a JSON number representing the number of seconds from
 	  1970-01-01T0:0:0Z as measured in UTC until the date/time.
-	  </t>
+    </t>
+    -->
+	  <t hangText="iat">
+      必須(REQUIRED).JWT が発行された時刻.その値は, その日付/時刻まで UTC で計測される 1970-01-01T0:0:0Z から秒数を表す JSON 番号である.
+    </t>
 
+    <!--
 	  <t hangText="auth_time">
 	    Time when the End-User authentication occurred.
 	    Its value is a JSON number representing the number of seconds from
@@ -739,8 +798,13 @@
 	    (The <spanx style="verb">auth_time</spanx> Claim semantically
 	    corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref>
 	    <spanx style="verb">auth_time</spanx> response parameter.)
-	  </t>
+    </t>
+    -->
+	  <t hangText="auth_time">
+      End-User の認証が行われた時刻.その値は, その日付/時刻まで UTC で計測される 1970-01-01T0:0:0Z から秒数を表す JSON 番号である.<spanx style="verb">max_age</spanx> リクエストが生成されたとき, あるいは <spanx style="verb">auth_time</spanx> が不可欠なクレームとして要求されたとき, そのクレームは必須である(REQUIRED).または, それを含めることは任意である(OPTIONAL).(<spanx style="verb">auth_time</spanx> クレームは意味的に OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> <spanx style="verb">auth_time</spanx> レスポンスパラメーターに対応する.)
+    </t>
 
+    <!--
 	  <t hangText="nonce">
 	    String value used to associate a Client session
 	    with an ID Token, and to mitigate replay attacks.
@@ -758,7 +822,12 @@
 	    on <spanx style="verb">nonce</spanx> values used.
 	    The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 	  </t>
+    -->
+	  <t hangText="nonce">
+      文字列の値は, ID トークンとクライアントセッションを関連づけるため, リプレイアタックの軽減に使用される.その値は, 認証リクエストから ID トークンに変更されずに通過される.ID トークンの中に存在する場合, クライアントはその <spanx style="verb">nonce</spanx> クレームの値が認証リクエストで送信された <spanx style="verb">nonce</spanx> パラメーターの値と同じであるか検証しなければならない(MUST).認証リクエストに存在する場合, 認可サーバーは認証リクエストで送信された nonce の値であるクレーム値を用いて ID トークンの中に <spanx style="verb">nonce</spanx> クレームを含めなければならない(MUST).認可サーバーは使用される <spanx style="verb">nonce</spanx> 値でその他の処理を行うべきではない(SHOULD).<spanx style="verb">nonce</spanx> 値は大文字と小文字を区別する文字列である.
+    </t>
 
+    <!--
 	  <t hangText="acr">
 	    OPTIONAL.
 	    Authentication Context Class Reference.
@@ -784,7 +853,13 @@
 	    the values used, which may be context-specific.
 	    The <spanx style="verb">acr</spanx> value is a case sensitive string.
 	  </t>
+    -->
+	  <t hangText="acr">
+      任意(OPTIONAL).Authentication Context Class Reference.認証が成功して実行される認証コンテキストクラスを識別する認証コンテキストクラスリファレンスの値を指定する文字列.”0” の値は, End-User の認証が <xref target="ISO29115">ISO/IEC 29115</xref> level 1 の要求に合っていないことを示す.例えば, 長期間有効なブラウザー Cookie を使用する認証が "level 0” の使用は適切である例である.level 0 を用いた認証は金銭的な値のリソースへのアクセスを認可するために使用すべきではない(SHOULD NOT).(これは OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> <spanx style="verb">nist_auth_level</spanx> 0 に対応する.)
+      絶対 URI あるいは <xref target="RFC6711">RFC 6711</xref> の予約語は <spanx style="verb">acr</spanx> 値として使用すべきであり(SHOULD), 予約語は登録されているものとは異なる意味で使用してはいけない(MUST NOT).このクレームを使用している Relying Parties はコンテキスト固有であるかもしれない使用されているその値の意味について同意する必要がある.<spanx style="verb">acr</spanx> 値は大文字と小文字を区別する文字列である.
+    </t>
 
+    <!--
 	  <t hangText="amr">
 	    OPTIONAL.
 	    Authentication Methods References.
@@ -800,7 +875,12 @@
 	    The <spanx style="verb">amr</spanx> value is an array of
 	    case sensitive strings.
 	  </t>
+    -->
+	  <t hangText="amr">
+      任意(OPTIONAL).Authentication Methods References.認証の中で使用される認証のための識別子となる文字列の JSON 配列である.例えば, 値はパスワードと OTP 認証方法の両方が使用されることを示すかもしれない.<spanx style="verb">amr</spanx> クレームで使用される特殊な値の定義は, この仕様の範囲を超える.Relying Parties はコンテキスト固有であるかもしれない使用されているその値の意味について同意する必要がある.<spanx style="verb">amr</spanx> 値は大文字と小文字を区別する文字列である.
+    </t>
 
+    <!--
 	  <t hangText="azp">
 	    OPTIONAL.
 	    Authorized party - the party to which the ID Token was issued.
@@ -813,11 +893,16 @@
 	    as the sole audience.
 	    The <spanx style="verb">azp</spanx> value is a case sensitive string
 	    containing a StringOrURI value.
-	  </t>
+    </t>
+    -->
+	  <t hangText="azp">
+      任意(OPTIONAL).Authorized party.ID トークンを発行された Relying Partyである.これがある場合, この party の OAuth 2.0 の Client ID を含めなければならない(MUST).ID トークンは1つの audience 値が含まれ, その audience が authorized party とは異なるときにこのクレームのみ必要である.Authorized party が単一の audience として同じときそれは含まれているかもしれない.<spanx style="verb">azp</spanx> 値は文字列または URI を含む大文字と小文字を区別する文字列である.
+    </t>
 
 	</list>
       </t>
 
+      <!--
       <t>
 	ID Tokens MAY contain other Claims.
 	Any Claims used that are not understood MUST be ignored.
@@ -828,6 +913,17 @@
 	<xref target="SelfIssuedResponse" format="counter"/>
 	for additional Claims defined by this specification.
       </t>
+      -->
+      <t>
+        ID トークンは他のクレームを含むかもしれない(MAY).
+        解明されない使用されるいくつかのクレームは無視しなければならない(MUST).この仕様によって定義される追加のクレームのための
+	<xref target="CodeIDToken" format="counter"/>,
+	<xref target="HybridIDToken" format="counter"/>,
+	<xref target="StandardClaims" format="counter"/> と 
+	<xref target="SelfIssuedResponse" format="counter"/>
+        セクションを参照すること.
+      </t>
+      <!--
       <t>
 	ID Tokens MUST be signed using <xref
 	target="JWS">JWS</xref> and optionally both signed and then
@@ -846,6 +942,12 @@
 	and the Client explicitly requested the use of
 	<spanx style="verb">none</spanx> at Registration time.
       </t>
+      -->
+      <t>
+        ID トークンは <xref target="JWS">JWS</xref> によって署名される, <xref target="JWS">JWS</xref> と <xref target="JWE">JWE</xref> のそれぞれによって署名された後に暗合化の両方をされていなければならない(MUST).これにより各 <xref target="SigningOrder"/> に, 認証, 完全性, 否認防止, および任意で機密性を提供する.
+        ID トークンが暗合化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗合化されなければならなく(MUST), 認可エンドポイントから ID トークンのない戻り値を使用するレスポンスタイプ(認可コードフローを用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</xref> の使用を要求したクライアントでない限り, ID トークンは <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</xref> を使用してはいけない(MUST NOT).
+      </t>
+      <!--
       <t>
 	ID Tokens SHOULD NOT use the JWS or JWE
 	<spanx style="verb">x5u</spanx>,
@@ -857,11 +959,25 @@
 	communicated in advance using Discovery and Registration parameters,
 	per <xref target="SigEnc"/>.
       </t>
+      -->
+      <t>
+        ID トークンは JWS あるいは JWE の
+	<spanx style="verb">x5u</spanx>,
+	<spanx style="verb">x5c</spanx>,
+	<spanx style="verb">jku</spanx> と 
+	<spanx style="verb">jwk</spanx>
+  ヘッダーパラメーターフィールド を使用すべきではない.代わりに, 使用されるキーへの参照は各 <xref target="SigEnc"/> に Discovery と Registration parameters を用いて事前に伝えられる.
+      </t>
 
       <figure>
+  <!--
 	<preamble>
 	  The following is a non-normative example of
 	  the set of Claims (the JWT Claims Set) in an ID Token:
+  </preamble>
+  -->
+	<preamble>
+    以下は ID トークン中のクレームセット(JWT クレームセット)の規範に従わない例である:
 	</preamble>
 
 	<artwork><![CDATA[
