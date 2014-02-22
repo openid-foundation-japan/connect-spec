@@ -3933,13 +3933,12 @@
 
     <section anchor='TLS' title='TLS Version'>
       <t>
-        Whenever Transport Layer Security (TLS) is used by this specification,
-        the appropriate version (or versions) of
-        TLS will vary over time, based on the widespread deployment and known security
-        vulnerabilities. At the time of this writing, TLS version 1.2 <xref target='RFC5246' />
-        is the most recent version, but has a very limited deployment base and might not be
-        readily available for implementation. TLS version 1.0 <xref target='RFC2246' /> is the
-        most widely deployed version and will provide the broadest interoperability.
+        本仕様の中でトランスポートレイヤーセキュリティ (TLS) が使われるすべての場合において,
+        その時期に広く使われていたり, 既知のセキュリティ脆弱性により, 適切な TLS のバージョンは時期によって様々である.
+        本仕様を執筆している段階においては, TLS バージョン 1.2 <xref target='RFC5246' />
+        が最新バージョンであるが, 限られた範囲でしか使われておらず実装される準備が出来ていないかもしれない.
+        TLS バージョン 1.0 <xref target='RFC2246' /> が最も広く使われているバージョンであり,
+        広く相互運用性を提供している.
       </t>
       <!--
       <t>
@@ -3956,10 +3955,9 @@
 
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
-        This specification defines features used by Relying Parties
-        using the OAuth Implicit Flow.
-        These Relying Parties MUST implement the features that are listed
-        in this specification as being "REQUIRED" or are described with a "MUST".
+        本仕様はリライングパーティによって使用される機能を OAuth Implicit フローを使って定義している.
+        それらのリライングパーティは本仕様の中で "必須である (REQUIRED)" もしくは "しなくてはならない (MUST)"
+        として挙げられている機能を実装しなくてはならない (MUST).
       </t>
       <!--
       <t>
@@ -3972,10 +3970,9 @@
 
       <section anchor="DiscoReg" title="Discovery and Registration">
 
-        <t>Some OpenID Connect installations can use a pre-configured set of
-        OpenID Providers and/or Relying Parties. In those cases, it might not be
-        necessary to support dynamic discovery of information about identities
-        or services or dynamic registration of Clients.</t>
+        <t>いくつかの OpenID Connect の導入は事前に定義された OpenID プロバイダやリライングパーティのセットを利用できる.
+        それらの場合においてはアイデンティティやサービスに関する情報の動的ディスカバリ
+        やクライアントのダイナミックレジストレーションをサポートする必要はない.</t>
         <!--
         <t>Some OpenID Connect installations can use a pre-configured set of
         OpenID Providers and/or Relying Parties. In those cases, it might not be
@@ -3983,13 +3980,10 @@
         or services or dynamic registration of Clients.</t>
         -->
 
-        <t>However, if installations choose to support unanticipated
-        interactions between Relying Parties and OpenID Providers that do not
-        have pre-configured relationships, they SHOULD accomplish this by
-        implementing the facilities defined in the <xref
-        target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
-        target="OpenID.Registration">OpenID Connect Dynamic Client Registration
-        1.0</xref> specifications.</t>
+        <t>しかしながら, リライングパーティと OpenID プロバイダーの関係を事前に定義せず, 
+        特殊な接続をサポートしようとする場合は, <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>
+        と <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+        の仕様を導入することにより実現すべきである (SHOULD).</t>
         <!--
         <t>However, if installations choose to support unanticipated
         interactions between Relying Parties and OpenID Providers that do not
@@ -4005,8 +3999,8 @@
     <section anchor="Security" title="Security Considerations">
 
       <t>
-        For security considerations other than those listed below, refer to the
-        <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> specification.
+        以下に挙げたもの以外のセキュリティ上の考慮点については, 
+        <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> 仕様を参照すること.
       </t>
       <!--
       <t>
@@ -4017,18 +4011,14 @@
 
       <section anchor="TLSRequirements" title="TLS Requirements">
         <t>
-          Implementations MUST support TLS.
-          Which version(s) ought to be implemented will vary over
-          time, and depend on the widespread deployment and known
-          security vulnerabilities at the time of implementation.
-          At the time of this writing,
-          TLS version 1.2 <xref target='RFC5246' />
-          is the most recent version, but has very limited actual
-          deployment, and might not be readily available in
-          implementation toolkits.
-          TLS version 1.0 <xref target='RFC2246' />
-          is the most widely deployed version, and will give the
-          broadest interoperability.
+          実装する際は TLS をサポートしなくてはならない (MUST).
+          どのバージョンを実装するかは時期によって異なり, 実装時に
+          広く使われているかと既知のセキュリティ上の脆弱性に依存する.
+          本仕様を執筆している段階では TLS バージョン 1.2 <xref target='RFC5246' />
+          が最新バージョンであるが, 実際に使われている例は非常に限られており,
+          導入ツールキットが対応していないであろう.
+          TLS version 1.0 <xref target='RFC2246' /> が最も広く使われている
+          バージョンであり, 最も高い相互運用性を提供している.
         </t>
         <!--
         <t>
@@ -4047,10 +4037,8 @@
         </t>
         -->
         <t>
-          To protect against information disclosure and tampering,
-          confidentiality protection MUST be applied using TLS
-          with a ciphersuite that provides confidentiality and
-          integrity protection.
+          情報の漏えいや改ざんを防ぐため, TLS を使った機密保護を
+          機密性と完全性の保護を提供する暗号化機能を用いて適用しなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -4061,8 +4049,7 @@
         </t>
         -->
         <t>
-          Whenever TLS is used, a TLS server certificate check
-          MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
+          TLS を使用する際は, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバ証明書の検証が実行されなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -4077,12 +4064,11 @@
 
       <section anchor="PII" title="Personally Identifiable Information">
 
-        <t>The UserInfo Response typically contains Personally Identifiable
-        Information (PII). As such, End-User consent for the release of the information
-        for the specified purpose SHOULD be obtained at or prior to the
-        authorization time in accordance with relevant regulations. The purpose
-        of use is typically registered in association with the <spanx
-        style="verb">redirect_uris</spanx>.</t>
+        <t>UserInfo レスポンスは一般的に個人を識別する情報 (PII) を含む.
+        適合する法令に従い, 特定の目的でそれらの情報を提供することに関する
+        利用者の同意を認可時もしくは事前に取得すべきである (SHOULD).
+        一般に利用目的は <spanx style="verb">redirect_uris</spanx> と紐づけ登録
+        である.</t>
         <!--
         <t>The UserInfo Response typically contains Personally Identifiable
         Information (PII). As such, End-User consent for the release of the information
@@ -4092,9 +4078,8 @@
         style="verb">redirect_uris</spanx>.</t>
         -->
 
-        <t>Only necessary UserInfo data should be stored at the Client and the
-        Client SHOULD associate the received data with the purpose of use
-        statement.</t>
+        <t>必要な UserInfo の情報のみをクライアントに保持するべきであり、クライアントは
+        受け取った情報を利用目的の定義と一致させるべきである (SHOULD).</t>
         <!--
         <t>Only necessary UserInfo data should be stored at the Client and the
         Client SHOULD associate the received data with the purpose of use
@@ -4104,8 +4089,7 @@
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
         <t>
-          The Resource Server SHOULD make End-Users' UserInfo access logs
-          available to them so that they can monitor who accessed their data.
+          リソースサーバは利用者の UserInfo へのアクセスログを, 自身の情報へのアクセスを監視できるようにするため, 利用者向けに有効にすべきである (SHOULD).
         </t>
         <!--
         <t>
@@ -4116,9 +4100,9 @@
       </section>
 
       <section anchor="Correlation" title="Correlation">
-        <t>To protect the End-User from a possible correlation among Clients, the
-        use of a Pairwise Pseudonymous Identifier (PPID) as the
-        <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+        <t>クライアント間での紐づけの可能性からエンドユーザを保護するため, 
+        対となる匿名識別子 (PPID) を <spanx style="verb">sub</spanx> (subject)
+        として使用することを検討すべきである (SHOULD).</t>
         <!--
         <t>To protect the End-User from a possible correlation among Clients, the
         use of a Pairwise Pseudonymous Identifier (PPID) as the
@@ -4129,7 +4113,7 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This document makes no requests of IANA.</t>
+      <t>本仕様から IANA の要求事項は存在しない.</t>
       <!--
       <t>This document makes no requests of IANA.</t>
       -->
