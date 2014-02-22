@@ -3861,12 +3861,11 @@
 
     <section anchor="StringOps" title="String Operations">
       <t>
-        Processing some OpenID Connect messages requires comparing
-        values in the messages to known values. For example, the Claim
-        Names returned by the UserInfo Endpoint might be compared to
-        specific Claim Names such as <spanx
-        style="verb">sub</spanx>.  Comparing Unicode strings,
-        however, has significant security implications.
+        いくつかの OpenID Connect メッセージを処理する際には
+        メッセージの中の値を既知の値を比較することが求められる.
+        例えば, UserInfo エンドポイントから返されたクレーム名は
+        <spanx style="verb">sub</spanx> などの特定のクレーム名と
+        比較される. しかしながら Unicode 文字列を比較することはセキュリティ上重要な意味を持つ.
       </t>
       <!--
       <t>
@@ -3879,13 +3878,14 @@
       </t>
       -->
       <t>
+        したがって, JSON 文字列を他の Unicode 文字列と比較する際は下記の通り実施しなければならない (MUST):
+        <!--
         Therefore, comparisons between JSON strings and other Unicode
         strings MUST be performed as specified below:
-
+        -->
         <list style="numbers">
           <t>
-            Remove any JSON applied escaping to produce an array of
-            Unicode code points.
+            Unicode 符号点の配列を提供するために JSON に適用されたエスケープを取り除く.
           </t>
           <!--
           <t>
@@ -3894,9 +3894,9 @@
           </t>
           -->
           <t>
-            Unicode Normalization <xref target="USA15"/> MUST NOT
-            be applied at any point to either the JSON string or to
-            the string it is to be compared against.
+            Unicode の平準化 <xref target="USA15"/> は
+            JSON 文字列もしくは比較される文字列のどちらにも
+            適用してはならない (MUST NOT).
           </t>
           <!--
           <t>
@@ -3906,8 +3906,7 @@
           </t>
           -->
           <t>
-            Comparisons between the two strings MUST be performed as a
-            Unicode code point to code point equality comparison.
+            2つの文字列を比較する際は Unicode 符号点の一致を比較をしなければならない (MUST).
           </t>
           <!--
           <t>
@@ -3918,9 +3917,9 @@
         </list>
       </t>
       <t>
-        In several places, this specification uses space delimited
-        lists of strings.  In all such cases, the ASCII space
-        character (0x20) MUST be the only character used for this purpose.
+        いくつかの点において, 本仕様はスペースで区切られた文字列のリストを使用している.
+        そのようないかなる場合においても, この目的では ASCII のスペース文字 (0x20)
+        のみを使用しなければならない (MUST).
       </t>
       <!--
       <t>
