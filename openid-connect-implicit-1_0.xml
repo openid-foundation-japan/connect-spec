@@ -3764,11 +3764,11 @@
         A request message MAY be serialized using one of the following methods:
         -->
         <list style="numbers">
-          <t>Query String Serialization</t>
+          <t>クエリ文字列シリアライズ</t>
           <!--
           <t>Query String Serialization</t>
           -->
-          <t>Form Serialization</t>
+          <t>フォームシリアライズ</t>
           <!--
           <t>Form Serialization</t>
           -->
@@ -3777,15 +3777,13 @@
 
       <section anchor="QuerySerialization" title="Query String Serialization">
 
-        <t>In order to serialize the parameters using the Query String
-        Serialization, the Client constructs the string by adding the
-        parameters and values to the query component using the <spanx
-        style="verb">application/x-www-form-urlencoded</spanx> format as
-        defined by <xref target="W3C.REC-html401-19991224"/>.
-        Query String Serialization is typically used in
-        HTTP <spanx style="verb">GET</spanx> requests.
-        The same serialization method is also used when adding
-        parameters to the fragment component of a URL.
+        <t>クエリ文字列シリアライズを使ってパラメータをシリアライズするためには,
+        クライアントは <xref target="W3C.REC-html401-19991224"/> で定義された
+        <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを使い
+        パラメータと値をクエリコンポーネントへ追加することで文字列を構成する.
+        クエリ文字列のシリアライズは一般的に
+        HTTP <spanx style="verb">GET</spanx> リクエストの中で使用される.
+        同じシリアライズ手法は URL のフラグメントコンポーネントにパラメータを追加する際にも使用される.
         </t>
         <!--
         <t>In order to serialize the parameters using the Query String
@@ -3802,8 +3800,12 @@
 
         <figure>
           <preamble>
+            以下はシリアライズの参考例である
+            (改行は掲載上の都合による):
+            <!--
             Following is a non-normative example of this serialization
             (with line wraps within values for display purposes only):
+            -->
           </preamble>
 
           <artwork><![CDATA[
@@ -3819,11 +3821,11 @@
 
       <section anchor="FormSerialization" title="Form Serialization">
 
-        <t>Parameters and their values are Form Serialized by adding the
-        parameter names and values to the entity body of the HTTP request using
-        the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
-        as defined by <xref target="W3C.REC-html401-19991224"/>.
-        Form Serialization is typically used in HTTP <spanx style="verb">POST</spanx> requests.</t>
+        <t>パラメータとその値は <xref target="W3C.REC-html401-19991224"/> に定義された
+        <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットで
+        パラメータ名と値を HTTP リクエストのエンティティボディに追加することで
+        フォームシリアライズされる.
+        フォームシリアライズは一般に <spanx style="verb">POST</spanx> リクエストの中で使用される.</t>
         <!--
         <t>Parameters and their values are Form Serialized by adding the
         parameter names and values to the entity body of the HTTP request using
@@ -3834,8 +3836,12 @@
 
         <figure>
           <preamble>
+            以下はシリアライズの参考例である
+            (改行は掲載上の都合による):
+            <!--
             Following is a non-normative example of this serialization
             (with line wraps within values for display purposes only):
+            -->
           </preamble>
 
           <artwork><![CDATA[
