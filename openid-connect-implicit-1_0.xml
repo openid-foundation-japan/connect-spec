@@ -3395,15 +3395,14 @@
       </section>
 
       <section anchor="SelfIssuedRequest" title="Self-Issued OpenID Provider Request">
-        <t>The Client sends the Authentication Request to the Authorization Endpoint
-        with the following parameters:</t>
+        <t>クライアントは認可エンドポイントへ以下のパラメータを付けて認証要求を送信する.</t>
         <!--
         <t>The Client sends the Authentication Request to the Authorization Endpoint
         with the following parameters:</t>
         -->
         <t><list style="hanging">
           <t hangText="response_type">
-            REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
+            必須 (REQUIRED). 固定の文字列 <spanx style="verb">id_token</spanx>.
           </t>
           <!--
           <t hangText="response_type">
@@ -3411,14 +3410,12 @@
           </t>
           -->
           <t hangText="client_id">
-            REQUIRED.
-            Client ID value for the Client, which in this case contains the
-            <spanx style="verb">redirect_uri</spanx> value of the Client.
-            Since the Client's
-            <spanx style="verb">redirect_uri</spanx> URI value is communicated
-            as the Client ID,
-            a <spanx style="verb">redirect_uri</spanx> parameter
-            is NOT REQUIRED to also be included in the request.
+            必須 (REQUIRED).
+            クライアントのためのクライアント ID, この場合はクライアントの
+            <spanx style="verb">redirect_uri</spanx> の値を含む.
+            クライアントの
+            <spanx style="verb">redirect_uri</spanx> URI の値はクライアント ID として通信されるので,
+            <spanx style="verb">redirect_uri</spanx> パラメータをリクエストの中に含む必要はない (NOT REQUIRED).
           </t>
           <!--
           <t hangText="client_id">
@@ -3433,9 +3430,8 @@
           </t>
           -->
           <t hangText="scope">
-            REQUIRED.
-            <spanx style="verb">scope</spanx> parameter value,
-            as defined in <xref target="RequestParameters"/>.
+            必須 (REQUIRED).
+            <xref target="RequestParameters"/> で定義されている <spanx style="verb">scope</spanx> パラメータの値.
           </t>
           <!--
           <t hangText="scope">
@@ -3445,9 +3441,8 @@
           </t>
           -->
           <t hangText="id_token_hint">
-            OPTIONAL.
-            <spanx style="verb">id_token_hint</spanx> parameter value,
-            as specified in <xref target="RequestParameters"/>.
+            任意 (OPTIONAL).
+            <xref target="RequestParameters"/> で定義されている <spanx style="verb">id_token_hint</spanx> パラメータの値.
           </t>
           <!--
           <t hangText="id_token_hint">
@@ -3457,11 +3452,8 @@
           </t>
           -->
           <t hangText="registration">
-            OPTIONAL.
-            This parameter is used by the Client to provide information about itself
-            to a Self-Issued OP that would normally be provided to an OP during
-            Dynamic Client Registration,
-            as specified in <xref target="RegistrationParameter"/>.
+            任意 (OPTIONAL).
+            このパラメータは通常 <xref target="RegistrationParameter"/> で定義されているように, 動的クライアント登録の間にクライアントが自身の情報を Self-Issued OP に提供する際に利用される.
           </t>
           <!--
           <t hangText="registration">
@@ -3475,8 +3467,8 @@
         </list>
         </t>
         <t>
-          Other parameters MAY be sent.
-          Note that all Claims are returned in the ID Token.
+          他のパラメータも送ってもよい (MAY).
+          すべてのクレームは ID トークンの中で返されることに留意すること.
         </t>
         <!--
         <t>
@@ -3484,17 +3476,21 @@
           Note that all Claims are returned in the ID Token.
         </t>
         -->
-        <t>The entire URL MUST NOT exceed 2048 ASCII characters.</t>
+        <t>全体 URL 長は ASCII で 2048 文字を超えてはならない (MUST NOT).</t>
         <!--
         <t>The entire URL MUST NOT exceed 2048 ASCII characters.</t>
         -->
         <figure>
           <preamble>
+            以下は, User Agent が Self-Issued OpenID プロバイダーに対して認証要求を生成するためのトリガーとなる, クライアントによる HTTP 302 リダイレクトレスポンスの模範的な例ではない.
+            (改行は掲載上の都合による):
+            <!--
             The following is a non-normative example
             HTTP 302 redirect response by the Client, which triggers
             the User Agent to make an Authentication Request
             to the Self-Issued OpenID Provider
             (with line wraps within values for display purposes only):
+            -->
           </preamble>
           <artwork><![CDATA[
   HTTP/1.1 302 Found
