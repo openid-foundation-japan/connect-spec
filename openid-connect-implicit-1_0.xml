@@ -3190,10 +3190,9 @@
 
     <section anchor="SelfIssued" title="Self-Issued OpenID Provider">
       <t>
-        OpenID Connect supports Self-Issued OpenID Providers -
-        personal, self-hosted OPs that issue self-signed ID Tokens.
-        Self-Issued OPs use the special Issuer Identifier
-        <spanx style="verb">https://self-issued.me</spanx>.
+        OpenID Connect は Self-Issued OpenID プロバイダー ( 私的な, 自己提供されたOpenID Providerであり, 自己署名つきのID Tokenを発行するもの ) をサポートしている. 
+        Self-Issued OP は
+        <spanx style="verb">https://self-issued.me</spanx> という特別な Issuer 識別子を使用する.
       </t>
       <!--
       <t>
@@ -3206,9 +3205,8 @@
 
       <section anchor="SelfIssuedDiscovery" title="Self-Issued OpenID Provider Discovery">
         <t>
-          If the input identifier for the discovery process
-          contains the domain self-issued.me, dynamic discovery is not performed.
-          Instead, then the following static configuration values are used:
+          ディスカバリプロセスで入力された識別子が self-issued.me ドメインを含んでいた場合, ダイナミックディスカバリは実行されない.
+          その代わりに以下の静的な設定値が使用される.
         </t>
         <!--
         <t>
@@ -3240,15 +3238,12 @@
           </figure>
         </t>
         <t>
-          NOTE:  The OpenID Foundation plans to host the OpenID Provider site
-          <spanx style="verb">https://self-issued.me/</spanx>,
-          including its WebFinger service, so that performing discovery on it
-          returns the above static discovery information, enabling RPs
-          to not need any special processing for discovery of the Self-Issued OP.
-          This site will be hosted on an experimental basis.
-          Production implementations should not take a dependency upon it
-          without a subsequent commitment by the OpenID Foundation
-          to host the site in a manner intended for production use.
+          注記: OpenID ファウンデーションは 
+          <spanx style="verb">https://self-issued.me/</spanx>
+          という OpenID プロバイダーサイトを提供することを計画している.
+          提供される内容には WebFinger サービスも含まれており, ディスカバリを実行すると上記の静的なディスカバリ情報を返すため, RP は Self-Issued OP のディスカバリのための特別な処理を行う必要はない.
+          このサイトは実験的に提供される予定である.
+          プロダクション環境を実装する際は OpenID ファウンデーションがそのサイトをプロダクション用途を想定して提供することのコミットメントを行う以前はその環境に依存すべきではない.
         </t>
         <!--
         <t>
@@ -3267,10 +3262,8 @@
 
       <section anchor="SelfIssuedRegistration" title="Self-Issued OpenID Provider Registration">
         <t>
-          When using a Self-Issued OP, registration is not required.
-          The Client can proceed without registration as if it had
-          registered with the OP and obtained the following
-          Client Registration Response:
+          Self-Issued OP を使う際は登録は必要ない.
+          クライアントは登録しなくても OP 登録したかのように振る舞い, 以下のクライアント登録レスポンスを得る.
        </t>
         <!--
         <t>
@@ -3301,14 +3294,11 @@
           </list>
         </t>
         <t>
-          NOTE:  The OpenID Foundation plans to host the (stateless) endpoint
+          注記: OpenID ファウンデーションは
           <spanx style="verb">https://self-issued.me/registration/1.0/</spanx>
-          that returns the response above, enabling RPs to not need
-          any special processing for registration with the Self-Issued OP.
-          This site will be hosted on an experimental basis.
-          Production implementations should not take a dependency upon it
-          without a subsequent commitment by the OpenID Foundation
-          to host the site in a manner intended for production use.
+          という ( ステートレスな ) エンドポイントを提供することを計画しており, そのエンドポイントは上記レスポンスを返すため, RP は Self-Issued OP の登録のための特別な処理を行う必要はない.
+          このサイトは実験的に提供される予定である.
+          プロダクション環境を実装する際は OpenID ファウンデーションがそのサイトをプロダクション用途を想定して提供することのコミットメントを行う以前はその環境に依存すべきではない.
         </t>
         <!--
         <t>
@@ -3327,23 +3317,22 @@
                  title='Providing Information with the "registration" Request Parameter'>
 
           <t>
+            OpenID Connect はクライアントが Self-Issued OpenID プロバイダーに追加の登録情報を提供することが出来るようにするために以下の認可リクエストパラメータを定義している.
+            <!--
             OpenID Connect defines the following Authorization Request parameter
             to enable Clients to provide additional registration information to
             Self-Issued OpenID Providers:
+            -->
 
             <list style="hanging">
 
               <t hangText="registration">
-                OPTIONAL.
-                This parameter is used by the Client to provide information about itself
-                to a Self-Issued OP that would normally be provided to an OP during
-                Dynamic Client Registration.
-                The value is a JSON object containing Client metadata values,
-                as defined in Section 2.1 of the
+                任意 ( OPTIONAL ).
+                このパラメータは通常, 動的クライアント登録の間にクライアントが自身の情報を Self-Issued OP に提供する際に利用される.
+                この値は
                 <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-                specification.
-                The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-                when the OP is not a Self-Issued OP.
+                仕様の Section 2.1 で定義されているクライアントメタデータの値を含む JSON オブジェクトである.
+                <spanx style="verb">registration</spanx> パラメータは OP が Self-Issued OP ではないときは利用すべきではない (SHOULD NOT).
               </t>
               <!--
               <t hangText="registration">
@@ -3362,8 +3351,7 @@
             </list>
           </t>
           <t>
-            None of this information is REQUIRED by Self-Issued OPs,
-            so the use of this parameter is OPTIONAL.
+            この情報の中で Self-Issued OP により必須 (REQUIRED) なものはなく, このパラメータの利用は任意 (OPTIONAL) である.
           </t>
           <!--
           <t>
@@ -3372,9 +3360,8 @@
           </t>
           -->
           <t>
-            The <spanx style="verb">registration</spanx> parameter value is represented
-            in an OAuth 2.0 request as UTF-8 encoded JSON
-            (which ends up being form-urlencoded when passed as an OAuth parameter).
+            <spanx style="verb">registration</spanx> パラメータの値は OAuth 2.0 リクエストの中で UTF-8 エンコードされた JSON として表わされる.
+            (OAuth パラメータとして渡される際, form-urlencoded される).
           </t>
           <!--
           <t>
@@ -3384,14 +3371,13 @@
           </t>
           -->
           <t>
-            The Registration parameters that would typically be used in requests
-            to Self-Issued OPs are
+            Self-Issued OP へのリクエストの中で典型的に利用する登録パラメータは以下である.
             <spanx style="verb">policy_uri</spanx>,
             <spanx style="verb">tos_uri</spanx>, and
             <spanx style="verb">logo_uri</spanx>.
-            If the Client uses more than one Redirection URI, the
+            クライアントが一つ以上のリダイレクト先 URI を使用する際, それらを登録するために
             <spanx style="verb">redirect_uris</spanx>
-            parameter would be used to register them.
+            パラメータを利用する.
           </t>
           <!--
           <t>
@@ -3409,15 +3395,14 @@
       </section>
 
       <section anchor="SelfIssuedRequest" title="Self-Issued OpenID Provider Request">
-        <t>The Client sends the Authentication Request to the Authorization Endpoint
-        with the following parameters:</t>
+        <t>クライアントは認可エンドポイントへ以下のパラメータを付けて認証要求を送信する.</t>
         <!--
         <t>The Client sends the Authentication Request to the Authorization Endpoint
         with the following parameters:</t>
         -->
         <t><list style="hanging">
           <t hangText="response_type">
-            REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
+            必須 (REQUIRED). 固定の文字列 <spanx style="verb">id_token</spanx>.
           </t>
           <!--
           <t hangText="response_type">
@@ -3425,14 +3410,12 @@
           </t>
           -->
           <t hangText="client_id">
-            REQUIRED.
-            Client ID value for the Client, which in this case contains the
-            <spanx style="verb">redirect_uri</spanx> value of the Client.
-            Since the Client's
-            <spanx style="verb">redirect_uri</spanx> URI value is communicated
-            as the Client ID,
-            a <spanx style="verb">redirect_uri</spanx> parameter
-            is NOT REQUIRED to also be included in the request.
+            必須 (REQUIRED).
+            クライアントのためのクライアント ID, この場合はクライアントの
+            <spanx style="verb">redirect_uri</spanx> の値を含む.
+            クライアントの
+            <spanx style="verb">redirect_uri</spanx> URI の値はクライアント ID として通信されるので,
+            <spanx style="verb">redirect_uri</spanx> パラメータをリクエストの中に含む必要はない (NOT REQUIRED).
           </t>
           <!--
           <t hangText="client_id">
@@ -3447,9 +3430,8 @@
           </t>
           -->
           <t hangText="scope">
-            REQUIRED.
-            <spanx style="verb">scope</spanx> parameter value,
-            as defined in <xref target="RequestParameters"/>.
+            必須 (REQUIRED).
+            <xref target="RequestParameters"/> で定義されている <spanx style="verb">scope</spanx> パラメータの値.
           </t>
           <!--
           <t hangText="scope">
@@ -3459,9 +3441,8 @@
           </t>
           -->
           <t hangText="id_token_hint">
-            OPTIONAL.
-            <spanx style="verb">id_token_hint</spanx> parameter value,
-            as specified in <xref target="RequestParameters"/>.
+            任意 (OPTIONAL).
+            <xref target="RequestParameters"/> で定義されている <spanx style="verb">id_token_hint</spanx> パラメータの値.
           </t>
           <!--
           <t hangText="id_token_hint">
@@ -3471,11 +3452,8 @@
           </t>
           -->
           <t hangText="registration">
-            OPTIONAL.
-            This parameter is used by the Client to provide information about itself
-            to a Self-Issued OP that would normally be provided to an OP during
-            Dynamic Client Registration,
-            as specified in <xref target="RegistrationParameter"/>.
+            任意 (OPTIONAL).
+            このパラメータは通常 <xref target="RegistrationParameter"/> で定義されているように, 動的クライアント登録の間にクライアントが自身の情報を Self-Issued OP に提供する際に利用される.
           </t>
           <!--
           <t hangText="registration">
@@ -3489,8 +3467,8 @@
         </list>
         </t>
         <t>
-          Other parameters MAY be sent.
-          Note that all Claims are returned in the ID Token.
+          他のパラメータも送ってもよい (MAY).
+          すべてのクレームは ID トークンの中で返されることに留意すること.
         </t>
         <!--
         <t>
@@ -3498,17 +3476,21 @@
           Note that all Claims are returned in the ID Token.
         </t>
         -->
-        <t>The entire URL MUST NOT exceed 2048 ASCII characters.</t>
+        <t>全体 URL 長は ASCII で 2048 文字を超えてはならない (MUST NOT).</t>
         <!--
         <t>The entire URL MUST NOT exceed 2048 ASCII characters.</t>
         -->
         <figure>
           <preamble>
+            以下は, User Agent が Self-Issued OpenID プロバイダーに対して認証要求を生成するためのトリガーとなる, クライアントによる HTTP 302 リダイレクトレスポンスの模範的な例ではない.
+            (改行は掲載上の都合による):
+            <!--
             The following is a non-normative example
             HTTP 302 redirect response by the Client, which triggers
             the User Agent to make an Authentication Request
             to the Self-Issued OpenID Provider
             (with line wraps within values for display purposes only):
+            -->
           </preamble>
           <artwork><![CDATA[
   HTTP/1.1 302 Found
