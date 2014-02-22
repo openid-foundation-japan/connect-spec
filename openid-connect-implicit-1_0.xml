@@ -4113,7 +4113,7 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>本仕様から IANA の要求事項は存在しない.</t>
+      <t>本仕様から IANA への要求事項は存在しない.</t>
       <!--
       <t>This document makes no requests of IANA.</t>
       -->
