@@ -1418,8 +1418,45 @@
 
 	  <section anchor="AuthRequestValidation" title="Authentication Request Validation">
 	    <t>
+	      Authorization Server は, 以下のように受信した要求を検証しなければならない (MUST).
+	    </t>
+            <!--
+	    <t>
 	      The Authorization Server MUST validate the request received as follows:
 	    </t>
+            -->
+
+	    <t>
+	      <list style="numbers">
+		<t>
+		  Authorization Server は, 全ての OAuth 2.0 パラメータを OAuth 2.0 仕様に従って検証しなければならない (MUST).
+		</t>
+		<t>
+		  <spanx style="verb">scope</spanx> パラメータが存在することと, 
+		  <spanx style="verb">openid</spanx> scope 値を含んでいることを検証.
+		  (もし <spanx style="verb">openid</spanx> scope 値が存在しなかった場合, 
+		  その要求は OpenID Connect の要求ではないが, 
+		  有効な OAuth 2.0 の要求である可能性がある.)
+		</t>
+		<t>
+		  Authorization Server は, 全ての必須 (REQUIRED) パラメータが存在するか, 
+		  そしてそれらの使用方法が当仕様に従っているかを検証しなければならない (MUST).
+		</t>
+		<t>
+		  ID Token の <spanx style="verb">sub</spanx> (subject) Claim に値が指定されて要求された場合, 
+		  Authorization Server は, <spanx style="verb">sub</spanx> 値で識別される End-Userが, 
+		  Authorization Server 上にアクティブなセッションを持っているか, 
+		  またはその要求の結果として認証された場合のみ, 
+		  成功応答を送信しなければならない (MUST) .
+		  End-User が Authorization Server 上にアクティブなセッションを持っていたとしても, 
+		  Authorization Server は, 異なるユーザの ID Token や Access Token を応答してはならない (MUST NOT) .
+		  このような要求は,  <spanx style="verb">id_token_hint</spanx> パラメータを用いるか, 
+		  もしくは実装が <spanx style="verb">claims</spanx> パラメータをサポートしていれば, 
+		  <xref target="IndividualClaimsRequests"/> に記述されているように特定の Claim 値を要求することによって実現することができる.
+		</t>
+	      </list>
+	    </t>
+	    <!--
 	    <t>
 	      <list style="numbers">
 		<t>
@@ -1457,19 +1494,42 @@
 		</t>
 	      </list>
 	    </t>
+            -->
 
+	    <t>
+	      <xref target="RFC6749">OAuth 2.0</xref> の規定どおり, 
+	      Authorization Server は認識できない要求パラメータを無視すべきである (SHOULD) .
+	    </t>
+	    <!--
 	    <t>
 	      As specified in <xref target="RFC6749">OAuth 2.0</xref>,
 	      Authorization Servers SHOULD ignore unrecognized request parameters.
 	    </t>
+	    -->
+
+	    <t>
+	      Authorization Server はなんからのエラーに遭遇した場合, 
+	      <xref target="AuthError"/> に従い, 
+	      失敗応答を返さなければならない (MUST) .
+	    </t>
+	    <!--
 	    <t>
 	      If the Authorization Server encounters any error,
 	      it MUST return an error response, per <xref target="AuthError"/>.
 	    </t>
+	    -->
 	  </section>
 
 	  <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
+	    <t>
+	      要求が妥当であった場合,  Authorization Server は使用された要求パラメータに応じて, 
+	      End-User を 認証するか, End-User が認証済かの確認を試みる.
+	      Authorization Server によって用いられる End-User の認証方式 (例えば, ユーザ名とパスワード, セッションクッキー等) については当仕様の規定範疇外である.
+	      使用された要求パラメータの値や使用された認証方式に応じ, 
+	      Authorization Server は認証ユーザーインタフェースを表示するかもしれない (MAY).
+	    </t>
+	    <!--
 	    <t>
 	      If the request is valid, the Authorization Server attempts
 	      to Authenticate the End-User or determines whether the End-User is Authenticated,
@@ -1481,7 +1541,25 @@
 	      the Authorization Server, depending upon the request parameter values used
 	      and the authentication methods used.
 	    </t>
+	    -->
 
+	    <t>
+	      Authorization Server は以下のケースのとき, End-User の認証を試みなければならない (MUST).
+	    <list style="symbols">
+	      <t>
+		End-User はまだ認証されていない.
+	      </t>
+
+	      <t>
+		Authentication Request は,  
+		<spanx style="verb">login</spanx> という値を持つ
+		<spanx style="verb">prompt</spanx> パラメータを含んでいる.
+		このケースでは, End-User が既に認証されていたとしても, 
+		Authorization Server は End-User を再認証しなければならない (MUST).
+	      </t>
+	    </list>
+	    </t>
+	    <!--
 	    <t>The Authorization Server MUST attempt to Authenticate the
 	    End-User in the following cases:
 	    <list style="symbols">
@@ -1494,9 +1572,25 @@
 	      even if the End-User is already authenticated.</t>
 	    </list>
 	    </t>
+	    -->
+
+	    <t>
+	      Authorization Server は以下のケースのとき, End-User と対話を行ってはならない (MUST NOT).
+	    <list style="symbols">
+	      <t>
+		Authentication Request は, 
+		<spanx style="verb">none</spanx> という値を持つ
+		<spanx style="verb">prompt</spanx> パラメータを含んでいる.
+		このケースでは, End-User がまだ認証されていなかったり, 
+		対話なしに認証することができない場合, 
+		Authorization Server は エラーを返さなければならない (MUST).
+	      </t>
+	    </list>
+	    </t>
+	    <!--
 	    <t>The Authorization Server MUST NOT interact with the End-User
 	    in the following case:
-            <list style="symbols">
+	    <list style="symbols">
 	      <t>The Authentication Request contains the <spanx
 	      style="verb">prompt</spanx> parameter with the value
 	      <spanx style="verb">none</spanx>.  In this case,
@@ -1505,17 +1599,36 @@
 	      is not already Authenticated or could not be silently Authenticated.</t>
 	    </list>
 	    </t>
+	    -->
 
+	    <t>
+	      End-User と対話を行うとき, 
+	      <xref target="RFC6749">OAuth 2.0</xref> の Section 10.12 と 10.13 に記述されている通り, 
+	      Authorization Server は, Cross-Site Request Forgery や Clickjacking に対する適切な対策を行わなければならない (MUST).
+	    </t>
+	    <!--
 	    <t>
 	      When interacting with the End-User,
 	      the Authorization Server MUST employ appropriate measures against
 	      Cross-Site Request Forgery and Clickjacking as, described in
 	      Sections 10.12 and 10.13 of <xref target="RFC6749">OAuth 2.0</xref>.
 	    </t>
+	    -->
 	  </section>
 
 	  <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
+	    <t>
+	      End-User を認証した後, Authorization Server は, Relying Party に 情報を送る前に認可決定を取得しなければならない (MUST).
+	      使用された要求パラメータによって許可されている場合, 
+	      同意事項を明確にした End-User 対話を通じてか, 
+	      要求の処理やその他の手法 (例えば, 管理機能を用いた事前同意) による同意の確立によって, 
+	      この認可決定は行われるかもしれない (MAY).
+	      Sections <xref target="IDToken" format="counter"/> と
+	      <xref target="UserInfo" format="counter"/> で, 
+	      情報の送出機構について述べる.
+	    </t>
+	    <!--
 	    <t>
 	      Once the End-User is authenticated, the Authorization Server MUST
 	      obtain an authorization decision before releasing information
@@ -1529,6 +1642,7 @@
 	      <xref target="UserInfo" format="counter"/> describe
 	      information release mechanisms.
 	    </t>
+	    -->
 
 	  </section>
 
