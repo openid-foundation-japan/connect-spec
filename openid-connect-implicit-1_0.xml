@@ -3482,7 +3482,7 @@
         -->
         <figure>
           <preamble>
-            以下は, User Agent が Self-Issued OpenID プロバイダーに対して認証要求を生成するためのトリガーとなる, クライアントによる HTTP 302 リダイレクトレスポンスの模範的な例ではない.
+            以下は, User Agent が Self-Issued OpenID プロバイダーに対して認証要求を生成するためのトリガーとなる, クライアントによる HTTP 302 リダイレクトレスポンスの参考例である.
             (改行は掲載上の都合による):
             <!--
             The following is a non-normative example
@@ -3507,9 +3507,7 @@
       </section>
 
       <section anchor="SelfIssuedResponse" title="Self-Issued OpenID Provider Response">
-        <t>The self-issued OpenID Provider response is the same as the normal Implicit Flow
-        response with the following refinements.  Since it is an Implicit Flow
-        response, the response parameters will be returned in the URL fragment component.
+        <t>Self-Issued OpenID プロバイダーのレスポンスは, 通常の Implicit フローのレスポンスに以下の改変をしたものと同じである. Implicit フローのレスポンスなので, レスポンスパラメータは URL フラグメントコンポーネントの中で返される.
         </t>
         <!--
         <t>The self-issued OpenID Provider response is the same as the normal Implicit Flow
@@ -3519,8 +3517,8 @@
         -->
         <t><list style="numbers">
           <t>
-            The <spanx style="verb">iss</spanx> (issuer) Claim Value is
-            <spanx style="verb">https://self-issued.me</spanx>.
+            <spanx style="verb">iss</spanx> (issuer) クレームの値が
+            <spanx style="verb">https://self-issued.me</spanx> である.
           </t>
           <!--
           <t>
@@ -3529,8 +3527,7 @@
           </t>
           -->
           <t>
-            A <spanx style="verb">sub_jwk</spanx> Claim is present, with its value being
-            the public key used to check the signature of the ID Token.
+            <spanx style="verb">sub_jwk</spanx> クレームが存在し, その値が ID トークンの署名を検証するための公開鍵となっている.
           </t>
           <!--
           <t>
@@ -3538,6 +3535,20 @@
             the public key used to check the signature of the ID Token.
           </t>
           -->
+          <t>
+            <spanx style="verb">sub</spanx> (subject) クレームの値は
+            <spanx style="verb">sub_jwk</spanx> クレームの中の base64url エンコードされたキー値の UTF-8 表現のオクテットを結合したものの SHA-256 ハッシュを base64url エンコードしたものである.
+            <spanx style="verb">kty</spanx> の値が
+            <spanx style="verb">RSA</spanx> である時, キーの値は
+            <spanx style="verb">n</spanx> と,
+            <spanx style="verb">e</spanx> が順に結合されたものである.
+            <spanx style="verb">kty</spanx> の値が
+            <spanx style="verb">EC</spanx> である時, キーの値は
+            <spanx style="verb">crv</spanx> と,
+            <spanx style="verb">x</spanx> と,
+            <spanx style="verb">y</spanx> が順に結合されたものである.
+          </t>
+          <!--
           <t>
             The <spanx style="verb">sub</spanx> (subject) Claim
             value is the base64url encoded SHA-256 hash of
@@ -3554,27 +3565,10 @@
             <spanx style="verb">x</spanx>, and
             <spanx style="verb">y</spanx> are concatenated in that order.
           </t>
-          <!--
-          <t>
-            The <spanx style="verb">sub</spanx> (subject) Claim
-            value is the base64url encoded SHA-256 hash of
-            the concatenation of the octets of the UTF-8 representations of
-            the base64url encoded key values in the
-            <spanx style="verb">sub_jwk</spanx> Claim.
-            When the <spanx style="verb">kty</spanx> value is
-            <spanx style="verb">RSA</spanx>, the key values
-            <spanx style="verb">n</spanx> and
-            <spanx style="verb">e</spanx> are concatenated in that order.
-            When the <spanx style="verb">kty</spanx> value is
-            <spanx style="verb">EC</spanx>, the key values
-            <spanx style="verb">crv</spanx>,
-            <spanx style="verb">x</spanx>, and
-            <spanx style="verb">y</spanx> are concatenated in that order.
-          </t>
           -->
           <t>
-            No Access Token is returned for accessing a UserInfo Endpoint,
-            so all Claims returned MUST be in the ID Token.
+            UserInfo エンドポイントへアクセスするためのアクセストークンは返されないため,
+            すべてのクレームは ID トークンの中で返されなければならない (MUST).
           </t>
           <!--
           <t>
@@ -3588,7 +3582,7 @@
       <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
 
         <t>
-          To validate the ID Token received, the Client MUST do the following:
+          返された ID トークンの検証を行うため, クライアントは以下のことを実施しなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -3598,11 +3592,11 @@
         <t>
           <list style="numbers">
             <t>
-              The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.
-              If <spanx style="verb">iss</spanx> contains a different value,
-              the ID Token is not Self-Issued, and instead
-              it MUST be validated according to
-              <xref target="IDTokenValidation"/>.
+              クライアントは <spanx style="verb">iss</spanx> (issuer) クレームの値が <spanx style="verb">https://self-isued.me</spanx> であることを検証しなければならない (MUST).
+              もし <spanx style="verb">iss</spanx> が別の値を含んでいた場合, 
+              その ID トークンは自己発行されたものではないので, 
+              <xref target="IDTokenValidation"/>
+              に沿って検証されなければならない (MUST).
             </t>
             <!--
             <t>
@@ -3614,10 +3608,8 @@
             </t>
             -->
             <t>
-              The Client MUST validate that the
-              <spanx style="verb">aud</spanx> (audience) Claim
-              contains the value of the <spanx style="verb">redirect_uri</spanx>
-              that the Client sent in the authentication request as an audience.
+              クライアントは <spanx style="verb">aud</spanx> (audience) クレームが
+              クライアントが認証りクレストの中で audience として送った <spanx style="verb">redirect_uri</spanx> の値を含んでいることを確認しなければならない (MUST).
             </t>
             <!--
             <t>
@@ -3628,12 +3620,9 @@
             </t>
             -->
             <t>
-              The Client MUST validate the signature of the ID Token according to
-              <xref target="JWS">JWS</xref> using the algorithm specified in the
-              <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,
-              using the key in the <spanx style="verb">sub_jwk</spanx> Claim;
-              the key is a bare key in JWK <xref target="JWK"/> format
-              (not an X.509 certificate value).
+              クライアントは JWT ヘッダ <xref target="JWT"/> の <spanx style="verb">alg</spanx> パラメータに指定されたアルゴリズムを使い <xref target="JWS">JWS</xref> に沿って ID トークンの署名を検証しなければならない (MUST).
+              その際, <spanx style="verb">sub_jwk</spanx> クレームの中の鍵を使用する;
+              鍵は <xref target="JWK"/> フォーマットの鍵である (X.509 証明書ではない).
             </t>
             <!--
             <t>
@@ -3646,9 +3635,9 @@
             </t>
             -->
             <t>
-              The <spanx style="verb">alg</spanx> value SHOULD be the default of
-              <spanx style="verb">RS256</spanx>.
-              It MAY also be <spanx style="verb">ES256</spanx>.
+              <spanx style="verb">alg</spanx> の値は初期値である
+              <spanx style="verb">RS256</spanx> であるべきである (SHOULD).
+              その値は <spanx style="verb">ES256</spanx> であってもよい (MAY).
             </t>
             <!--
             <t>
@@ -3657,6 +3646,21 @@
               It MAY also be <spanx style="verb">ES256</spanx>.
             </t>
             -->
+            <t>
+              クライアントは <spanx style="verb">sub</spanx> (subject) クレームの値が
+              base64url エンコードされた <spanx style="verb">sub_jwk</spanx> クレームの
+              中のキーの値が base64url エンコードされた UTF-8 表現のオクテットを結合したものの SHA-256 ハッシュであることを検証しなくてはならない (MUST).
+              <spanx style="verb">kty</spanx> の値が
+              <spanx style="verb">RSA</spanx> である時, キーの値は
+              <spanx style="verb">n</spanx> と
+              <spanx style="verb">e</spanx> が順に結合されたものである.
+              <spanx style="verb">kty</spanx> の値が
+              <spanx style="verb">EC</spanx> である時, キーの値は
+              <spanx style="verb">crv</spanx> と,
+              <spanx style="verb">x</spanx> と,
+              <spanx style="verb">y</spanx> が順に結合されたものである.
+            </t>
+            <!--
             <t>
               The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
               value is the base64url encoded SHA-256 hash of
@@ -3673,28 +3677,10 @@
               <spanx style="verb">x</spanx>, and
               <spanx style="verb">y</spanx> are concatenated in that order.
             </t>
-            <!--
-            <t>
-              The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
-              value is the base64url encoded SHA-256 hash of
-              the concatenation of the octets of the UTF-8 representations of
-              the base64url encoded key values in the
-              <spanx style="verb">sub_jwk</spanx> Claim.
-              When the <spanx style="verb">kty</spanx> value is
-              <spanx style="verb">RSA</spanx>, the key values
-              <spanx style="verb">n</spanx> and
-              <spanx style="verb">e</spanx> are concatenated in that order.
-              When the <spanx style="verb">kty</spanx> value is
-              <spanx style="verb">EC</spanx>, the key values
-              <spanx style="verb">crv</spanx>,
-              <spanx style="verb">x</spanx>, and
-              <spanx style="verb">y</spanx> are concatenated in that order.
-            </t>
             -->
             <t>
-              The current time MUST be before the time represented by the
-              <spanx style="verb">exp</spanx> Claim
-              (possibly allowing for some small leeway to account for clock skew).
+              現在の時刻は <spanx style="verb">exp</spanx> クレームによりあらわされる時刻より前でなければならない (MUST).
+              (時計の誤差による少しのずれは許容される).
             </t>
             <!--
             <t>
@@ -3704,10 +3690,9 @@
             </t>
             -->
             <t>
-              The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
-              were issued too far away from the current time, limiting the amount of
-              time that nonces need to be stored to prevent attacks.
-              The acceptable range is Client specific.
+              <spanx style="verb">iat</spanx> クレームは現在の時刻とかけ離れた時刻に発行された
+              トークンを拒否するために使われ, 攻撃を防ぐために nonce が保持される期間を制限する.
+              許容する幅はクライアントごとに固有である.
             </t>
             <!--
             <t>
@@ -3718,13 +3703,11 @@
             </t>
             -->
             <t>
-              If a nonce value was sent in the Authentication Request,
-              a <spanx style="verb">nonce</spanx> Claim MUST be present
-              and its value of the checked to verify that
-              it is the same value as the one that was sent in the Authentication Request.
-              The Client SHOULD check the <spanx style="verb">nonce</spanx> value
-              for replay attacks.
-              The precise method for detecting replay attacks is Client specific.
+              nonce が認証リクエストで送られた場合,
+              <spanx style="verb">nonce</spanx> クレームが存在し,
+              その値は認証リクエストで送られたものと同じ値であることを検証されなくてはならない (MUST).
+              クライアントはリプレイアタックを防ぐため <spanx style="verb">nonce</spanx> の値を検証すべきである (SHOULD).
+              リプレイアタックを検知するための詳細は方法はクライアントごとに固有である.
             </t>
             <!--
             <t>
@@ -3741,9 +3724,13 @@
           </list>
         </t>
         <figure>
+          <preamble>以下は自己発行された ID トークンを base64url デコードした参考例である.
+          (改行は掲載上の都合による):</preamble>
+          <!--
           <preamble>The following is a non-normative example of a base64url decoded
           Self-Issued ID Token
           (with line wraps within values for display purposes only):</preamble>
+          -->
 
           <artwork><![CDATA[
   {
