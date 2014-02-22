@@ -3190,10 +3190,9 @@
 
     <section anchor="SelfIssued" title="Self-Issued OpenID Provider">
       <t>
-        OpenID Connect supports Self-Issued OpenID Providers -
-        personal, self-hosted OPs that issue self-signed ID Tokens.
-        Self-Issued OPs use the special Issuer Identifier
-        <spanx style="verb">https://self-issued.me</spanx>.
+        OpenID Connect は Self-Issued OpenID プロバイダー ( 私的な, 自己提供されたOpenID Providerであり, 自己署名つきのID Tokenを発行するもの ) をサポートしている. 
+        Self-Issued OP は
+        <spanx style="verb">https://self-issued.me</spanx> という特別な Issuer 識別子を使用する.
       </t>
       <!--
       <t>
@@ -3206,9 +3205,8 @@
 
       <section anchor="SelfIssuedDiscovery" title="Self-Issued OpenID Provider Discovery">
         <t>
-          If the input identifier for the discovery process
-          contains the domain self-issued.me, dynamic discovery is not performed.
-          Instead, then the following static configuration values are used:
+          ディスカバリプロセスで入力された識別子が self-issued.me ドメインを含んでいた場合, ダイナミックディスカバリは実行されない.
+          その代わりに以下の静的な設定値が使用される.
         </t>
         <!--
         <t>
@@ -3240,15 +3238,12 @@
           </figure>
         </t>
         <t>
-          NOTE:  The OpenID Foundation plans to host the OpenID Provider site
-          <spanx style="verb">https://self-issued.me/</spanx>,
-          including its WebFinger service, so that performing discovery on it
-          returns the above static discovery information, enabling RPs
-          to not need any special processing for discovery of the Self-Issued OP.
-          This site will be hosted on an experimental basis.
-          Production implementations should not take a dependency upon it
-          without a subsequent commitment by the OpenID Foundation
-          to host the site in a manner intended for production use.
+          注記: OpenID ファウンデーションは 
+          <spanx style="verb">https://self-issued.me/</spanx>
+          という OpenID プロバイダーサイトを提供することを計画している.
+          提供される内容には WebFinger サービスも含まれており, ディスカバリを実行すると上記の静的なディスカバリ情報を返すため, RP は Self-Issued OP のディスカバリのための特別な処理を行う必要はない.
+          このサイトは実験的に提供される予定である.
+          プロダクション環境を実装する際は OpenID ファウンデーションがそのサイトをプロダクション用途を想定して提供することのコミットメントを行う以前はその環境に依存すべきではない.
         </t>
         <!--
         <t>
