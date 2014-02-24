@@ -2766,8 +2766,7 @@
             言語および文字種の指定には <xref target="RFC5646">BCP47</xref> 言語タグを <spanx style="verb">#</spanx> を区切り文字としてメンバー名に付与する.
             例えば <spanx style="verb">family_name#ja-Kana-JP</spanx> は日本語のカタカナ表記の Family Name を示す.
             カタカナ表記の氏名は, 漢字表記 (<spanx style="verb">family_name#ja-Hani-JP</spanx>) の氏名の発音を示したりインデックス目的等で用いられることが多い.
-            他にも <spanx style="verb">website</spanx> が <spanx style="verb">website#de</spanx> となる場合もある.
-            これはその Claim Value がドイツ語の Web サイトを参照していることを示す.
+            他にも <spanx style="verb">website</spanx> が言語指定のない Web サイト, <spanx style="verb">website#de</spanx> がドイツ語の Web サイトを参照していることを示すといった例も挙げられる.
           </t>
           <!--
           <t>
