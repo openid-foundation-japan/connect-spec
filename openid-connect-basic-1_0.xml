@@ -3278,20 +3278,10 @@
         </t>
          -->
         <t>
-          Note that although these provisions require an explicit
-          consent dialogue through the これらの準備で<spanx style="verb">prompt</spanx> パラメータから明示的な同意画面を要求するがparameter,
-          the mere fact that the user pressed an ユーザが"accept"ボタンを押したなどの単なる事実では button etc.,
-          might not constitute a valid consent有効な同意とみなされないかもしれない.
-          Developers 開発者は有効な同意の行為は一般的にはshould be aware that for the act of consent to
-          be valid, typically, the impact of the terms have to be
-          understood by the 同意項目の影響がEnd-Userによって理解されなければならない, 同意は強制ではなく自由意志でなされなかればならないthe consent must be freely given
-          and not forced (i.e., other options have to be available他のオプションが選択可能であるなど),
-          and the terms must fair and equitable同意項目は公正かつ衡平でなければならない.
-          In general, it is advisable for the service to follow the一般的にはサービスは各々の法域で要求されるプライバシー指針
-          required privacy principles in each jurisdiction and rely onに従うこと
-          other conditions for processing the request リクエストを処理するのに単に明示的な同意以外の他の条件を当てにすることが推奨されるthan simply explicit consent,
-          as online self-service オンラインのセルフサービスの"explicit consent" はoften does not
-          form a valid consent in some jurisdictions法律上は有効な同意を形成しないので.
+          これらの規定では<spanx style="verb">prompt</spanx> パラメータを使って明示的な同意ダイアログを要求するが,
+          ユーザが"accept"ボタンを押したなどの単なる事実では, 有効な同意とみなされないかもしれないことに注意が必要である.
+          開発者は, 一般的に同意の行為が有効であるためには, 同意項目の影響がEnd-Userによって理解されなければならないこと, 同意は(例えば, 他のオプションが選択可能であるなど)強制ではなく自由意志でなされなければならないこと, そして同意項目は公正かつ衡平でなければならないことに注意すべきである.
+          一般的にはサービスは各々の法域で要求されるプライバシー指針に従うこと, そしてリクエストを処理するのに, オンラインのセルフサービスの"explicit consent"は法律上は有効な同意を形成しないので, 単に明示的な同意以外に依拠することが推奨される.
         </t>
         <!--
         <t>
