@@ -2382,11 +2382,11 @@
 
           <c>nickname</c>
           <c>string</c>
-          <t>
+          <c>
             End-User のニックネーム.
             これは <spanx style="verb">given_name</spanx> と同じこともあれば異なることもある.
             例えば, <spanx style="verb">nickname</spanx> が <spanx style="verb">Mike</spanx>, <spanx style="verb">given_name</spanx> が <spanx style="verb">Michael</spanx> として返されることがある.
-          </t>
+          </c>
           <!--
           <c>Casual name of the End-User that may or may not be the same as the
           <spanx style="verb">given_name</spanx>. For instance, a <spanx
@@ -2397,11 +2397,11 @@
 
           <c>preferred_username</c>
           <c>string</c>
-          <t>
+          <c>
             <spanx style="verb">janedoe</spanx> や <spanx style="verb">j.doe</spanx> といった, End-User の選好する簡略名.
             これは <spanx style="verb">@</spanx> や <spanx style="verb">/</spanx> や空白文字といった特殊文字を含むあらゆる valid な JSON 文字列でありうる (MAY).
             <xref target="ClaimStability"></xref> にあるように, RP は この値がユニークであるという前提で扱ってはならない (MUST NOT).
-          </t>
+          </c>
           <!--
           <c>Shorthand name by which the End-User wishes to be referred to at the RP, such as
           <spanx style="verb">janedoe</spanx> or <spanx style="verb">j.doe</spanx>.
