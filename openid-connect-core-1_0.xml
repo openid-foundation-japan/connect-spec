@@ -977,7 +977,7 @@
   </preamble>
   -->
 	<preamble>
-    以下は ID トークン中のクレームセット(JWT クレームセット)の規範に従わない例である:
+    以下は ID トークン中のクレームセット(JWT クレームセット)の一例である(改行は掲載上の都合による):
 	</preamble>
 
 	<artwork><![CDATA[
@@ -1764,12 +1764,21 @@
 
 	  <section anchor="AuthResponse" title="Successful Authentication Response">
 
+        <t>
+        Authentication Response は, RP により送られた Authorization Request メッセージに応じて OP の Authorization Endpoint から返される OAuth 2.0 Authorization Response メッセージである.
+        </t>
+        <!--
 	    <t>
 	      An Authentication Response is an OAuth 2.0 Authorization Response
 	      message returned from the
 	      OP's Authorization Endpoint in response to the Authorization Request
 	      message sent by the RP.
 	    </t>
+        -->
+	    <t>
+          Authorization Code Flow を利用するとき, Authorization Response は <xref target="RFC6749">OAuth 2.0</xref> の Section 4.1.2 にて定義されるパラメータを Authorization Request 中で指定された <spanx style="verb">redirect_uri</spanx> にクエリパラメータとして加え, 異なる Response Mode が指定されない限りは <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを用いて返さなければならない (MUST).
+	    </t>
+        <!--
 	    <t>
 	      When using the Authorization Code Flow, the Authorization Response
 	      MUST return the parameters defined in Section 4.1.2 of
@@ -1779,13 +1788,19 @@
 	      using the <spanx style="verb">application/x-www-form-urlencoded</spanx> format,
 	      unless a different Response Mode was specified.
 	    </t>
+        -->
 
 	    <figure>
+	      <preamble>
+          以下にこのフローを用いた成功レスポンスの例を示す. (改行は掲載上の都合による)
+	      </preamble>
+          <!--
 	      <preamble>
 		The following is a non-normative example
 		successful response using this flow
 		(with line wraps within values for display purposes only):
 	      </preamble>
+          -->
 
 	      <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -1796,20 +1811,35 @@
 	    </figure>
 
 	    <t>
+          Authorization Code の内容についての実装メモは <xref target="CodeNotes"/> を参照のこと.
+	    </t>
+        <!--
+	    <t>
 	      For implementation notes on the contents of
 	      the Authorization Code, see <xref target="CodeNotes"/>.
 	    </t>
+        -->
 	  </section>
 
 	  <section anchor="AuthError" title="Authentication Error Response">
 
+        <t>
+        Authentication Error Response は, RP により送られた Authorization Request メッセージに応じて OP の Authorization Endpoint から返される OAuth 2.0 Authorization Error Response メッセージである.
+        </t>
+        <!--
 	    <t>
 	      An Authentication Error Response is an OAuth 2.0 Authorization Error Response
 	      message returned from the
 	      OP's Authorization Endpoint in response to the Authorization Request
 	      message sent by the RP.
 	    </t>
+        -->
 
+        <t>
+          End-User が認可を拒否したり, End-User の認証に失敗した場合, OP ( Authorization Server ) は <xref target="RFC6749">OAuth 2.0</xref> Section 4.1.2.1 に定義されている Error Response パラメータを用いて伝える.
+          (RFC 6749 に関係のないエラーは, 適切な HTTP ステータスコードを用いて User Agent に返すこと)
+        </t>
+        <!--
 	    <t>
 	      If the End-User denies the request or the End-User authentication
 	      fails, the OP (Authorization Server) informs the RP (Client)
@@ -1818,6 +1848,11 @@
 	      (HTTP errors unrelated to RFC 6749 are returned to the User Agent using the
 	      appropriate HTTP status code.)
 	    </t>
+        -->
+	    <t>
+          Redirection URI が無効でない限り, Authorization Server は適切なエラーと state パラメータで Authorization Request にて指定された Redirection URI に Client を返す. 
+	    </t>
+        <!--
 	    <t>
 	      Unless the Redirection URI is invalid,
 	      the Authorization Server returns the Client to
@@ -1825,32 +1860,53 @@
 	      with the appropriate error and state parameters.
 	      Other parameters SHOULD NOT be returned.
 	    </t>
+        -->
+	    <t>
+          OAuth 2.0 の Section 4.1.2.1 に定義されているエラーコードに加え, この仕様では次のようなエラーコードを定義する:
+	    </t>
+        <!--
 	    <t>
 	      In addition to the error codes defined in Section 4.1.2.1 of
 	      OAuth 2.0, this specification also defines the following error codes:
 	    </t>
+        -->
 
 	    <t>
 	      <list style="hanging">
 
-		<t hangText="interaction_required">The Authorization Server
+		<t hangText="interaction_required">
+          Authorization Server は処理を進めるためにいくつかの End-User interaction を必要とする.
+          Authentication Request 中の <spanx style="verb">prompt</spanx> パラメータが <spanx style="verb">none</spanx> であるが, End-User interaction のためのユーザーインターフェースの表示なしには Authentication Request が完了できない時にこのエラーが返される.
+        <!--
+        The Authorization Server
 		requires End-User interaction of some form to proceed.
 		This error MAY be returned when the
 		<spanx style="verb">prompt</spanx> parameter value in the
 		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User interaction.
+        -->
 		</t>
 
-		<t hangText="login_required">The Authorization Server requires
+		<t hangText="login_required">
+          Authorization Server は End-User の認証を必要とする.
+          Authentication Request 中の <spanx style="verb">prompt</spanx> パラメータが <spanx style="verb">none</spanx> であるが, End-User の認証のためのユーザーインターフェースの表示なしには Authentication Request が完了できない時にこのエラーが返される.
+        <!--
+        The Authorization Server requires
 		End-User authentication. This error MAY be returned when the
 		<spanx style="verb">prompt</spanx> parameter value in the
 		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User authentication.
+        -->
 		</t>
 
-		<t hangText="account_selection_required">The End-User is REQUIRED
+		<t hangText="account_selection_required">
+          End-User は Authorization Server にてセッションの選択を必要とされる (REQUIRED).
+          End-User は Authorization Server にて異なるアカウントで認証されているが, セッションを選択していないかもしれない (MAY).
+          Authentication Request 中の <spanx style="verb">prompt</spanx> パラメータが <spanx style="verb">none</spanx> であるが, 利用するセッションを選択するためのユーザーインターフェースの表示なしには Authentication Request が完了できない時にこのエラーが返される.
+        <!--
+        The End-User is REQUIRED
 		to select a session at the Authorization Server. The End-User MAY
 		be authenticated at the Authorization Server with different
 		associated accounts, but the End-User did not select a session.
@@ -1859,78 +1915,132 @@
 		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface to prompt for a session to use.
+        -->
 		</t>
 
-		<t hangText="consent_required">The Authorization Server
+		<t hangText="consent_required">
+          Authorization Server は End-User の同意を必要とする.
+          Authentication Request 中の <spanx style="verb">prompt</spanx> パラメータが <spanx style="verb">none</spanx> であるが, End-User の同意のためのユーザーインターフェースの表示なしには Authentication Request が完了できない時にこのエラーが返される.
+        <!--
+        The Authorization Server
 		requires End-User consent. This error MAY be returned when the
 		<spanx style="verb">prompt</spanx> parameter value in the
 		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User consent.
+        -->
 		</t>
 
-		<t hangText="invalid_request_uri">The
+		<t hangText="invalid_request_uri">
+          Authorization Request 中の <spanx style="verb">request_uri</spanx> はエラーを返すか, 無効なデータを含む.
+        <!--
+        The
 		<spanx style="verb">request_uri</spanx> in
-		the Authorization Request returns an error or contains invalid data.</t>
+		the Authorization Request returns an error or contains invalid data.
+        -->
+        </t>
 
-		<t hangText="invalid_request_object">The
+		<t hangText="invalid_request_object">
+          <spanx style="verb">request</spanx> パラメータが無効な Request Object を含む.
+        <!--
+        The
 		<spanx style="verb">request</spanx> parameter contains an invalid
-		Request Object.</t>
+		Request Object.
+        -->
+        </t>
 
 		<t hangText="request_not_supported">
+          OP は <xref target="JWTRequests"/> にて定義されている <spanx style="verb">request</spanx> パラメータをサポートしていない.
+          <!--
 		  The OP does not support use of the
 		  <spanx style="verb">request</spanx> parameter
 		  defined in <xref target="JWTRequests"/>.
+          -->
 		</t>
 
 		<t hangText="request_uri_not_supported">
+          OP は <xref target="JWTRequests"/> にて定義されている <spanx style="verb">request_uri</spanx> パラメータをサポートしていない.
+          <!--
 		  The OP does not support use of the
 		  <spanx style="verb">request_uri</spanx> parameter
 		  defined in <xref target="JWTRequests"/>.
+          -->
 		</t>
 
 		<t hangText="registration_not_supported">
+          OP は <xref target="RegistrationParameter"/> で定義されている <spanx style="verb">registration</spanx> パラメータをサポートしていない.
+          <!--
 		  The OP does not support use of the
 		  <spanx style="verb">registration</spanx> parameter
 		  defined in <xref target="RegistrationParameter"/>.
+          -->
 		</t>
 
 	      </list>
 	    </t>
 
 	    <t>
+          エラーレスポンスパラメータは以下のようになる: 
+          <!--
 	      The error response parameters are the following:
+          -->
 
 	      <list style="hanging">
-		<t hangText="error">REQUIRED. Error code.</t>
+		<t hangText="error">
+          REQUIRED. エラーコード.
+          <!--
+          REQUIRED. Error code.
+          -->
+        </t>
 
-		<t hangText="error_description">OPTIONAL. Human-readable ASCII
-		encoded text description of the error.</t>
+		<t hangText="error_description">
+          OPTIONAL. 人間が読める ASCII エンコードされたエラーの説明文.
+          <!--
+          OPTIONAL. Human-readable ASCII
+		encoded text description of the error.
+          -->
+        </t>
 
-		<t hangText="error_uri">OPTIONAL. URI of a web page that
-		includes additional information about the error.</t>
+		<t hangText="error_uri">
+          OPTIONAL. エラーについての追加情報を含むWebページのURI.
+          <!--
+          OPTIONAL. URI of a web page that
+		  includes additional information about the error.
+          -->
+        </t>
 
 		<t hangText="state">
+          OAuth 2.0 の state の値.
+          Authorization Request が <spanx style="verb">state</spanx> パラメータを含む場合は REQUIRED.
+          Client から受け取った値をセットする.
+          <!--
 		  OAuth 2.0 state value.
 		  REQUIRED if the Authorization Request
 		  included the <spanx style="verb">state</spanx> parameter. Set
 		  to the value received from the Client.
+          -->
 		</t>
 	      </list>
 	    </t>
 
 	    <t>
+          Authorization Code Flow を利用するとき, エラーレスポンスパラメータは異なる Response Mode が指定されない限り Redirection URI のクエリ要素に付加される.
+          <!--
 	      When using the Authorization Code Flow, the error response
 	      parameters are added to the query component of the Redirection URI,
 	      unless a different Response Mode was specified.
+          -->
 	    </t>
 
 	    <t>
 	      <figure>
 		<preamble>
+          以下にこのフローを用いたエラーレスポンスの例を示す. (改行は掲載上の都合による)
+          <!--
 		  The following is a non-normative example
 		  error response using this flow
 		  (with line wraps within values for display purposes only):
+          -->
 		</preamble>
 
 		<artwork><![CDATA[
@@ -1947,10 +2057,15 @@
 
 	  <section anchor="AuthResponseValidation" title="Authentication Response Validation">
 	    <t>
+          Authorization Code Flow を利用するとき, Client は RFC 6749, 特に Section 4.1.2 と Section 10.12 に従ってレスポンスを検証しなければならない (MUST).
+	    </t>
+        <!--
+	    <t>
 	      When using the Authorization Code Flow,
 	      the Client MUST validate the response according to RFC 6749,
 	      especially Sections 4.1.2 and 10.12.
 	    </t>
+        -->
 	  </section>
 
 	</section>
@@ -2055,6 +2170,7 @@
 	  </section>
 
 	  <section anchor="TokenResponse" title="Successful Token Response">
+      <!--
 	    <t>
 	      After receiving and validating a valid and authorized Token Request
 	      from the Client, the Authorization Server returns a successful
@@ -2063,7 +2179,14 @@
 	      of <xref target="RFC6749">OAuth 2.0</xref>.
 	      The response uses the <spanx style="verb">application/json</spanx>
 	      media type.
-	    </t>
+      </t>
+      -->
+      <t>
+        クライアントから有効かつ認可されたトークンリクエストの受信, 確認後, 認可サーバーは ID トークンとアクセストークンを含む正常なレスポンスを返却する.
+        正常なレスポンス内のパラメーターは <xref target="RFC6749">OAuth 2.0</xref> の Section 4.1.4 に定義されている. 
+        レスポンスは <spanx style="verb">application/json</spanx> メディアタイプを使用する.
+      </t>
+      <!--
 	    <t>
 	      The OAuth 2.0 <spanx style="verb">token_type</spanx> response parameter
 	      value MUST be <spanx style="verb">Bearer</spanx>,
@@ -2071,22 +2194,42 @@
 	      unless another Token Type has been negotiated with the Client.
 	      Servers SHOULD support the <spanx style="verb">Bearer</spanx> Token Type;
 	      use of other Token Types is outside the scope of this specification.
-	    </t>
+      </t>
+      -->
+      <t>
+        他のトークンタイプはクライアントと交渉がない場合, OAuth 2.0 の <spanx style="verb">token_type</spanx> レスポンスパラメーターの値は, <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> で指定されている <spanx style="verb">Bearer</spanx> でなければならない(MUST).
+        サーバーは <spanx style="verb">Bearer</spanx> トークンタイプをサポートすべきである(SHOULD); 他のトークンタイプの使用はこの仕様の領域外である.
+      </t>
+      <!--
 	    <t>
 	      In addition to the response parameters specified by OAuth 2.0, the following
 	      parameters MUST be included in the response:
-	    </t>
+      </t>
+      -->
+      <t>
+        OAuth 2.0 によって指定されるレスポンスパラメーターに加えて, 以下のパラメーターはレスポンスに含まれていなければならない(MUST):
+      </t>
 	    <t>
 	      <list style="hanging">
+        <!--
 		<t hangText="id_token">ID Token value associated with the
 		authenticated session.</t>
-	      </list>
+        -->
+		<t hangText="id_token">
+      ID トークンの値は認証されたセッションに関連づけられる.
+		</t>
+        </list>
 	    </t>
+      <!--
 	    <t>
 	      All Token Responses that contain tokens, secrets, or other
 	      sensitive information MUST include the following HTTP response header
 	      fields and values:
-	    </t>
+      </t>
+      -->
+      <t>
+        トークン, シークレットあるいはその他の機密な情報を含む全てのトークンレスポンスは以下の HTTP レスポンスヘッダーフィールドと値をを含まなければならない(MUST):
+      </t>
 
 	    <texttable title="HTTP Response Headers and Values">
 	      <ttcol>Header Name</ttcol>
@@ -2103,10 +2246,17 @@
 	    </texttable>
 
 	    <figure>
+        <!--
 	      <preamble>
 		The following is a non-normative example of a successful Token Response.
 		The ID Token signature in the example can be verified with the key at
 		<xref target="ExampleRSAKey"/>.
+        </preamble>
+        -->
+	      <preamble>
+          以下は, 正常なトークンレスポンスの一例である(改行は掲載上の都合による).
+          例の ID トークンの署名は <xref target="ExampleRSAKey"/> に鍵を使った検証が可能である.
+		      <xref target="ExampleRSAKey"/>.
 	      </preamble>
 
 	      <artwork><![CDATA[
@@ -2134,12 +2284,18 @@
 ]]></artwork>
 	    </figure>
 
+      <!--
 	    <t>As specified in <xref target="RFC6749">OAuth 2.0</xref>, Clients
-	    SHOULD ignore unrecognized response parameters.</t>
+      SHOULD ignore unrecognized response parameters.</t>
+      -->
+      <t>
+        <xref target="RFC6749">OAuth 2.0</xref> で指定されているように, クライアントは認識されないレスポンスパラメーターは無視すべきである(SHOULD).
+      </t>
 	  </section>
 
 	  <section anchor="TokenErrorResponse" title="Token Error Response">
 
+      <!--
 	    <t>
 	      If the Token Request is invalid or unauthorized, the
 	      Authorization Server constructs the error response. The parameters
@@ -2147,10 +2303,21 @@
 	      target="RFC6749">OAuth 2.0</xref>.
 	      The HTTP response body uses the <spanx style="verb">application/json</spanx>
 	      media type with HTTP response code of 400.
-	    </t>
+      </t>
+      -->
+      <t>
+        トークンリクエストが無効あるいは未認可の場合には, 認可サーバーはエラーレスポンスを構成する.
+        トークンエラーレスポンスのパラメーターは <xref target="RFC6749">OAuth 2.0</xref> の Section 5.2 に定義されている.
+        HTTP レスポンスボディは HTTP レスポンスコード 400 を用いて <spanx style="verb">application/json</spanx> メディアタイプを使用する.
+      </t>
 
 	    <figure>
-	      <preamble>The following is a non-normative example Token Error Response:</preamble>
+        <!--
+        <preamble>The following is a non-normative example Token Error Response:</preamble>
+        -->
+        <preamble>
+          以下は, トークンエラーレスポンスの一例である(改行は掲載上の都合による).
+        </preamble>
 
 	      <artwork><![CDATA[
   HTTP/1.1 400 Bad Request
@@ -2167,18 +2334,36 @@
 
 	  <section anchor="TokenResponseValidation" title="Token Response Validation">
 	    <t>
-	      The Client MUST validate the Token Response as follows:
+        <!--
+        The Client MUST validate the Token Response as follows:
+        -->
+        クライアントは以下のようにトークンレスポンスを確認しなければいけない(MUST):
 	      <list style="numbers">
+    <!--
 		<t>
 		  Follow the validation rules in RFC 6749,
 		  especially those in Sections 5.1 and 10.12.
-		</t>
+    </t>
+    -->
+    <t>
+      Sections 5.1 と 10.12 においては特に, RFC 6749 の確認規則に従う.
+    </t>
+    <!--
 		<t>
 		  Follow the ID Token validation rules in <xref target="IDTokenValidation"/>.
-		</t>
+    </t>
+    -->
+    <t>
+      <xref target="IDTokenValidation"/> の ID トークン確認規則に従う.
+    </t>
+    <!--
 		<t>
 		  Follow the Access Token validation rules in <xref target="CodeFlowTokenValidation"/>.
-		</t>
+    </t>
+    -->
+    <t>
+      <xref target="CodeFlowTokenValidation"/> のアクセストークン確認規則に従う.
+    </t>
 	      </list>
 	    </t>
 
