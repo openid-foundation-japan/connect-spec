@@ -1265,8 +1265,9 @@
 
         <section anchor="ImplicitRequest"
                  title="Client Sends Request to Authorization Server">
-          <t>Having constructed the Authentication Request, the Client sends it
-          to the Authorization Endpoint using HTTPS.</t>
+          <t>
+            Client は Authorization Endpoint に HTTPS で Authentication Request を送信する.
+          </t>
           <!--
           <t>Having constructed the Authentication Request, the Client sends it
           to the Authorization Endpoint using HTTPS.</t>
@@ -1274,11 +1275,15 @@
 
           <figure>
             <preamble>
+              以下の例では Client が User Agent に HTTP 302 リダイレクトレスポンスを返し, User Agent に対して Authorization Endpoint に Authentication Request を送るよう指示している. (改行は掲載上の都合による)
+
+              <!--
               The following is a non-normative example
               HTTP 302 redirect response by the Client, which triggers
               the User Agent to make an Authentication Request
               to the Authorization Endpoint
               (with line wraps within values for display purposes only):
+              -->
             </preamble>
 
             <artwork><![CDATA[
@@ -1295,10 +1300,13 @@
 
           <figure>
             <preamble>
+              User Agent は上記の Client からの HTTP 302 リダイレクトレスポンスに従い, Authorization Server に以下のようなリクエストを送る. (改行は掲載上の都合による)
+              <!--
               The following is the non-normative example request
               that would be sent by the User Agent to the Authorization Server
               in response to the HTTP 302 redirect response by the Client above
               (with line wraps within values for display purposes only):
+              -->
             </preamble>
 
             <artwork><![CDATA[
@@ -1317,11 +1325,9 @@
         <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
           <t>
-            The Authorization Server logs in the End-User or verifies whether
-            the End-User is logged in, depending upon the request parameter values used.
-            If interaction with the End-User occurs over an HTTP channel,
-            it MUST use TLS, as per <xref target="TLSRequirements"/>.
-            The exact authentication methods used are out of scope for this specification.
+            Authorization Server は, リクエストパラメータ値に基づき, End-User をログインさせたり既にログイン済みであることを検証する.
+            End-User とのインタラクションが HTTP で行われる場合は, <xref target="TLSRequirements"/> に基づきTLS を用いること (MUST).
+            認証手段の詳細については, 本仕様の定めるところではない.
           </t>
           <!--
           <t>
@@ -1336,11 +1342,10 @@
 
         <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
-          <t>The Authorization Server obtains an authorization decision
-          for the requested Claims. This can done by presenting the End-User
-          with a dialogue that enables the End-User to recognize what is being
-          consenting to and grant consent or by establishing consent via
-          other means (for example, via previous administrative consent).</t>
+          <t>
+            Authorization Server は要求された Claim に対する認可結果を得る.
+            認可取得には, End-User が何に同意をしようとしているのかを明示する同意ダイアログを用いることもあれば, その他の何らかの手段 (事前の管理者による同意等) を用いることもあろう.
+          </t>
           <!--
           <t>The Authorization Server obtains an authorization decision
           for the requested Claims. This can done by presenting the End-User
@@ -1350,9 +1355,8 @@
           -->
 
           <t>
-            The <spanx style="verb">openid</spanx> scope value declares
-            that this OAuth 2.0 request is an OpenID Connect request.
-            Use of all other scope values is OPTIONAL.
+            <spanx style="verb">openid</spanx> scope 値は, その OAuth 2.0 リクエストが OpenID Connect リクエストであることを宣言する.
+            その他の scope 値の利用は任意である (OPTIONAL).
           </t>
           <!--
           <t>
@@ -1366,8 +1370,9 @@
         <section anchor="ImplicitResponse"
                  title="Authorization Server Sends End-User Back to Client">
 
-          <t>Once the authorization is determined, the Authorization Server
-          returns a successful response or an error response.</t>
+          <t>
+            認可結果が得られると, Authorization Server はサクセスレスポンスまたはエラーレスポンスを返す.
+          </t>
           <!--
           <t>Once the authorization is determined, the Authorization Server
           returns a successful response or an error response.</t>
@@ -1375,14 +1380,9 @@
 
           <section anchor="ImplicitOK" title="End-User Grants Authorization">
 
-            <t>If the End-User grants the access request, the
-            Authorization Server issues an Access Token and delivers it to the
-            Client by adding the following parameters to the fragment component
-            of the Redirection URI using the
-            <spanx style="verb">application/x-www-form-urlencoded</spanx>
-            format as defined in Section 4.2.2 of
-            <xref target="RFC6749">OAuth 2.0</xref> and
-            <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.</t>
+            <t>
+              End-User がアクセス権要求を承認した場合, Authorization Server は Access Token を発行し, <xref target="RFC6749">OAuth 2.0</xref> の Section 4.2.2 および<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> に従い, 以下のクエリパラメータを Redirection URI のフラグメント部に <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットで付与して Client に渡す.
+            </t>
             <!--
             <t>If the End-User grants the access request, the
             Authorization Server issues an Access Token and delivers it to the
@@ -1394,9 +1394,9 @@
             <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.</t>
             -->
 
-            <t>In the Implicit Flow, the entire response is returned in the
-            fragment component of the Redirection URI, as defined in 4.2.2 of
-            <xref target="RFC6749">OAuth 2.0</xref>.</t>
+            <t>
+              Implicit Flow では, <xref target="RFC6749">OAuth 2.0</xref> の Section 4.2.2 に従い, レスポンスの全体が Redirection URI のフラグメント部に返される.
+            </t>
             <!--
             <t>In the Implicit Flow, the entire response is returned in the
             fragment component of the Redirection URI, as defined in 4.2.2 of
@@ -1405,9 +1405,10 @@
 
             <t>
               <list style="hanging">
-                <t hangText="access_token">REQUIRED.
-                Access Token for the
-                UserInfo Endpoint.</t>
+                <t hangText="access_token">
+                  REQUIRED.
+                  UserInfo Endpoint アクセスのための Access Token. 
+                </t>
                 <!--
                 <t hangText="access_token">REQUIRED.
                 Access Token for the
@@ -1416,10 +1417,9 @@
 
                 <t hangText="token_type">
                   REQUIRED.
-                  OAuth 2.0 Token Type value.
-                  The value MUST be <spanx style="verb">Bearer</spanx>, as specified in
-                  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
-                  for Clients using this subset.
+                  OAuth 2.0 Token Type 値.
+                  このサブセットを使う Clint について, この値は <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
+                  に従い, <spanx style="verb">Bearer</spanx> でなければならない(MUST).
                 </t>
                 <!--
                 <t hangText="token_type">
@@ -1439,13 +1439,9 @@
                 -->
 
                 <t hangText="state">
-                  OAuth 2.0 state value.
-                  REQUIRED if the
-                  <spanx style="verb">state</spanx> parameter is present in the
-                  Authorization Request. Clients MUST verify that the
-                  <spanx style="verb">state</spanx> value is equal to the
-                  value of <spanx style="verb">state</spanx> parameter in the
-                  Authorization Request.
+                  OAuth 2.0 state 値.
+                  Authorization Request に <spanx style="verb">state</spanx> パラメータが含まれていた場合は必須 (REQUIRED).
+                  Clients は <spanx style="verb">state</spanx> 値が Authorization Request に含めた値と同一であることを検証しなければならない (MUST).
                 </t>
                 <!--
                 <t hangText="state">
@@ -1460,8 +1456,8 @@
                 -->
 
                 <t hangText="expires_in">OPTIONAL.
-                Expiration time of the Access Token in seconds
-                since the response was generated.</t>
+                レスポンス生成時点から Access Token の期限切れまでの時間を秒で表したもの.
+                </t>
                 <!--
                 <t hangText="expires_in">OPTIONAL.
                 Expiration time of the Access Token in seconds
@@ -1470,16 +1466,22 @@
               </list>
             </t>
 
-            <t>The Client can then use the Access Token to access protected
-            resources at Resource Servers.</t>
+            <t>
+              Client はこの Access Token を用いて Resource Server 上の保護されたリソースにアクセスが可能である.
+            </t>
             <!--
             <t>The Client can then use the Access Token to access protected
             resources at Resource Servers.</t>
             -->
 
             <figure>
+              <preamble>
+                以下に例を示す. (改行は掲載上の都合による)
+              </preamble>
+              <!--
               <preamble>The following is a non-normative example
               (with line wraps for the display purposes only):</preamble>
+              -->
 
               <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -1497,12 +1499,8 @@
                    title="End-User Denies Authorization or Invalid Request">
 
             <t>
-              If the End-User denies the authorization or the End-User authentication
-              fails, the Authorization Server MUST return the error
-              Authorization Response as defined in 4.2.2.1 of
-              <xref target="RFC6749">OAuth 2.0</xref>.
-              (HTTP errors unrelated to RFC 6749 are returned to the User Agent using the
-              appropriate HTTP status code.)
+              End-User が認可を拒否したり, End-User の認証に失敗した場合, Authorization Server は <xref target="RFC6749">OAuth 2.0</xref> Section 4.2.2.1 に従ってエラーの Authorization Response を返さなければならない (MUST).
+              (RFC 6749 に関係のないエラーは, 適切な HTTP ステータスコードを用いて User Agent に返すこと)
             </t>
             <!--
             <t>
