@@ -2617,7 +2617,7 @@
           <c>address</c>
           <c>JSON object</c>
           <c>
-            End-User の選好する郵便アドレス.
+            End-User の選好する郵送先住所.
             <spanx style="verb">address</spanx> メンバーは <xref target="AddressClaim"/> に定義されたメンバーを含む JSON <xref target="RFC4627"/> 構造である.
           </c>
           <!--
@@ -2692,6 +2692,12 @@
 
         <section anchor="AddressClaim" title="Address Claim">
           <t>
+            Address Claim は物理的な郵送先住所である.
+            End-User の登録済情報とプライバシー設定に基づいて, <spanx style="verb">address</spanx> の一部のみを返却することもある (MAY).
+            例えば <spanx style="verb">country</spanx> と <spanx style="verb">region</spanx> を返し, それ以外の詳細なアドレス情報を省略するなどが考えられる.
+          </t>
+          <!--
+          <t>
             The Address Claim represents a physical mailing address.
             Implementations MAY return only a subset of the
             fields of an <spanx style="verb">address</spanx>, depending upon
@@ -2701,6 +2707,12 @@
             style="verb">region</spanx> might be returned without returning
             more fine-grained address information.
           </t>
+          -->
+          <t>
+            住所全体を整形済サブフィールドに1文字列として入れてもよいし (MAY), 他のサブフィールドに個別の要素として各住所要素を指定するだけでもよいし (MAY), 両方を含めてもよい (MAY).
+            もし両方を含める場合, 整形済住所は住所の各要素の連結方法を示すものとし, 両方が同じアドレスを示すこと (SHOULD).
+          </t>
+          <!--
           <t>
             Implementations MAY return just the full address
             as a single string in the formatted sub-field,
@@ -2712,6 +2724,7 @@
             with the formatted address indicating how the
             component fields are combined.
           </t>
+          -->
           <t>
             <list style="hanging">
               <t hangText="formatted">
@@ -2749,6 +2762,15 @@
 
         <section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
           <t>
+            Human-readable な Claim Value およびそれらへの参照は複数言語および複数文字種で表現されうる (MAY).
+            言語および文字種の指定には <xref target="RFC5646">BCP47</xref> 言語タグを <spanx style="verb">#</spanx> を区切り文字としてメンバー名に付与する.
+            例えば <spanx style="verb">family_name#ja-Kana-JP</spanx> は日本語のカタカナ表記の Family Name を示す.
+            カタカナ表記の氏名は, 漢字表記 (<spanx style="verb">family_name#ja-Hani-JP</spanx>) の氏名の発音を示したりインデックス目的等で用いられることが多い.
+            他にも <spanx style="verb">website</spanx> が <spanx style="verb">website#de</spanx> となる場合もある.
+            これはその Claim Value がドイツ語の Web サイトを参照していることを示す.
+          </t>
+          <!--
+          <t>
             Human-readable Claim Values and Claim Values that reference human-readable values
             MAY be represented in multiple languages and scripts.
             To specify the languages and scripts, <xref
@@ -2763,6 +2785,13 @@
             referencing a Web site in an unspecified language and a Web site
             in German.
           </t>
+          -->
+          <t>
+            Claim Name は大文字小文字を区別するため, Claim Name 内の現御託は <xref target="IANA.Language">IANA Language Subtag Registry</xref> に登録されたままの表記とすることを強く推奨する (RECOMMENDED).
+            一般的に言語名は小文字, 地域名は大文字, 文字種は大文字小文字混合で表記されることが多い.
+            しかしながら BCP47 言語タグ値は大文字小文字を区別しないため, 実装は言語タグを大文字小文字区別なく処理できるべきである (SHOULD).
+          </t>
+          <!--
           <t>
             Since Claim Names are case sensitive, it is strongly RECOMMENDED
             that language tag values used in Claim Names be spelled using the
@@ -2775,6 +2804,15 @@
             implementations SHOULD interpret the language tag values supplied
             in a case insensitive manner.
           </t>
+          -->
+          <t>
+            BCP47 で推奨されるように, Claim の言語タグ値は必要な時にのみ指定すべきである (SHOULD).
+            例えばほとんどの場合 <spanx style="verb">fr-CA</spanx> や <spanx style="verb">fr-FR</spanx> でなく <spanx style="verb">fr</spanx> で十分である.
+            可能であれば OP は要求された Claim locale と自身が持つ Claim のマッチングを試みるべきである (SHOULD).
+            例えば Client が <spanx style="verb">de</spanx> (ドイツ語) の Claim を要求してきており, OP が <spanx style="verb">de-CH</spanx> (スイスのドイツ語) 表記の Claim は持つが地域指定無しの一般的ドイツ語表記の Claim を持たない場合, OP はスイスのドイツ語の値を返すのが適切である.
+            (Client をできるかぎりシンプルに保つため, ここでは言語タグのマッチングが内包する複雑性をわざと OP に寄せている)
+          </t>
+          <!--
           <t>
             Per the recommendations in BCP47, language tag values for Claims
             SHOULD only be as specific as necessary.
@@ -2790,10 +2828,21 @@
             (This intentionally moves as much of the complexity of language tag
             matching to the OP as possible, to simplify Clients.)
           </t>
+          -->
+          <t>
+            リクエスト中の <spanx style="verb">claims_locales</spanx> を使って, 返却される Claim の好ましい言語および文字種を指定することができる.
+          </t>
+          <!--
           <t>
             A <spanx style="verb">claims_locales</spanx> request can be used to
             specify the preferred languages and scripts to use for the returned Claims.
           </t>
+          -->
+          <t>
+            OP が <spanx style="verb">claims_locales</spanx> やその他の手段により End-User と Client が単一言語および文字種表記の Claim を要求していると特定した場合, 該当言語および文字種表記の Claim を返却する際には言語タグを付けずに返すことを推奨する (RECOMMENDED).
+            また Client は言語タグ付きの Claim を処理可能なよう実装することを推奨する (RECOMMENDED).
+          </t>
+          <!--
           <t>
             When the OP determines, either through the
             <spanx style="verb">claims_locales</spanx> parameter,
@@ -2804,10 +2853,17 @@
             It is also RECOMMENDED that Clients be written in a manner
             that they can handle and utilize Claims using language tags.
           </t>
+          -->
         </section>
 
         <section anchor="ClaimStability" title="Claim Stability and Uniqueness">
 
+          <t>
+            <spanx style="verb">sub</spanx> (subject) と <spanx style="verb">iss</spanx> (issuer) Claim のペアは, RP が End-User の不変な識別子として信頼できる唯一の Claim である.
+            <xref target="IDToken"></xref> で述べたように, <spanx style="verb">sub</spanx> は Issuer が End-User に割り振るローカルでユニークかつ再利用されない識別子でなければならない (MUST).
+            以上のことから, <spanx style="verb">iss</spanx> Claim と <spanx style="verb">sub</spanx> Claim のペアが, 唯一の保証された End-User の識別子となる.
+          </t>
+          <!--
           <t>
             The <spanx style="verb">sub</spanx> (subject) and
             <spanx style="verb">iss</spanx> (issuer) Claims, used together,
@@ -2820,6 +2876,14 @@
             combination of the <spanx style="verb">iss</spanx> Claim
             and the <spanx style="verb">sub</spanx> Claim.
           </t>
+          -->
+          <t>
+            その他の Claim に関しては, 時間経過や複数ユーザー間での不変性等は保証されず, Issuer は独自の制約やポリシーを適用してよい.
+            例えば Issuer は時系列上の異なるポイントにおいて, 同一の <spanx style="verb">email</spanx> Claim Value を異なるユーザーのために再利用してもよい (MAY).
+            よって <spanx style="verb">email</spanx> アドレスは時間経過によって異なる End-User に紐づく可能性がある (MAY).
+            以上のことより, <spanx style="verb">email</spanx>, <spanx style="verb">phone_number</spanx>, <spanx style="verb">preferred_username</spanx> などの Claim を End-User のユニークな識別子として利用してはならない (MUST NOT).
+          </t>
+          <!--
           <t>
             All other Claims carry no such guarantees across different issuers in terms of
             stability over time or uniqueness across users, and Issuers are permitted to
@@ -2833,6 +2897,7 @@
             <spanx style="verb">preferred_username</spanx>
             and MUST NOT be used as unique identifiers for the End-User.
           </t>
+          -->
 
         </section>
 
