@@ -3205,15 +3205,26 @@
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
         <t>
+          Resource Server はSHOULD make End-Usersが自分自身のUserInfoへのアクセスログの閲覧することを可能にべきである access logs
+          available to them so that they can monitor who accessed their dataその結果エンドユーザは誰が自分のデータにアクセスしたかを監視できる.
+        </t>
+        <!--
+        <t>
           The Resource Server SHOULD make End-Users' UserInfo access logs
           available to them so that they can monitor who accessed their data.
         </t>
+        -->
       </section>
 
       <section anchor="Correlation" title="Correlation">
+        <t>To protect the End-Userを from a possible correlation among Clients間の相関の可能性から保護するために, the
+        use of a Pairwise Pseudonymous Identifier (PPID) as the
+        <spanx style="verb">sub</spanx> (subject)としての利用を検討すべきである SHOULD be considered.</t>
+        <!--
         <t>To protect the End-User from a possible correlation among Clients, the
         use of a Pairwise Pseudonymous Identifier (PPID) as the
         <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+        -->
       </section>
 
       <section anchor="OfflineAccessPrivacy" title="Offline Access">
@@ -3227,6 +3238,17 @@
           parameter to obtain consent unless it is already known that the
           request complies with the conditions for processing the request in each jurisdiction.
         </t>
+        <!--
+        <t>
+          Offline access enables access to Claims when the user is not present,
+          posing greater privacy risk than the Claims transfer when the user is present.
+          Therefore, it is prudent to obtain explicit consent for
+          offline access to resources.
+          This specification mandates the use of the <spanx style="verb">prompt</spanx>
+          parameter to obtain consent unless it is already known that the
+          request complies with the conditions for processing the request in each jurisdiction.
+        </t>
+        -->
         <t>
           When an Access Token is returned in the front channel, there is
           a greater risk of it being exposed to an attacker, who could
