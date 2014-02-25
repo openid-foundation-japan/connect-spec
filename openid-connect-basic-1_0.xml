@@ -63,7 +63,7 @@
     <abstract>
       <t>
         OpenIC Connect 1.0 は, OAuth 2.0 プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
-        このプロトコルは Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証可能にする.
+        このプロトコルは, Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証することを可能にする.
         また同時に End-User の必要最低限のプロフィール情報を, 相互運用可能かつ RESTful な形で取得することも可能にする.
       </t>
       <!--
@@ -147,7 +147,7 @@
       -->
 
       <t>
-        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの制限付きアクセス権を取得および行使するための全般的フレームワークを提供している.
+        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの限定的アクセス権を取得および行使するための全般的フレームワークを提供している.
         これらはリソースアクセスのための Access Token を取得および行使する方法は定義するが, アイデンティティ情報を提供するための標準的手段は定義しない.
         とりわけ, OAuth 2.0 のプロファイリングを行わずに End-User の認証に必要な情報を提供することは不可能である.
         本ドキュメント読者は上記2つの仕様を理解していることが期待される.
@@ -199,7 +199,7 @@
       </t>
       -->
       <t>
-        本ドキュメントでは, Relying Party は既に Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
+        本ドキュメントでは, Relying Party は Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
         これらの情報は通常 <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> にある Discovery を通じて得られるが, その他の手段で得られることもある.
       </t>
       <!--
@@ -309,7 +309,7 @@
           -->
           <list style="hanging">
             <t hangText="Authentication">
-              提示された Identity と実際の Entity が紐づいていることを確認するプロセス.
+              提示された Identity と実際の Entity が紐づいているという十分な確信を得るためのプロセス.
               <!--
               Process used to achieve sufficient confidence in the binding
               between the Entity and the presented Identity.
@@ -484,7 +484,7 @@
       <section anchor="Overview" title="Overview">
 
         <t>
-          OpenID Connect プロトコルは, おおまかに言って以下のステップの通りである.
+          これら一連のステップを以下に図示する.
         </t>
         <!--
         <t>The OpenID Connect protocol, in abstract, follows the following
@@ -533,7 +533,7 @@
 
         <figure>
           <preamble>
-            これらの一連のステップは以下の通りである.
+            これら一連のステップを以下に図示する.
             <!--
             These steps are illustrated in the following diagram:
             -->
@@ -566,7 +566,7 @@
 
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
-        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいづれかのフローに従う.
+        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいずれかのフローに従う.
         Authorization Code Flow は, 認可サーバーとクライアント自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
         それが不可能な Client は Implicit Flow を用いる.
         しかしながら, Client Secret をセキュアに保持できないにも関わらず, Refresh Token 取得のためにしばしば Native アプリケーションやその他の Client が Authorization Code flow を利用することもある.
@@ -801,7 +801,7 @@
                 <t hangText="redirect_uri">
                   REQUIRED.
                   レスポンスが返される Redirection URI.
-                  この URI は, Client が OpenID Provider に対して事前に登録済みの Redirection URI のいづれかと完全一致しなければならない (MUST).
+                  この URI は, Client が OpenID Provider に対して事前に登録済みの Redirection URI のいずれかと完全一致しなければならない (MUST).
                   マッチングルールは <xref target="RFC3986"/> (Simple String Comparison) の Section 6.2.1 に従うこと.
                   Redirection URI は <spanx style="verb">https</spanx> スキーマを利用することが望まれる (SHOULD) が, Client Type が <spanx style="verb">confidential</spanx> であり, かつ OP が <spanx style="verb">http</spanx> の利用を容認する場合に限り, <spanx style="verb">http</spanx> スキーマを利用してもよい (MAY).
                   Client Type 等の定義については OAuth 2.0 の Section 2.1 を参照のこと.
@@ -844,7 +844,7 @@
             </t>
 
             <t>
-              本仕様は上記に加えて下記のリクエストパラメータを定義する.
+              本仕様は上記に加えて以下のリクエストパラメータを定義する.
             </t>
             <!--
             <t>
@@ -981,7 +981,7 @@
 
                     <t hangText="login">
                       Authorization Server は End-User を再認証するべきである (SHOULD).
-                      再認証が不可能な場合はエラーを返す. (MUST)
+                      再認証が不可能な場合はエラーを返す (MUST).
                       典型的なエラーコードは <spanx style="verb">login_required</spanx> である.
                       <!--
                       The Authorization Server SHOULD prompt the
@@ -1097,7 +1097,7 @@
                   さもなければ, Authorization Server はエラーを返す (SHOULD).
                   <spanx style="verb">prompt=none</spanx> を利用する場合は, 可能であれば <spanx style="verb">id_token_hint</spanx> を指定するべきであり (SHOULD), さもなければ <spanx style="verb">invalid_request</spanx> を返しても良い (MAY).
                   ただしサーバーはその場合可能な限りサクセスレスポンスを返すこと.
-                  <spanx style="verb">id_token_hint</spanx> 利用時は, ID Token の audience にAuthorization Server 自身が含まれている必要はない.
+                  <spanx style="verb">id_token_hint</spanx> 利用時は, ID Token の audience に Authorization Server 自身が含まれている必要はない.
                   <!--
                   OPTIONAL.
                   ID Token previously issued by the Authorization Server
@@ -1570,7 +1570,7 @@
 
             <t hangText="aud">
               REQUIRED.
-              ID Token の想定されるオーディエンス (audience).
+              ID Token の想定されるオーディエンス (Audience).
               この値は Relying Party の OAuth 2.0 <spanx style="verb">client_id</spanx> を含まなければならない (MUST).
               他のオーディエンスの識別子を含んでもよい (MAY).
               一般的には <spanx style="verb">aud</spanx> は大文字小文字を区別した文字列の配列であるが, オーディエンスが単体の場合は <spanx style="verb">aud</spanx> 値を大文字小文字を区別した単一文字列としてもよい.
@@ -1696,14 +1696,13 @@
             <t hangText="acr">
               OPTIONAL.
               Authentication Context Class Reference.
-              Authentication Context Class Reference 値を示す文字列.
-              実施された認証処理が満たす Authentication Context Class を示す.
+              実施された認証処理が満たす Authentication Context Class を表す Authentication Context Class Reference 値を示す文字列.
               "0" という値は End-User 認証が <xref target="ISO29115">ISO/IEC 29115</xref> の定める level 1 を満たさないことを意味する.
               長期間有効なブラウザクッキーを用いた認証などが, "level 0" の例として挙げられる.
               金銭にかかわるリソースへのアクセス認可要求時には, level 0 の認証を受け入れるべきではない (SHOULD NOT).
               <spanx style="verb">acr</spanx> 値には, 絶対 URL か <xref target="RFC6711">RFC 6711</xref> に登録された値を用いるべきである (SHOULD).
               <xref target="RFC6711">RFC 6711</xref> 登録済の値を用いる場合, <xref target="RFC6711">RFC 6711</xref> と異なる意味でそれを用いてはならない (MUST NOT).
-              この値の意味するところはコンテキストによって異なるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">acr</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -1732,10 +1731,10 @@
             <t hangText="amr">
               OPTIONAL.
               Authentication Methods References.
-              認証時に用いられた認証方式を示す識別子文字列の配列.
+              認証時に用いられた認証方式を示す識別子文字列の JSON 配列.
               例として, パスワードと OTP 認証が両方行われたことを示すといったケースが考えられる.
               <spanx style="verb">amr</spanx> Claim にどのような値を用いるかは本仕様の定めるところではない.
-              この値の意味するところはコンテキストによって異なるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">amr</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -1863,7 +1862,7 @@
             <list style="numbers">
 
               <t>
-                OpenID Provider の Issuer Identifier (これは通常 Discovery によって得られる) が <spanx style="verb">iss</spanx> (issuer) Claim と一致すること (MUST).
+                OpenID Provider の Issuer Identifier (これは通常 Discovery によって得られる) が <spanx style="verb">iss</spanx> (issuer) Claim と一致しなければならない (MUST).
               </t>
               <!--
               <t>
@@ -1874,7 +1873,7 @@
               </t>
               -->
               <t>
-                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> を含むこと.
+                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> を含まなければならない (MUST).
                 ID Token のオーディエンスに Client が含まれていなかったり, Client にとって信頼できない主体がオーディエンスに含まれている場合, その ID Token を拒絶しなければならない (MUST).
               </t>
               <!--
@@ -2906,7 +2905,7 @@
 
     <section anchor="Serializations" title="Serializations">
       <t>
-        リクエストメッセージは以下のいづれかの方法でシリアライズ化されることがある(MAY):
+        リクエストメッセージは以下のいずれかの方法でシリアライズ化されることがある(MAY):
         <list style="numbers">
           <t>Query String Serialization</t>
           <t>Form Serialization</t>
@@ -3124,7 +3123,7 @@
     <section anchor="Security" title="Security Considerations">
 
       <t>
-        以下に挙げられる以外のセキュティ上の考慮事項については, 
+        以下に挙げられる以外のセキュティ上の考慮事項については,
         <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> の仕様を参照.
       </t>
       <!--
@@ -3184,7 +3183,7 @@
 
       <section anchor="PII" title="Personally Identifiable Information">
 
-        <t>UserInfo Response は一般的にはPersonally Identifiable Information (PII)を含む. 故に, 特定の目的のための情報の開示に関するEnd-Userの同意は, 関連する法律に従い認可時, もしくは認可時に先立って取得されるべきである(SHOULD). 利用目的は一般的には <spanx
+        <t>UserInfo Response は一般的にはPersonally Identifiable Information (PII)を含む. 故に, 特定の目的のための情報の開示に関するEnd-Userの同意は, 関連する法律に従い, 認可時もしくは認可時に先立って取得されるべきである(SHOULD). 利用目的は一般的には <spanx
         style="verb">redirect_uris</spanx> とともに登録される.</t>
         <!--
         <t>The UserInfo Response typically contains Personally Identifiable
@@ -3195,7 +3194,7 @@
         style="verb">redirect_uris</spanx>.</t>
         -->
 
-        <t>必要なUserInfoデータだけがClient側に保管されるべきであり, Clientは受信したデータを利用告知の目的と関連づけるべきである(SHOULD).</t>
+        <t>必要なUserInfoデータだけがClient側に保管されるべきであり, Clientは受信したデータを告知した利用目的と関連づけるべきである(SHOULD).</t>
         <!--
         <t>Only necessary UserInfo data should be stored at the Client and the
         Client SHOULD associate the received data with the purpose of use
@@ -3205,8 +3204,7 @@
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
         <t>
-          Resource Server はSHOULD make End-Usersが自分自身のUserInfoへのアクセスログの閲覧することを可能にべきである access logs
-          available to them so that they can monitor who accessed their dataその結果エンドユーザは誰が自分のデータにアクセスしたかを監視できる.
+          Resource Server はEnd-Usersが自分自身のUserInfoへのアクセスログの閲覧することを可能にべきである(SHOULD). その結果エンドユーザは誰が自分のデータにアクセスしたかを監視できる.
         </t>
         <!--
         <t>
@@ -3217,9 +3215,8 @@
       </section>
 
       <section anchor="Correlation" title="Correlation">
-        <t>To protect the End-Userを from a possible correlation among Clients間の相関の可能性から保護するために, the
-        use of a Pairwise Pseudonymous Identifier (PPID) as the
-        <spanx style="verb">sub</spanx> (subject)としての利用を検討すべきである SHOULD be considered.</t>
+        <t>Clients間での紐づけの可能性からEnd-Userを保護するために, Pairwise Pseudonymous Identifier (PPID) の
+        <spanx style="verb">sub</spanx> (subject)としての利用を検討すべきである(SHOULD).</t>
         <!--
         <t>To protect the End-User from a possible correlation among Clients, the
         use of a Pairwise Pseudonymous Identifier (PPID) as the
@@ -3230,13 +3227,9 @@
       <section anchor="OfflineAccessPrivacy" title="Offline Access">
 
         <t>
-          Offline access enables access to Claims when the user is not present,
-          posing greater privacy risk than the Claims transfer when the user is present.
-          Therefore, it is prudent to obtain explicit consent for
-          offline access to resources.
-          This specification mandates the use of the <spanx style="verb">prompt</spanx>
-          parameter to obtain consent unless it is already known that the
-          request complies with the conditions for processing the request in each jurisdiction.
+          オフラインアクセスはユーザが居合せなくてもClaimsにアクセスできるが, 居合わせる場合よりも大きなプライバシー上の危険をもたらす.
+          故にリソースへのオフラインアクセスを行う場合には明示的な同意を得ることが賢明である.
+          本仕様では各々の法領域においてリクエストが処理される条件に従っていることが既知でない場合には同意を得るために <spanx style="verb">prompt</spanx> パラメータを利用することを要求する.
         </t>
         <!--
         <t>
@@ -3249,6 +3242,18 @@
           request complies with the conditions for processing the request in each jurisdiction.
         </t>
         -->
+        <t>
+          Access Token がフロントチャネルから返って来た時に, トークンが攻撃者にさらされている危険性はおおいにあり,
+          その場合, 攻撃者は後でトークンを使ってUserInfoエンドポイントにアクセスできる.
+          Access Token がオフラインアクセスを許可しておらず, 送られてきた Client リクエストがオフラインかオンラインかをサーバが区別することができれば, リスクは十分に軽減できる.
+          故に本仕様では Access Token がフロントチェネルを通して送られてきた場合にはオフラインアクセスのリクエストを無視することを要求する.
+          サーバ側でオンラインとオフラインを区別することは, 特にネイティブクライアントの時は難しいかもしれないことには注意が必要である.
+          サーバ側では試行錯誤が必要になるかもしれない.
+          また, Response Types が <spanx style="verb">code&nbsp;token</spanx> もしくは
+          <spanx style="verb">token</spanx> の場合にもフロントチャネルを経由したAccess Tokenのさらされる危険性は同じである.
+          故に, 実装はどのようなチャネルで Access Token が発行されたかを検知できるよう準備し, トークンがフロントチェネル経由で発行された場合にはオフラインアクセスを拒否するべきである.
+        </t>
+        <!--
         <t>
           When an Access Token is returned in the front channel, there is
           a greater risk of it being exposed to an attacker, who could
@@ -3270,6 +3275,14 @@
           channel from which the Access Token was issued and deny offline access
           if the token was issued in the front channel.
         </t>
+         -->
+        <t>
+          これらの規定では<spanx style="verb">prompt</spanx> パラメータを使って明示的な同意ダイアログを要求するが,
+          ユーザが"accept"ボタンを押したなどの単なる事実では, 有効な同意とみなされないかもしれないことに注意が必要である.
+          開発者は, 一般的に同意の行為が有効であるためには, 同意項目の影響がEnd-Userによって理解されなければならないこと, 同意は(例えば, 他のオプションが選択可能であるなど)強制ではなく自由意志でなされなければならないこと, そして同意項目は公正かつ衡平でなければならないことに注意すべきである.
+          一般的にはサービスは各々の法域で要求されるプライバシー指針に従うこと, そしてリクエストを処理するのに, オンラインのセルフサービスの"explicit consent"は法律上は有効な同意を形成しないので, 単に明示的な同意以外に依拠することが推奨される.
+        </t>
+        <!--
         <t>
           Note that although these provisions require an explicit
           consent dialogue through the <spanx style="verb">prompt</spanx> parameter,
@@ -3286,6 +3299,7 @@
           as online self-service "explicit consent" often does not
           form a valid consent in some jurisdictions.
         </t>
+        -->
       </section>
     </section>
 
