@@ -1570,7 +1570,7 @@
 
             <t hangText="aud">
               REQUIRED.
-              ID Token の想定されるオーディエンス (audience).
+              ID Token の想定されるオーディエンス (Audience).
               この値は Relying Party の OAuth 2.0 <spanx style="verb">client_id</spanx> を含まなければならない (MUST).
               他のオーディエンスの識別子を含んでもよい (MAY).
               一般的には <spanx style="verb">aud</spanx> は大文字小文字を区別した文字列の配列であるが, オーディエンスが単体の場合は <spanx style="verb">aud</spanx> 値を大文字小文字を区別した単一文字列としてもよい.
@@ -1696,14 +1696,13 @@
             <t hangText="acr">
               OPTIONAL.
               Authentication Context Class Reference.
-              Authentication Context Class Reference 値を示す文字列.
-              実施された認証処理が満たす Authentication Context Class を示す.
+              実施された認証処理が満たす Authentication Context Class を表す Authentication Context Class Reference 値を示す文字列.
               "0" という値は End-User 認証が <xref target="ISO29115">ISO/IEC 29115</xref> の定める level 1 を満たさないことを意味する.
               長期間有効なブラウザクッキーを用いた認証などが, "level 0" の例として挙げられる.
               金銭にかかわるリソースへのアクセス認可要求時には, level 0 の認証を受け入れるべきではない (SHOULD NOT).
               <spanx style="verb">acr</spanx> 値には, 絶対 URL か <xref target="RFC6711">RFC 6711</xref> に登録された値を用いるべきである (SHOULD).
               <xref target="RFC6711">RFC 6711</xref> 登録済の値を用いる場合, <xref target="RFC6711">RFC 6711</xref> と異なる意味でそれを用いてはならない (MUST NOT).
-              この値の意味するところはコンテキストによって異なるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">acr</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -1732,10 +1731,10 @@
             <t hangText="amr">
               OPTIONAL.
               Authentication Methods References.
-              認証時に用いられた認証方式を示す識別子文字列の配列.
+              認証時に用いられた認証方式を示す識別子文字列の JSON 配列.
               例として, パスワードと OTP 認証が両方行われたことを示すといったケースが考えられる.
               <spanx style="verb">amr</spanx> Claim にどのような値を用いるかは本仕様の定めるところではない.
-              この値の意味するところはコンテキストによって異なるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">amr</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -1863,7 +1862,7 @@
             <list style="numbers">
 
               <t>
-                OpenID Provider の Issuer Identifier (これは通常 Discovery によって得られる) が <spanx style="verb">iss</spanx> (issuer) Claim と一致すること (MUST).
+                OpenID Provider の Issuer Identifier (これは通常 Discovery によって得られる) が <spanx style="verb">iss</spanx> (issuer) Claim と一致しなければならない (MUST).
               </t>
               <!--
               <t>
@@ -1874,7 +1873,7 @@
               </t>
               -->
               <t>
-                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> を含むこと.
+                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> を含まなければならない (MUST).
                 ID Token のオーディエンスに Client が含まれていなかったり, Client にとって信頼できない主体がオーディエンスに含まれている場合, その ID Token を拒絶しなければならない (MUST).
               </t>
               <!--

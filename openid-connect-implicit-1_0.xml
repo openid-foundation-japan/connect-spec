@@ -1377,7 +1377,7 @@
           <section anchor="ImplicitOK" title="End-User Grants Authorization">
 
             <t>
-              End-User がアクセス権要求を承認した場合, Authorization Server は Access Token を発行し, <xref target="RFC6749">OAuth 2.0</xref> の Section 4.2.2 および<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> に従い, 以下のクエリパラメータを Redirection URI のフラグメント部に <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットで付与して Client に渡す.
+              End-User がアクセス権要求を承認した場合, Authorization Server は Access Token を発行し, <xref target="RFC6749">OAuth 2.0</xref> の Section 4.2.2 および <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> に従い, 以下のパラメータを Redirection URI のフラグメント部に <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットで付与して Client に渡す.
             </t>
             <!--
             <t>If the End-User grants the access request, the
@@ -1415,7 +1415,7 @@
                   REQUIRED.
                   OAuth 2.0 Token Type 値.
                   このサブセットを使う Clint について, この値は <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
-                  に従い, <spanx style="verb">Bearer</spanx> でなければならない(MUST).
+                  に従い, <spanx style="verb">Bearer</spanx> でなければならない (MUST).
                 </t>
                 <!--
                 <t hangText="token_type">
@@ -1516,7 +1516,7 @@
               レスポンスのパラメータは Redirection URI フラグメントで渡されるため,
               Client はフラグメントエンコードされた値を User Agent でパースして
               Client の処理ロジックに送る必要がある.
-              暗号APIに直接アクセス可能な User Agent では,
+              暗号 API に直接アクセス可能な User Agent では,
               例えばすべての Client コードを JavaScript で書くことにより,
               処理を User Agent 内で完結することができる.
             </t>
@@ -1542,11 +1542,9 @@
             -->
 
             <t>
-              以下はクライアントが <spanx style="verb">redirect_uri</spanx> で提供する
-              JavaScript ファイルの例である. このファイルは Authorization Server からの
-              リダイレクトによって読み込まれる. フラグメント部分はパースされ,
-              <spanx style="verb">POST</spanx> によって送信される先の URI で検証と
-              ユーザー情報の受信が行われる.
+              以下はクライアントが <spanx style="verb">redirect_uri</spanx> で提供する JavaScript ファイルの例である.
+              このファイルは Authorization Server からのリダイレクトによって読み込まれる.
+              フラグメント部分はパースされ, <spanx style="verb">POST</spanx> によって送信される先の URI で検証とユーザー情報の受信が行われる.
             </t>
             <!--
             <t>The following is an example of a JavaScript file that a Client might host at its
@@ -1614,8 +1612,9 @@
       <section anchor="IDToken" title="ID Token">
 
         <t>
-          ID Token は, あるクライアントを使用している際に認可サーバーによる End-User の認証についてのクレームと, 他に要求されたクレームを含むセキュリティトークンである.
-          ID Token は <xref target="JWT">JSON Web Token (JWT)</xref> で表現される.
+          ID Token は, ある Client を利用するというコンテキスト中での, Authorization Server による End-User 認証に関する Claim を含んだセキュリティトークンである.
+          潜在的にはその他の Cliam を含む可能性もある.
+          ID Token は <xref target="JWT">JSON Web Token (JWT)</xref> である.
         </t>
         <!--
         <t>
@@ -1628,7 +1627,7 @@
         -->
 
         <t>
-          ID Token 内で以下のクレームが使用される:
+          ID Token には以下の Cliam が含まれる.
         </t>
         <!--
         <t>The following Claims are used within the ID Token:</t>
@@ -1638,7 +1637,8 @@
           <list style="hanging">
             <t hangText="iss">
               REQUIRED.
-      必須(REQUIRED).レスポンスの発行者のための Issuer 識別子.<spanx style="verb">iss</spanx> の値は, クエリやフラグメントの要素を含まないスキーム, ホスト, 任意のポート番号とパスからなる <spanx style="verb">https</spanx> スキームを使用した大文字と小文字を区別する URL である.
+              レスポンスを返した Issuer の Issuer Identifier.
+              <spanx style="verb">iss</spanx> 値は, <spanx style="verb">https</spanx> スキーマで始まる大文字小文字を区別する URL であり, スキーマ, ホスト, そして任意でポート番号とパスを含む. クエリーとフラグメントは含まない.
             </t>
             <!--
             <t hangText="iss">
@@ -1653,7 +1653,11 @@
 
             <t hangText="sub">
               REQUIRED.
-              Subject 識別子.例えば, <spanx style="verb">24400320</spanx> や <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx> のようなクライアントに使われることを意図し, End-User のための発行者内で一意であり決して再割り当てされない識別子である.ASCII で255文字を超えてはならない(MUST NOT).<spanx style="verb">sub</spanx> の値は大文字と小文字を区別する文字列である.
+              Subject Identifier.
+              Client に利用される前提で, Issuer のローカルでユニークであり再利用されない End-User の識別子.
+              (例: <spanx style="verb">24400320</spanx> や <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx> 等)
+              この値は ASCII で255文字を超えてはならない (MUST NOT).
+              <spanx style="verb">sub</spanx> 値は大文字小文字を区別する.
             </t>
             <!--
             <t hangText="sub">
@@ -1670,7 +1674,10 @@
 
             <t hangText="aud">
               REQUIRED.
-              この ID Token を対象とする Audience(s). audience の値として Relying Party のOAuth 2.0 の <spanx style="verb">client_id</spanx> を含まなければならない(MUST). また他の audiences のための識別子を含んでもよい(MAY). 一般的な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別する文字列の配列である. audience が1つである際の共通の特殊な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別した文字列でもよい(MAY).
+              ID Token の想定されるオーディエンス (Audience).
+              この値は Relying Party の OAuth 2.0 <spanx style="verb">client_id</spanx> を含まなければならない (MUST).
+              他のオーディエンスの識別子を含んでもよい (MAY).
+              一般的には <spanx style="verb">aud</spanx> は大文字小文字を区別した文字列の配列であるが, オーディエンスが単体の場合は <spanx style="verb">aud</spanx> 値を大文字小文字を区別した単一文字列としてもよい.
             </t>
             <!--
             <t hangText="aud">
@@ -1690,18 +1697,12 @@
 
             <t hangText="exp">
               REQUIRED.
-              それ以降, ID Token を処理のために受け入れてはいけない有効期限(MUST NOT).このパラメーターの処理は, 現在の日時が値の中に記載されている有効期限の日時以前でなければならない(MUST). 実装者は, クロック・スキューを考慮するために, 通常は数分間以下の多少の余地を提供してもよい(MAY). その値は, その日時まで UTC で計測される 1970-01-01T0:0:0Z からの秒数を表す JSON 数値である. 一般的な日時, および特に UTC の詳細については <xref target="RFC3339">RFC 3339</xref> を参照すること.
-              Expiration time on or after which the ID Token MUST NOT be
-            accepted for processing. The processing of this parameter
-            requires that the current date/time MUST be before the
-            expiration date/time listed in the value. Implementers MAY
-            provide for some small leeway, usually no more than a few
-            minutes, to account for clock skew.
-            Its value is a JSON number representing the number of seconds from
-            1970-01-01T0:0:0Z as measured in UTC until the date/time.
-            See <xref target="RFC3339">RFC 3339</xref>
-            for details regarding date/times in general and UTC in
-            particular.
+              ID Token の有効期限.
+              この有効期限以降に該当 ID Token を受け入れたり処理してはならない (MUST NOT).
+              ある ID Token が有効期限内であるためには, この値が示す時刻より現在時刻が前でなければならない (MUST).
+              実装者は, 通常数分以内で, 時計のズレを考慮して多少の猶予期間を設けてもよい (MAY).
+              この値は UTC 1970-01-01T0:0:0Z から該当時刻までの秒数を示す JSON 数値である.
+              詳細は <xref target="RFC3339">RFC 3339</xref> を参照のこと.
             </t>
             <!--
             <t hangText="exp">REQUIRED.
@@ -1721,7 +1722,8 @@
 
             <t hangText="iat">
               REQUIRED.
-              JWT が発行された時刻. その値は, その日時まで UTC で計測される 1970-01-01T0:0:0Z からの秒数を表す JSON 数値である.
+              JWT 発行時刻.
+              この値は UTC 1970-01-01T0:0:0Z から該当時刻までの秒数を示す JSON 数値である.
             </t>
             <!--
             <t hangText="iat">REQUIRED.
@@ -1732,7 +1734,10 @@
             -->
 
             <t hangText="auth_time">
-              End-User の認証が行われた時刻. その値は, その日時まで UTC で計測される 1970-01-01T0:0:0Z からの秒数を表す JSON 数値である. <spanx style="verb">max_age</spanx> リクエストが生成されたとき, このクレームは必須である(REQUIRED). そうでなければ任意である(OPTIONAL).
+              End-User の認証が発生した時刻.
+              この値は UTC 1970-01-01T0:0:0Z から該当時刻までの秒数を示す JSON 数値である.
+              リクエストに <spanx style="verb">max_age</spanx> が含まれていた場合, この Cliam は必須である (REQUIRED).
+              その他の場合は任意 (OPTIONAL).
             </t>
             <!--
             <t hangText="auth_time">
@@ -1745,8 +1750,13 @@
             -->
 
             <t hangText="nonce">
-              REQUIRED.
-              ID Token と Client セッションを関連づけ, リプレイアタックを軽減するために使用される文字列値. その値は, 認証リクエストから変更されずに ID Token に渡される. クライアントはその <spanx style="verb">nonce</spanx> クレームの値が Authorization Request で送信された <spanx style="verb">nonce</spanx> パラメータの値と同じであるか検証しなければならない(MUST). Authorization Request に存在する場合, Authorization Server は ID Token の中に <spanx style="verb">nonce</spanx> を含め, その Claim Value を Authorization Request から送信された nonce の値としなければならない(MUST). <spanx style="verb">nonce</spanx> 値は大文字と小文字を区別する文字列である.
+              OPTIONAL.
+              Client セッションと ID Token を紐づける文字列値.
+              リプレイアタック防止のために用いられる.
+              Authentication Request で指定されたままの値を ID Token に含める.
+              Client は Authentication Request に含めた <spanx style="verb">nonce</spanx> 値が ID Token に含まれる <spanx style="verb">nonce</spanx> Claim 値と一致することを検証しなければならない (MUST).
+              Authentication Request に nonce が含まれていた場合, Authorization Server は ID Token にそのままの値で <spanx style="verb">nonce</spanx> Claim を含めねばならない (MUST).
+              <spanx style="verb">nonce</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="nonce">
@@ -1769,7 +1779,7 @@
             <t hangText="at_hash">
               REQUIRED.
               Access Token のハッシュ値.
-              Implicit Flow 内で ID Token が <spanx style="verb">access_token</spanx> とともに発行された場合(この項で説明しているOpenID Connectのサブセットではこのケースに該当する), このクレームは必須である(REQUIRED).
+              Implicit Flow 内で ID Token が <spanx style="verb">access_token</spanx> とともに発行された場合 (この項で説明しているOpenID Connectのサブセットではこのケースに該当する), このクレームは必須である (REQUIRED).
               この値は, <spanx style="verb">access_token</spanx> の ASCII バイト列のハッシュ値の左半分を Basd64URL エンコードしたものであり, ハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> で用いられるハッシュアルゴリズムと同じものを用いる.
               例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, <spanx style="verb">access_token</spanx> の SHA-256 ハッシュ値を計算し, その左半分の128ビットを Base64URL エンコードする.
               <spanx style="verb">at_hash</spanx> は大文字小文字を区別する文字列である.
@@ -1797,9 +1807,15 @@
 
             <t hangText="acr">
               OPTIONAL.
-              Authentication Context Class Reference. 認証が成功して実行される Authentication Class Class を識別する Authentication Context Class Reference の値を指定する文字列. 値 "0" は, End-User の認証が <xref target="ISO29115">ISO/IEC 29115</xref> level 1 の要求に合っていなかったことを示す. 例えば, 長期間有効なブラウザー Cookie を使用する認証は "level 0" の使用が適切な場合の例である. level 0 を用いた認証は金銭的な値のリソースへのアクセスを認可するために使用すべきではない(SHOULD NOT).
-              <spanx style="verb">acr</spanx> 値として, 絶対 URI あるいは <xref target="RFC6711">RFC 6711</xref> の予約語を使用すべきである(SHOULD). 予約語は登録されているものとは異なる意味で使用してはいけない(MUST NOT). このクレームを使用している. 両 Party はコンテキスト固有であるかもしれない使用されているその値の意味について合意している必要がある.
-              <spanx style="verb">acr</spanx> 値は大文字と小文字を区別する文字列である.
+              Authentication Context Class Reference.
+              実施された認証処理が満たす Authentication Context Class を表す Authentication Context Class Reference 値を示す文字列.
+              "0" という値は End-User 認証が <xref target="ISO29115">ISO/IEC 29115</xref> の定める level 1 を満たさないことを意味する.
+              長期間有効なブラウザクッキーを用いた認証などが, "level 0" の例として挙げられる.
+              金銭にかかわるリソースへのアクセス認可要求時には, level 0 の認証を受け入れるべきではない (SHOULD NOT).
+              <spanx style="verb">acr</spanx> 値には, 絶対 URL か <xref target="RFC6711">RFC 6711</xref> に登録された値を用いるべきである (SHOULD).
+              <xref target="RFC6711">RFC 6711</xref> 登録済の値を用いる場合, <xref target="RFC6711">RFC 6711</xref> と異なる意味でそれを用いてはならない (MUST NOT).
+              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              <spanx style="verb">acr</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="acr">
@@ -1828,7 +1844,12 @@
 
             <t hangText="amr">
               OPTIONAL.
-              Authentication Methods References. 認証の中で使用される認証方式の識別子となる文字列の JSON 配列である. 例えば, 値はパスワードと OTP 認証方法の両方が使用されることを示すかもしれない. <spanx style="verb">amr</spanx> Claim で使用されるそれぞれの値の定義は, この仕様の範囲を超える. 両 Party はコンテキスト固有であるかもしれない使用されているその値の意味について合意している必要がある. <spanx style="verb">amr</spanx> 値は大文字と小文字を区別する文字列である.
+              Authentication Methods References.
+              認証時に用いられた認証方式を示す識別子文字列の JSON 配列.
+              例として, パスワードと OTP 認証が両方行われたことを示すといったケースが考えられる.
+              <spanx style="verb">amr</spanx> Claim にどのような値を用いるかは本仕様の定めるところではない.
+              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              <spanx style="verb">amr</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="amr">
@@ -1850,7 +1871,11 @@
 
             <t hangText="azp">
               OPTIONAL.
-            Authorized party. ID Token を発行された party である. 存在す婦場合, この party の OAuth 2.0 Client ID を含めなければならない(MUST). ID Token が単一の audience 値を含み, その audience が authorized party とは異なるときにのみこの Claim が必要である. Authorized party がその単一の audience と同じときであっても含んでよい(MAY). <spanx style="verb">azp</spanx> 値は文字列または URI を含む大文字と小文字を区別する文字列である.
+              ID Token 発行対象である認可された関係者 (authorized party).
+              このクレームが存在する場合, その値は受け取り手の OAuth 2.0 Client ID でなければならない.
+              このクレームは, ID Token のオーディエンス値が単一文字列であり, かつその値が <spanx style="verb">azp</spanx> の値と異なる場合にのみ必要となる.
+              オーディエンスと <spanx style="verb">azp</spanx> 値が同値である場合にも, このクレームを含んでもよい (MAY).
+              <spanx style="verb">azp</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="azp">
@@ -1869,11 +1894,11 @@
             -->
 
             <t hangText="sub_jwk">
-              <xref target="SelfIssued"/>で定義されるとおり, Self-Issued OpenID Provider から発行された ID Token の署名検証に使われる公開鍵.
-              鍵は <xref target="JWK"/> フォーマットのベア鍵である(X.509証明書ではない).
+              <xref target="SelfIssued"/> で定義されるとおり, Self-Issued OpenID Provider から発行された ID Token の署名検証に使われる公開鍵.
+              鍵は <xref target="JWK"/> フォーマットのベア鍵である (X.509 証明書ではない).
               <spanx style="verb">sub_jwk</spanx> Claim の使用は,
-              OP が Self-Issued OP の場合は必須(REQUIRED)であり,
-              そうでない場合は推奨されない(NOT RECOMMENDED).
+              OP が Self-Issued OP の場合は必須 (REQUIRED) であり,
+              そうでない場合は推奨されない (NOT RECOMMENDED).
               <spanx style="verb">sub_jwk</spanx> 値は JSON オブジェクトである.
             </t>
             <!--
@@ -1894,8 +1919,8 @@
         </t>
 
         <t>
-          ID Token は他の Claim を含むかもしれない(MAY).
-          理解できないすべての Claim は無視しなければならない(MUST).
+          ID Token はその他の Claim を含んでもよい (MAY).
+          解釈不可能な Claim は全て無視すること (MUST).
         </t>
         <!--
         <t>
@@ -1916,13 +1941,13 @@
         </t>
         -->
         <t>
-          ID Token は JWS ないしJWE の
+          ID Token は JWS および JWE の
           <spanx style="verb">x5u</spanx>,
           <spanx style="verb">x5c</spanx>,
-          <spanx style="verb">jku</spanx>, または
+          <spanx style="verb">jku</spanx>,
           <spanx style="verb">jwk</spanx>
-          ヘッダーパラメータフィールドを使用するべきではない(SHOULD NOT).
-          ID Token で使用される鍵は Discovery および Registration パラメータとして, 事前に提供される.
+          ヘッダーフィールドを含むべきではない (SHOULD NOT).
+          これらの代わりに事前の Discovery および Registration において, ID Token に用いる鍵を得ること.
         </t>
         <!--
         <t>
@@ -1995,7 +2020,7 @@
               </t>
               -->
               <t>
-                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> をオーディエンスとして含まなければならない(MUST).
+                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> を含まなければならない (MUST).
                 ID Token のオーディエンスに Client が含まれていなかったり, Client にとって信頼できない主体がオーディエンスに含まれている場合, その ID Token を拒絶しなければならない (MUST).
               </t>
               <!--
@@ -2011,7 +2036,7 @@
               </t>
               -->
               <t>
-                ID Token が複数のオーディエンスを含む場合, Client は <spanx style="verb">azp</spanx> Claim が存在するべきである(SHOULD).
+                ID Token が複数のオーディエンスを含む場合, Client は <spanx style="verb">azp</spanx> Claim が存在することを検証すべきである (SHOULD).
               </t>
               <!--
               <t>
@@ -2020,7 +2045,7 @@
               </t>
               -->
               <t>
-                <spanx style="verb">azp</spanx> Claim が存在する場合, Client はそれが自身の <spanx style="verb">client_id</spanx> と一致するべきである(SHOULD).
+                <spanx style="verb">azp</spanx> Claim が存在する場合, Client はそれが自身の <spanx style="verb">client_id</spanx> と一致することを検証すべきである (SHOULD).
               </t>
               <!--
               <t>
@@ -2031,8 +2056,8 @@
               -->
 
               <t>
-                Client は ID Token の署名を, JWT ヘッダ中の <spanx style="verb">alg</spanx> パラメータで指定されたアルゴリズムを使い, <xref target="JWS">JWS</xref> に従って検証しなければならない(MUST).
-                Client は Issuer によって提供された鍵を使わなければならない(MUST).
+                Client は ID Token の署名を, JWT ヘッダ中の <spanx style="verb">alg</spanx> パラメータで指定されたアルゴリズムを使い, <xref target="JWS">JWS</xref> に従って検証しなければならない (MUST).
+                Client は Issuer によって提供された鍵を使わなければならない (MUST).
               </t>
               <!--
               <t>
@@ -2057,7 +2082,7 @@
               -->
 
               <t>
-                現在時刻は <spanx style="verb">exp</spanx> Claim の時刻表現より前でなければならない (MUST).
+                現在時刻が <spanx style="verb">exp</spanx> Claim より前でなければならない (MUST).
                 (時計のズレを考慮した多少の猶予は許容される)
               </t>
               <!--
