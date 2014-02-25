@@ -63,7 +63,7 @@
     <abstract>
       <t>
         OpenID Connect 1.0 は, OAuth 2.0 プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
-        このプロトコルは Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証可能にする.
+        このプロトコルは, Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証することを可能にする.
         また同時に End-User の必要最低限のプロフィール情報を, 相互運用可能かつ RESTful な形で取得することも可能にする.
       </t>
       <!--
@@ -156,7 +156,7 @@
       -->
 
       <t>
-        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの制限付きアクセス権を取得および行使するための全般的フレームワークを提供している.
+        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの限定的アクセス権を取得および行使するための全般的フレームワークを提供している.
         これらはリソースアクセスのための Access Token を取得および行使する方法は定義するが, アイデンティティ情報を提供するための標準的手段は定義しない.
         とりわけ, OAuth 2.0 のプロファイリングを行わずに End-User の認証に必要な情報を提供することは不可能である.
         本ドキュメント読者は上記2つの仕様を理解していることが期待される.
@@ -208,7 +208,7 @@
       </t>
       -->
       <t>
-        本ドキュメントでは, Relying Party は既に Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
+        本ドキュメントでは, Relying Party は Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
         これらの情報は通常 <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> にある Discovery を通じて得られるが, その他の手段で得られることもある.
       </t>
       <!--
@@ -316,7 +316,7 @@
           -->
           <list style="hanging">
             <t hangText="Authentication">
-              提示された Identity と実際の Entity が紐づいていることを確認するプロセス.
+              提示された Identity と実際の Entity が紐づいているという十分な確信を得るためのプロセス.
             </t>
             <!--
             <t hangText="Authentication">
@@ -1407,7 +1407,7 @@
               <list style="hanging">
                 <t hangText="access_token">
                   REQUIRED.
-                  UserInfo Endpoint アクセスのための Access Token. 
+                  UserInfo Endpoint アクセスのための Access Token.
                 </t>
                 <!--
                 <t hangText="access_token">REQUIRED.
@@ -1619,7 +1619,7 @@
 
         <t>
           ID Token は, あるクライアントを使用している際に認可サーバーによる End-User の認証についてのクレームと, 他に要求されたクレームを含むセキュリティトークンである.
-          ID Token は <xref target="JWT">JSON Web Token (JWT)</xref> で表現される. 
+          ID Token は <xref target="JWT">JSON Web Token (JWT)</xref> で表現される.
         </t>
         <!--
         <t>
@@ -3103,7 +3103,7 @@
 
     <section anchor="SelfIssued" title="Self-Issued OpenID Provider">
       <t>
-        OpenID Connect は Self-Issued OpenID プロバイダー ( 私的な, 自己提供されたOpenID Providerであり, 自己署名つきのID Tokenを発行するもの ) をサポートしている. 
+        OpenID Connect は Self-Issued OpenID プロバイダー ( 私的な, 自己提供されたOpenID Providerであり, 自己署名つきのID Tokenを発行するもの ) をサポートしている.
         Self-Issued OP は
         <spanx style="verb">https://self-issued.me</spanx> という特別な Issuer 識別子を使用する.
       </t>
@@ -3151,7 +3151,7 @@
           </figure>
         </t>
         <t>
-          注記: OpenID ファウンデーションは 
+          注記: OpenID ファウンデーションは
           <spanx style="verb">https://self-issued.me/</spanx>
           という OpenID プロバイダーサイトを提供することを計画している.
           提供される内容には WebFinger サービスも含まれており, ディスカバリを実行すると上記の静的なディスカバリ情報を返すため, RP は Self-Issued OP のディスカバリのための特別な処理を行う必要はない.
@@ -3506,8 +3506,8 @@
           <list style="numbers">
             <t>
               クライアントは <spanx style="verb">iss</spanx> (issuer) クレームの値が <spanx style="verb">https://self-isued.me</spanx> であることを検証しなければならない (MUST).
-              もし <spanx style="verb">iss</spanx> が別の値を含んでいた場合, 
-              その ID トークンは自己発行されたものではないので, 
+              もし <spanx style="verb">iss</spanx> が別の値を含んでいた場合,
+              その ID トークンは自己発行されたものではないので,
               <xref target="IDTokenValidation"/>
               に沿って検証されなければならない (MUST).
             </t>
@@ -3893,7 +3893,7 @@
         or services or dynamic registration of Clients.</t>
         -->
 
-        <t>しかしながら, リライングパーティと OpenID プロバイダーの関係を事前に定義せず, 
+        <t>しかしながら, リライングパーティと OpenID プロバイダーの関係を事前に定義せず,
         特殊な接続をサポートしようとする場合は, <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>
         と <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
         の仕様を導入することにより実現すべきである (SHOULD).</t>
@@ -3912,7 +3912,7 @@
     <section anchor="Security" title="Security Considerations">
 
       <t>
-        以下に挙げたもの以外のセキュリティ上の考慮点については, 
+        以下に挙げたもの以外のセキュリティ上の考慮点については,
         <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> 仕様を参照すること.
       </t>
       <!--
@@ -4013,7 +4013,7 @@
       </section>
 
       <section anchor="Correlation" title="Correlation">
-        <t>クライアント間での紐づけの可能性からエンドユーザを保護するため, 
+        <t>クライアント間での紐づけの可能性からエンドユーザを保護するため,
         対となる匿名識別子 (PPID) を <spanx style="verb">sub</spanx> (subject)
         として使用することを検討すべきである (SHOULD).</t>
         <!--

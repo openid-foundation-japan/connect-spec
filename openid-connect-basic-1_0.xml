@@ -63,7 +63,7 @@
     <abstract>
       <t>
         OpenIC Connect 1.0 は, OAuth 2.0 プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
-        このプロトコルは Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証可能にする.
+        このプロトコルは, Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証することを可能にする.
         また同時に End-User の必要最低限のプロフィール情報を, 相互運用可能かつ RESTful な形で取得することも可能にする.
       </t>
       <!--
@@ -147,7 +147,7 @@
       -->
 
       <t>
-        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの制限付きアクセス権を取得および行使するための全般的フレームワークを提供している.
+        OpenID Connect のベースとなる <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref> と <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> は, 3rd-party アプリケーションが HTTP リソースへの限定的アクセス権を取得および行使するための全般的フレームワークを提供している.
         これらはリソースアクセスのための Access Token を取得および行使する方法は定義するが, アイデンティティ情報を提供するための標準的手段は定義しない.
         とりわけ, OAuth 2.0 のプロファイリングを行わずに End-User の認証に必要な情報を提供することは不可能である.
         本ドキュメント読者は上記2つの仕様を理解していることが期待される.
@@ -199,7 +199,7 @@
       </t>
       -->
       <t>
-        本ドキュメントでは, Relying Party は既に Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
+        本ドキュメントでは, Relying Party は Authorization Endpoint, Token Endpoint 等を含む OpenID Provider の設定情報を既に得ているものとする.
         これらの情報は通常 <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> にある Discovery を通じて得られるが, その他の手段で得られることもある.
       </t>
       <!--
@@ -309,7 +309,7 @@
           -->
           <list style="hanging">
             <t hangText="Authentication">
-              提示された Identity と実際の Entity が紐づいていることを確認するプロセス.
+              提示された Identity と実際の Entity が紐づいているという十分な確信を得るためのプロセス.
               <!--
               Process used to achieve sufficient confidence in the binding
               between the Entity and the presented Identity.
@@ -3124,7 +3124,7 @@
     <section anchor="Security" title="Security Considerations">
 
       <t>
-        以下に挙げられる以外のセキュティ上の考慮事項については, 
+        以下に挙げられる以外のセキュティ上の考慮事項については,
         <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> の仕様を参照.
       </t>
       <!--
@@ -3244,7 +3244,7 @@
         </t>
         -->
         <t>
-          Access Token がフロントチャネルから返って来た時に, トークンが攻撃者にさらされている危険性はおおいにあり, 
+          Access Token がフロントチャネルから返って来た時に, トークンが攻撃者にさらされている危険性はおおいにあり,
           その場合, 攻撃者は後でトークンを使ってUserInfoエンドポイントにアクセスできる.
           Access Token がオフラインアクセスを許可しておらず, 送られてきた Client リクエストがオフラインかオンラインかをサーバが区別することができれば, リスクは十分に軽減できる.
           故に本仕様では Access Token がフロントチェネルを通して送られてきた場合にはオフラインアクセスのリクエストを無視することを要求する.
