@@ -2105,12 +2105,12 @@
               The acceptable range is Client specific.</t>
               -->
 
-              <t>The value of the <spanx style="verb">nonce</spanx>
-              Claim MUST be checked to verify that
-              it is the same value as the one that was sent in the Authentication Request.
-              The Client SHOULD check the <spanx style="verb">nonce</spanx> value
-              for replay attacks.
-              The precise method for detecting replay attacks is Client specific.</t>
+              <t>
+                <spanx style="verb">nonce</spanx>
+                Claim の値が Authentication Request にて送られたものと一致することを確認するためにチェックされなければならない (MUST).
+                Client は <spanx style="verb">nonce</spanx> の値を リプレイアタックのためにチェックすべきである (SHOULD).
+                リプレイアタックを検知する正確な方法は Client によって異なる.
+              </t>
               <!--
               <t>The value of the <spanx style="verb">nonce</spanx>
               Claim MUST be checked to verify that
@@ -2120,10 +2120,10 @@
               The precise method for detecting replay attacks is Client specific.</t>
               -->
 
-              <t>If the <spanx style="verb">acr</spanx> Claim was requested, the
-              Client SHOULD check that the asserted Claim Value is appropriate.
-              The meaning and processing of
-              <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
+              <t>
+                <spanx style="verb">acr</spanx> Claim が 要求されたならば, Client は主張された Claim の値が適切かどうかをチェックすべきである (SHOULD).
+                <spanx style="verb">acr</spanx> Claim の値と意味はこの仕様の対象外である.
+              </t>
               <!--
               <t>If the <spanx style="verb">acr</spanx> Claim was requested, the
               Client SHOULD check that the asserted Claim Value is appropriate.
@@ -2132,10 +2132,8 @@
               -->
 
               <t>
-                When a <spanx style="verb">max_age</spanx> request is made,
-                the Client SHOULD check the <spanx style="verb">auth_time</spanx> Claim
-                value and request re-authentication if it determines too much time
-                has elapsed since the last End-User authentication.
+                <spanx style="verb">max_age</spanx> が要求されたならば,
+                Client は <spanx style="verb">auth_time</spanx> Claim の値をチェックし, もし最新のユーザー認証からあまりに長い時間が経過したと判定されたときは再認証を要求すべきである (SHOULD).
               </t>
               <!--
               <t>
@@ -2151,8 +2149,10 @@
         </section>
 
         <section anchor="AccessTokenValidation" title="Access Token Validation">
-          <t>To validate an Access Token issued with an ID Token in
-          the Implicit Flow, the Client SHOULD do the following:</t>
+          <t>
+            Implicit Flow で ID Token とともに 発行された Access Token を検証するには、
+            Client は以下を検証するべきである(SHOULD):
+          </t>
           <!--
           <t>To validate an Access Token issued with an ID Token in
           the Implicit Flow, the Client SHOULD do the following:</t>
@@ -2160,14 +2160,9 @@
 
           <t>
             <list style="numbers">
-              <t>Hash the octets of the ASCII representation of
-              the <spanx style="verb">access_token</spanx>
-              with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-              <spanx style="verb">alg</spanx>
-              parameter in the ID Token's <xref target="JWS">JWS</xref> header.
-              For instance, if the <spanx style="verb">alg</spanx> is
-              <spanx style="verb">RS256</spanx>,
-              the hash algorithm used is SHA-256.
+              <t>
+                <spanx style="verb">access_token</spanx> の ASCII オクテット列のハッシュ値を求める。このとき用いるハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> ヘッダーパラメータに対応する <xref target="JWA">JWA</xref> で定められたものである.
+                例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, ハッシュアルゴリズムは SHA-256である. 
               </t>
               <!--
               <t>Hash the octets of the ASCII representation of
@@ -2181,14 +2176,17 @@
               </t>
               -->
 
-              <t>Take the left-most half of the hash and base64url encode it.</t>
+              <t>
+                ハッシュ値の左半分を Base64URL エンコードする.
+              </t>
               <!--
               <t>Take the left-most half of the hash and base64url encode it.</t>
               -->
 
-              <t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
-              match the value produced in the previous step if <spanx style="verb">at_hash</spanx>
-              is present in the ID Token.</t>
+              <t>
+                ID Token に <spanx style="verb">at_hash</spanx> が存在する場合は,
+                その値は, 直前のステップで求めた値と一致しなければならない(MUST).
+              </t>
               <!--
               <t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
               match the value produced in the previous step if <spanx style="verb">at_hash</spanx>
