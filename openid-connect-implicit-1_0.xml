@@ -458,7 +458,7 @@
             </t>
             -->
             <t hangText="Self-Issued OpenID Provider">
-              私的な, 自己提供されたOpenID Providerであり, 自己署名つきのID Tokenを発行するもの.
+              私有の self-hosted な OpenID Providerであり, 自己署名つきの ID Token を発行するもの.
             </t>
             <!--
             <t hangText="Self-Issued OpenID Provider">
@@ -468,7 +468,6 @@
             <t hangText="Subject Identifier">
               Issuer にとって局地的にユニークで再利用されることのない End-User 識別子.
               この値は Client に利用されることを想定する.
-              which is intended to be consumed by the Client.
             </t>
             <!--
             <t hangText="Subject Identifier">
@@ -537,8 +536,9 @@
 
       <section anchor="Overview" title="Overview">
 
-        <t>The OpenID Connect protocol, in abstract, follows the following
-        steps.</t>
+        <t>
+          OpenID Connect プロトコルは, おおまかに言って以下のステップに従う.
+        </t>
         <!--
         <t>The OpenID Connect protocol, in abstract, follows the following
         steps.</t>
@@ -586,7 +586,7 @@
 
         <figure>
           <preamble>
-            これらの一連のステップは以下の通りである.
+            これら一連のステップを以下に図示する.
             <!--
             These steps are illustrated in the following diagram:
             -->

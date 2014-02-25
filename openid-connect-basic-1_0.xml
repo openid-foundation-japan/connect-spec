@@ -484,7 +484,7 @@
       <section anchor="Overview" title="Overview">
 
         <t>
-          OpenID Connect プロトコルは, おおまかに言って以下のステップの通りである.
+          これら一連のステップを以下に図示する.
         </t>
         <!--
         <t>The OpenID Connect protocol, in abstract, follows the following
@@ -533,7 +533,7 @@
 
         <figure>
           <preamble>
-            これらの一連のステップは以下の通りである.
+            これら一連のステップを以下に図示する.
             <!--
             These steps are illustrated in the following diagram:
             -->
