@@ -566,7 +566,7 @@
 
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
-        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいづれかのフローに従う.
+        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいずれかのフローに従う.
         Authorization Code Flow は, 認可サーバーとクライアント自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
         それが不可能な Client は Implicit Flow を用いる.
         しかしながら, Client Secret をセキュアに保持できないにも関わらず, Refresh Token 取得のためにしばしば Native アプリケーションやその他の Client が Authorization Code flow を利用することもある.
@@ -801,7 +801,7 @@
                 <t hangText="redirect_uri">
                   REQUIRED.
                   レスポンスが返される Redirection URI.
-                  この URI は, Client が OpenID Provider に対して事前に登録済みの Redirection URI のいづれかと完全一致しなければならない (MUST).
+                  この URI は, Client が OpenID Provider に対して事前に登録済みの Redirection URI のいずれかと完全一致しなければならない (MUST).
                   マッチングルールは <xref target="RFC3986"/> (Simple String Comparison) の Section 6.2.1 に従うこと.
                   Redirection URI は <spanx style="verb">https</spanx> スキーマを利用することが望まれる (SHOULD) が, Client Type が <spanx style="verb">confidential</spanx> であり, かつ OP が <spanx style="verb">http</spanx> の利用を容認する場合に限り, <spanx style="verb">http</spanx> スキーマを利用してもよい (MAY).
                   Client Type 等の定義については OAuth 2.0 の Section 2.1 を参照のこと.
@@ -844,7 +844,7 @@
             </t>
 
             <t>
-              本仕様は上記に加えて下記のリクエストパラメータを定義する.
+              本仕様は上記に加えて以下のリクエストパラメータを定義する.
             </t>
             <!--
             <t>
@@ -981,7 +981,7 @@
 
                     <t hangText="login">
                       Authorization Server は End-User を再認証するべきである (SHOULD).
-                      再認証が不可能な場合はエラーを返す. (MUST)
+                      再認証が不可能な場合はエラーを返す (MUST).
                       典型的なエラーコードは <spanx style="verb">login_required</spanx> である.
                       <!--
                       The Authorization Server SHOULD prompt the
@@ -1097,7 +1097,7 @@
                   さもなければ, Authorization Server はエラーを返す (SHOULD).
                   <spanx style="verb">prompt=none</spanx> を利用する場合は, 可能であれば <spanx style="verb">id_token_hint</spanx> を指定するべきであり (SHOULD), さもなければ <spanx style="verb">invalid_request</spanx> を返しても良い (MAY).
                   ただしサーバーはその場合可能な限りサクセスレスポンスを返すこと.
-                  <spanx style="verb">id_token_hint</spanx> 利用時は, ID Token の audience にAuthorization Server 自身が含まれている必要はない.
+                  <spanx style="verb">id_token_hint</spanx> 利用時は, ID Token の audience に Authorization Server 自身が含まれている必要はない.
                   <!--
                   OPTIONAL.
                   ID Token previously issued by the Authorization Server
@@ -2906,7 +2906,7 @@
 
     <section anchor="Serializations" title="Serializations">
       <t>
-        リクエストメッセージは以下のいづれかの方法でシリアライズ化されることがある(MAY):
+        リクエストメッセージは以下のいずれかの方法でシリアライズ化されることがある(MAY):
         <list style="numbers">
           <t>Query String Serialization</t>
           <t>Form Serialization</t>

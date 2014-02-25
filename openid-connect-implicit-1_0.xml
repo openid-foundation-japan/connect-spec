@@ -619,7 +619,7 @@
 
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
-        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいづれかのフローに従う.
+        Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいずれかのフローに従う.
         Authorization Code Flow は, 認可サーバーとクライアント自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
         それが不可能な Client は Implicit Flow を用いる.
         しかしながら, Client Secret をセキュアに保持できないにも関わらず, Refresh Token 取得のためにしばしば Native アプリケーションやその他の Client が Authorization Code flow を利用することもある.
@@ -694,7 +694,7 @@
             -->
 
             <t>
-              Authorization Server は End-User を ID Token および, もし要求されていれば Access Token とともに, Client に戻す.
+              Authorization Server は End-User を ID Token, およびもし要求されていれば Access Token とともに, Client に戻す.
             </t>
             <!--
             <t>Authorization Server sends the End-User back to the Client with
@@ -796,10 +796,9 @@
               <list style="hanging">
                 <t hangText="response_type">
                   REQUIRED.
-                  値は<spanx style="verb">id_token</spanx>および
-                  <spanx style="verb">token</spanx>を空白で区切ったリストである.
+                  値は <spanx style="verb">id_token</spanx> および <spanx style="verb">token</spanx> を空白で区切ったリストである.
                   これにより, Authorization Endpoint から Access Token および ID Token の両方が返される.
-                  複数のresponse typeの指定は<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>で説明されている.
+                  詳細は <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> 参照.
                 </t>
                 <!--
                 <t hangText="response_type">
@@ -853,12 +852,12 @@
                 <t hangText="redirect_uri">
                   REQUIRED.
                   レスポンスが返される Redirection URI.
-                  この URI は, Client が OpenID Provider に対して事前に登録済みの Redirection URI のいづれかと完全一致しなければならない (MUST).
+                  この URI は, Client が OpenID Provider に対して事前に登録済みの Redirection URI のいずれかと完全一致しなければならない (MUST).
                   マッチングルールは <xref target="RFC3986"/> (Simple String Comparison) の Section 6.2.1 に従うこと.
-                  Redirection URIは<spanx style="verb">http</spanx>スキーマを使用してはならない(MUST NOT).
-                  ただし, Clientがネイティブアプリケーションである場合は,
+                  Redirection URI は <spanx style="verb">http</spanx> スキーマを使用してはならない (MUST NOT).
+                  ただし, Client がネイティブアプリケーションである場合は,
                   <spanx style="verb">http:</spanx> スキーマをホスト部
-                  <spanx style="verb">localhost</spanx> と組み合わせて使うことができる(MAY).
+                  <spanx style="verb">localhost</spanx> と組み合わせて使うことができる (MAY).
                 </t>
                 <!--
                 <t hangText="redirect_uri">
@@ -896,7 +895,7 @@
             </t>
 
             <t>
-              本仕様は上記に加えて下記のリクエストパラメータを定義する.
+              本仕様は上記に加えて以下のリクエストパラメータを定義する.
             </t>
             <!--
             <t>
@@ -987,9 +986,7 @@
                     -->
 
                     <t hangText="wap">
-                      The Authorization Server SHOULD display the
-                      authentication and consent UI consistent with a "feature phone"
-                      type display.
+                      Authorization Server は認証および同意 UI を "feature phone" に適した形で表示すべきである (SHOULD).
                     </t>
                     <!--
                     <t hangText="wap">
@@ -1045,7 +1042,7 @@
 
                     <t hangText="login">
                       Authorization Server は End-User を再認証するべきである (SHOULD).
-                      再認証が不可能な場合はエラーを返す. (MUST)
+                      再認証が不可能な場合はエラーを返す (MUST).
                       典型的なエラーコードは <spanx style="verb">login_required</spanx> である.
                     </t>
                     <!--
@@ -1173,7 +1170,7 @@
                   さもなければ, Authorization Server はエラーを返す (SHOULD).
                   <spanx style="verb">prompt=none</spanx> を利用する場合は, 可能であれば <spanx style="verb">id_token_hint</spanx> を指定するべきであり (SHOULD), さもなければ <spanx style="verb">invalid_request</spanx> を返しても良い (MAY).
                   ただしサーバーはその場合可能な限りサクセスレスポンスを返すこと.
-                  <spanx style="verb">id_token_hint</spanx> 利用時は, ID Token の audience にAuthorization Server 自身が含まれている必要はない.
+                  <spanx style="verb">id_token_hint</spanx> 利用時は, ID Token の audience に Authorization Server 自身が含まれている必要はない.
                 </t>
                 <!--
                 <t hangText="id_token_hint">
@@ -1245,9 +1242,8 @@
 
                 <t hangText="registration">
                   OPTIONAL.
-                  Clientが自身の情報を Self-Issued OP に提供するために使用される.
-                  この値は通常, Dynamic Client Registration の中で, OPに提供される.
-                  <xref target="RegistrationParameter"/>を参照.
+                  Client が自身の情報を Self-Issued OP に提供するために使用される.
+                  なお, 通常 Client は自身の情報を Dynamic Client Registration (<xref target="RegistrationParameter"/> 参照) を通じて OP に提供する.
                 </t>
                 <!--
                 <t hangText="registration">
