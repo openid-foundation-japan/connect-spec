@@ -3063,24 +3063,38 @@
 
 	<section anchor="HybridAuthorizationEndpoint" title="Authorization Endpoint">
 
+	  
 	  <t>
+	    ハイブリッドフローを使用する場合, 認可エンドポイントは, このセクションで指定された違いを除いて, <xref target="AuthorizationEndpoint"/>で定義されるように, 認可コードフローと同様の方式で利用される.
+	  </t>
+	  <!-- <t>
 	    When using the Hybrid Flow, the Authorization Endpoint is used
 	    in the same manner as for the Authorization Code Flow,
 	    as defined in <xref target="AuthorizationEndpoint"/>,
 	    with the exception of the differences specified in this section.
-	  </t>
+	  </t> -->
 
 	  <section anchor="HybridAuthRequest" title="Authentication Request">
 
 	    <t>
+	      認証リクエストは, 以下で示される認証リクエストパラメータを除いて, <xref target="AuthRequest"/>で定義されたように作成される.
+	    </t>
+	    <!-- <t>
 	      Authentication Requests are made
 	      as defined in <xref target="AuthRequest"/>,
 	      except that these Authentication Request parameters
 	      are used as follows:
-	    </t>
+		</t> -->
 	    <t>
 	      <list style="hanging">
 		<t hangText="response_type">
+		  必須.
+		  使用されたエンドポイントから返却されたパラメータの扱いを含む, 使用される認証処理の流れを決定するOAuth2.0のレスポンスタイプパラメータ.
+		  ハイブリッドフローを使用する場合, この値は<spanx style="verb">code&nbsp;id_token</spanx>か,
+		  <spanx style="verb">code&nbsp;token</spanx>, または, <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>である.
+		  これらの値の意味は, <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>で定義されている.
+          </t>
+		<!-- <t hangText="response_type">
 		  REQUIRED.
 		  OAuth 2.0 Response Type value that determines
 		  the authorization processing flow to be used,
@@ -3091,7 +3105,7 @@
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
 		  The meanings of these values are defined in
 		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-		</t>
+		</t> -->
 
 	      </list>
 	    </t>
@@ -3099,11 +3113,16 @@
 
 	    <figure>
 	      <preamble>
+        クライアントが対応するHTTP302リダイレクト応答に応じて, ユーザエージェントによって,
+        認可サーバへ送信されるであろう, ハイブリッドフローを用いた非標準のリクエスト例を以下に示す.
+        (表示目的のための値の範囲内での行折り返しを含む):
+          </preamble>
+	      <!-- <preamble>
 		The following is a non-normative example request using the Hybrid Flow
 		that would be sent by the User Agent to the Authorization Server
 		in response to a corresponding HTTP 302 redirect response by the Client
 		(with line wraps within values for display purposes only):
-	      </preamble>
+		  </preamble> -->
 
 	      <artwork><![CDATA[
   GET /authorize?
@@ -3122,43 +3141,67 @@
 	  <section anchor="HybridValidation" title="Authentication Request Validation">
 
 	    <t>
+	      ハイブリッドフローを使用する場合, 認証リクエストは<xref target="AuthRequestValidation"/>で定義されるように, 認可コードフローと同じ方式で検証される.
+	    </t>
+	    <!-- <t>
 	      When using the Hybrid Flow, the Authentication Request is validated
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="AuthRequestValidation"/>.
-	    </t>
+		</t> -->
 	  </section>
 
 	  <section anchor="HybridAuthenticates" title="Authorization Server Authenticates End-User">
 
 	    <t>
+	      ハイブリッドフローを使用する場合, エンドユーザの認証は<xref target="Authenticates"/>で定義されるように, 認可コードフローと同じ方式で実施される.
+		</t>
+	    <!-- <t>
 	      When using the Hybrid Flow, End-User Authentication is performed
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="Authenticates"/>.
-	    </t>
+		</t> -->
 	  </section>
 
 	  <section anchor="HybridConsent" title="Authorization Server Obtains End-User Consent/Authorization">
 
-	    <t>
+		<t>
+		  ハイブリッドフローを使用する場合, エンドユーザの同意は<xref target="Consent"/>で定義されるように, 認可コードフローと同じ方式で得られる.
+		</t>
+		<!-- <t>
 	      When using the Hybrid Flow, End-User Consent is obtained
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="Consent"/>.
-	    </t>
+		</t> -->
 	  </section>
 
 	  <section anchor="HybridAuthResponse" title="Successful Authentication Response">
 
 	    <t>
+	      ハイブリッドフローを使用する場合, 認証レスポンスは, このセクションで指定された違いを除いて, <xref target="ImplicitAuthResponse"/>で定義されるように, インプリシットフローと同じ方式で作成される.
+		</t>
+	    <!-- <t>
 	      When using the Hybrid Flow, Authentication Responses are made
 	      in the same manner as for the Implicit Flow,
 	      as defined in <xref target="ImplicitAuthResponse"/>,
 	      with the exception of the differences specified in this section.
-	    </t>
+		</t> -->
 
 	    <t>
-	      These Authorization Endpoint results are used in the following manner:
+		  これらの認可エンドポイントの結果は, 以下のように使用される.
 	    </t>
+	    <!-- <t>
+	      These Authorization Endpoint results are used in the following manner:
+		</t> -->
             <t>
+	      <list style="hanging">
+		         <t hangText="access_token">
+		  OAuth2.0のAccess Token.
+		  <spanx style="verb">response_type</spanx>の値が, 
+		  <spanx style="verb">code&nbsp;token</spanx> か, 
+		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>の場合返却される.
+		  (同じケースでは<spanx style="verb">token_type</spanx>の値も返却される.)
+		</t>
+			<!-- <t>
 	      <list style="hanging">
                 <t hangText="access_token">
 		  OAuth 2.0 Access Token.
@@ -3167,28 +3210,44 @@
 		  <spanx style="verb">code&nbsp;token</spanx>,
 		  or <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
 		  (A <spanx style="verb">token_type</spanx> value is also returned in the same cases.)
-		</t>
+		</t> -->
 
                 <t hangText="id_token">
+		  ID Token.
+		  <spanx style="verb">response_type</spanx>の値が, 
+		  <spanx style="verb">code&nbsp;id_token</spanx> か
+		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>の場合返却される.
+		</t>
+
+           <!--     <t hangText="id_token">
 		  ID Token.
 		  This is returned
 		  when the <spanx style="verb">response_type</spanx> value used is
 		  <spanx style="verb">code&nbsp;id_token</spanx> or
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
-		</t>
+		</t> -->
 
                 <t hangText="code">
 		  Authorization Code.
-		  This is always returned when using the Hybrid Flow.
+		  ハイブリッドフローでは常に返却される.
 		</t>
+
+				<!--<t hangText="code">
+		  Authorization Code.
+		  This is always returned when using the Hybrid Flow.
+		</t> -->
 
               </list>
 	    </t>
 
             <figure>
-              <preamble>The following is a non-normative example
+			<preamble>
+			  ハイブリッドフローを使用する際の非標準の成功レスポンスの例を以下に示す.
+			  (表示目的のための折り返しを含む)
+			</preamble>
+              <!-- <preamble>The following is a non-normative example
 	      of a successful response using the Hybrid Flow
-	      (with line wraps for the display purposes only):</preamble>
+		  (with line wraps for the display purposes only):</preamble> -->
 
               <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -3204,12 +3263,23 @@
 	  <section anchor="HybridAuthError" title="Authentication Error Response">
 
 	    <t>
+		  ハイブリッドフローを使用する場合, 認証エラーレスポンスは, この章で指定された違いを除いて, <xref target="AuthError"/>で定義されるように, 認可コードフローと同じ方式で作成される
+		</t>
+
+	    <!-- <t>
 	      When using the Hybrid Flow, Authorization Error Responses are made
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="AuthError"/>,
 	      with the exception of the differences specified in this section.
-	    </t>
+		</t> -->
             <t>
+		  もしエンドユーザがリクエストを拒否または認証に失敗した場合, 
+		  認可サーバは, 異なるResponse Modeが定義されていない限り, 
+		  <xref target="RFC6749">OAuth 2.0</xref>の4.2.2.1章と<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>に定義されるように, 
+		  リダイレクトURIのフラグメントコンポーネントに含めて, error Authorization Responseを返却しなければならない(MUST)
+			</t>
+
+            <!-- <t>
 	      If the End-User denies the request or the End-User authentication
 	      fails, the Authorization Server MUST return the error
 	      Authorization Response in the
@@ -3218,7 +3288,7 @@
 	      <xref target="RFC6749">OAuth 2.0</xref> and
 	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
 	      unless a different Response Mode was specified.
-	    </t>
+		</t> -->
 	  </section>
 
 	  <section anchor="HybridCallback" title="Redirect URI Fragment Handling">
