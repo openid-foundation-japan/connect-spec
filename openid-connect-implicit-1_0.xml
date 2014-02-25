@@ -1517,11 +1517,12 @@
           <section anchor="ImplicitCallback"
                    title="Redirect URI Fragment Handling">
             <t>
-              Since response parameters are returned in the Redirection URI fragment value,
-              the Client needs to have the User Agent parse the fragment encoded values
-              and pass them to on to the Client's processing logic for consumption.
-              User Agents that have direct access to cryptographic APIs may be able to be
-              self-contained, for instance, with all Client code being written in JavaScript.
+              レスポンスのパラメータは Redirection URI フラグメントで渡されるため,
+              Client はフラグメントエンコードされた値を User Agent でパースして
+              Client の処理ロジックに送る必要がある.
+              暗号APIに直接アクセス可能な User Agent では,
+              例えばすべての Client コードを JavaScript で書くことにより,
+              処理を User Agent 内で完結することができる.
             </t>
             <!--
             <t>
@@ -1533,9 +1534,8 @@
             </t>
             -->
             <t>
-              However, if the Client does not run entirely in the User Agent,
-              one way to achieve this
-              is to post them to a Web Server Client for validation.
+              しかし, Client 処理が User Agent 内で完結しない場合には,
+              パラメータを Web Server Client へポストして検証する方法がある.
             </t>
             <!--
             <t>
@@ -1545,10 +1545,13 @@
             </t>
             -->
 
-            <t>The following is an example of a JavaScript file that a Client might host at its
-            <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
-            the Authorization Server.  The fragment component is parsed and then sent by <spanx style="verb">POST</spanx> to a URI
-            that will validate and use the information received.</t>
+            <t>
+              以下はクライアントが <spanx style="verb">redirect_uri</spanx> で提供する
+              JavaScript ファイルの例である. このファイルは Authorization Server からの
+              リダイレクトによって読み込まれる. フラグメント部分はパースされ,
+              <spanx style="verb">POST</spanx> によって送信される先の URI で検証と
+              ユーザー情報の受信が行われる.
+            </t>
             <!--
             <t>The following is an example of a JavaScript file that a Client might host at its
             <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
@@ -1557,8 +1560,13 @@
             -->
 
             <figure>
+              <preamble>
+                以下に Redirect URI レスポンスの例を示す.
+              </preamble>
+              <!--
               <preamble>Following is a non-normative example of a
               Redirect URI response:</preamble>
+              -->
               <artwork><![CDATA[
   GET /cb HTTP/1.1
   Host: client.example.org
@@ -1610,11 +1618,8 @@
       <section anchor="IDToken" title="ID Token">
 
         <t>
-          The ID Token is a security token that contains Claims about the
-          authentication of an End-User by an Authorization Server when using a Client,
-          and potentially other requested Claims.
-          The ID Token is represented as a
-          <xref target="JWT">JSON Web Token (JWT)</xref>.
+          ID Token は, あるクライアントを使用している際に認可サーバーによる End-User の認証についてのクレームと, 他に要求されたクレームを含むセキュリティトークンである.
+          ID Token は <xref target="JWT">JSON Web Token (JWT)</xref> で表現される. 
         </t>
         <!--
         <t>
@@ -1626,7 +1631,9 @@
         </t>
         -->
 
-        <t>The following Claims are used within the ID Token:</t>
+        <t>
+          ID Token 内で以下のクレームが使用される:
+        </t>
         <!--
         <t>The following Claims are used within the ID Token:</t>
         -->
@@ -1635,11 +1642,7 @@
           <list style="hanging">
             <t hangText="iss">
               REQUIRED.
-              Issuer Identifier for the Issuer of the response.
-              The <spanx style="verb">iss</spanx> value is a case sensitive URL
-              using the <spanx style="verb">https</spanx> scheme that
-              contains scheme, host, and optionally, port number and path
-              components and no query or fragment components.
+      必須(REQUIRED).レスポンスの発行者のための Issuer 識別子.<spanx style="verb">iss</spanx> の値は, クエリやフラグメントの要素を含まないスキーム, ホスト, 任意のポート番号とパスからなる <spanx style="verb">https</spanx> スキームを使用した大文字と小文字を区別する URL である.
             </t>
             <!--
             <t hangText="iss">
@@ -1654,13 +1657,7 @@
 
             <t hangText="sub">
               REQUIRED.
-              Subject Identifier. Locally unique and never
-              reassigned identifier within the Issuer for the End-User,
-              which is intended to be consumed by the Client,
-              e.g., <spanx style="verb">24400320</spanx>
-              or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-              It MUST NOT exceed 255 ASCII characters in length.
-              The <spanx style="verb">sub</spanx> value is a case sensitive string.
+              Subject 識別子.例えば, <spanx style="verb">24400320</spanx> や <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx> のようなクライアントに使われることを意図し, End-User のための発行者内で一意であり決して再割り当てされない識別子である.ASCII で255文字を超えてはならない(MUST NOT).<spanx style="verb">sub</spanx> の値は大文字と小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="sub">
@@ -1677,16 +1674,7 @@
 
             <t hangText="aud">
               REQUIRED.
-              Audience(s) that this ID Token is intended for.
-              It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
-              of the Relying Party as an audience value.
-              It MAY also contain identifiers for other audiences.
-              In the general case,
-              the <spanx style="verb">aud</spanx> value is an array of
-              case sensitive strings.
-              In the common special case when there is one audience,
-              the <spanx style="verb">aud</spanx> value MAY be a single
-              case sensitive string.
+              この ID Token を対象とする Audience(s). audience の値として Relying Party のOAuth 2.0 の <spanx style="verb">client_id</spanx> を含まなければならない(MUST). また他の audiences のための識別子を含んでもよい(MAY). 一般的な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別する文字列の配列である. audience が1つである際の共通の特殊な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別した文字列でもよい(MAY).
             </t>
             <!--
             <t hangText="aud">
@@ -1704,8 +1692,10 @@
             </t>
             -->
 
-            <t hangText="exp">REQUIRED.
-            Expiration time on or after which the ID Token MUST NOT be
+            <t hangText="exp">
+              REQUIRED.
+              それ以降, ID Token を処理のために受け入れてはいけない有効期限(MUST NOT).このパラメーターの処理は, 現在の日時が値の中に記載されている有効期限の日時以前でなければならない(MUST). 実装者は, クロック・スキューを考慮するために, 通常は数分間以下の多少の余地を提供してもよい(MAY). その値は, その日時まで UTC で計測される 1970-01-01T0:0:0Z からの秒数を表す JSON 数値である. 一般的な日時, および特に UTC の詳細については <xref target="RFC3339">RFC 3339</xref> を参照すること.
+              Expiration time on or after which the ID Token MUST NOT be
             accepted for processing. The processing of this parameter
             requires that the current date/time MUST be before the
             expiration date/time listed in the value. Implementers MAY
@@ -1733,10 +1723,9 @@
             </t>
             -->
 
-            <t hangText="iat">REQUIRED.
-            Time at which the JWT was issued.
-            Its value is a JSON number representing the number of seconds from
-            1970-01-01T0:0:0Z as measured in UTC until the date/time.
+            <t hangText="iat">
+              REQUIRED.
+              JWT が発行された時刻. その値は, その日時まで UTC で計測される 1970-01-01T0:0:0Z からの秒数を表す JSON 数値である.
             </t>
             <!--
             <t hangText="iat">REQUIRED.
@@ -1747,11 +1736,7 @@
             -->
 
             <t hangText="auth_time">
-            Time when the End-User authentication occurred.
-            Its value is a JSON number representing the number of seconds from
-            1970-01-01T0:0:0Z as measured in UTC until the date/time.
-            When a <spanx style="verb">max_age</spanx> request is made
-            then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
+              End-User の認証が行われた時刻. その値は, その日時まで UTC で計測される 1970-01-01T0:0:0Z からの秒数を表す JSON 数値である. <spanx style="verb">max_age</spanx> リクエストが生成されたとき, このクレームは必須である(REQUIRED). そうでなければ任意である(OPTIONAL).
             </t>
             <!--
             <t hangText="auth_time">
@@ -1765,18 +1750,7 @@
 
             <t hangText="nonce">
               REQUIRED.
-              String value used to associate a Client session
-              with an ID Token, and to mitigate replay attacks.
-              The value is passed through unmodified from the Authentication Request to the ID Token.
-              Clients MUST verify that
-              the <spanx style="verb">nonce</spanx> Claim Value is equal to
-              the value of the <spanx style="verb">nonce</spanx>
-              parameter sent in the Authentication Request.
-              If present in the Authentication Request, Authorization Servers
-              MUST include a <spanx style="verb">nonce</spanx> Claim in the
-              ID Token with the Claim Value
-              being the nonce value sent in the Authentication Request.
-              The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+              ID Token と Client セッションを関連づけ, リプレイアタックを軽減するために使用される文字列値. その値は, 認証リクエストから変更されずに ID Token に渡される. クライアントはその <spanx style="verb">nonce</spanx> クレームの値が Authorization Request で送信された <spanx style="verb">nonce</spanx> パラメータの値と同じであるか検証しなければならない(MUST). Authorization Request に存在する場合, Authorization Server は ID Token の中に <spanx style="verb">nonce</spanx> を含め, その Claim Value を Authorization Request から送信された nonce の値としなければならない(MUST). <spanx style="verb">nonce</spanx> 値は大文字と小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="nonce">
@@ -1798,21 +1772,11 @@
 
             <t hangText="at_hash">
               REQUIRED.
-              Access Token hash value.
-              If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-              in an Implicit Flow, this is REQUIRED,
-              which is the case for this subset of OpenID Connect.
-              Its value is the base64url encoding of the left-most half of the
-              hash of the octets of the ASCII representation of the
-              <spanx style="verb">access_token</spanx> value,
-              where the hash algorithm used is the hash algorithm
-              used in the <spanx style="verb">alg</spanx> parameter
-              of the ID Token's <xref target="JWS">JWS</xref> header.
-              For instance, if the <spanx style="verb">alg</spanx> is
-              <spanx style="verb">RS256</spanx>, hash the
-              <spanx style="verb">access_token</spanx> value
-              with SHA-256, then take the left-most 128 bits and base64url encode them.
-              The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
+              Access Token のハッシュ値.
+              Implicit Flow 内で ID Token が <spanx style="verb">access_token</spanx> とともに発行された場合(この項で説明しているOpenID Connectのサブセットではこのケースに該当する), このクレームは必須である(REQUIRED).
+              この値は, <spanx style="verb">access_token</spanx> の ASCII バイト列のハッシュ値の左半分を Basd64URL エンコードしたものであり, ハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> で用いられるハッシュアルゴリズムと同じものを用いる.
+              例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, <spanx style="verb">access_token</spanx> の SHA-256 ハッシュ値を計算し, その左半分の128ビットを Base64URL エンコードする.
+              <spanx style="verb">at_hash</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="at_hash">
@@ -1837,25 +1801,9 @@
 
             <t hangText="acr">
               OPTIONAL.
-              Authentication Context Class Reference.
-              String specifying an Authentication Context Class Reference value
-              that identifies the Authentication Context Class that the
-              authentication performed satisfied.
-              The value "0" indicates the End-User authentication
-              did not meet the requirements of
-              <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
-              Authentication using a long-lived browser cookie, for instance, is one
-              example where the use of "level 0" is appropriate. Authentications with
-              level 0 SHOULD NOT be used to authorize access to any resource of any
-              monetary value.
-              An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
-              registered name
-              SHOULD be used as the <spanx style="verb">acr</spanx> value;
-              registered names MUST NOT be used with a different meaning than
-              that which is registered.
-              Parties using this claim will need to agree upon the meanings of
-              the values used, which may be context-specific.
-              The <spanx style="verb">acr</spanx> value is a case sensitive string.
+              Authentication Context Class Reference. 認証が成功して実行される Authentication Class Class を識別する Authentication Context Class Reference の値を指定する文字列. 値 "0" は, End-User の認証が <xref target="ISO29115">ISO/IEC 29115</xref> level 1 の要求に合っていなかったことを示す. 例えば, 長期間有効なブラウザー Cookie を使用する認証は "level 0" の使用が適切な場合の例である. level 0 を用いた認証は金銭的な値のリソースへのアクセスを認可するために使用すべきではない(SHOULD NOT).
+              <spanx style="verb">acr</spanx> 値として, 絶対 URI あるいは <xref target="RFC6711">RFC 6711</xref> の予約語を使用すべきである(SHOULD). 予約語は登録されているものとは異なる意味で使用してはいけない(MUST NOT). このクレームを使用している. 両 Party はコンテキスト固有であるかもしれない使用されているその値の意味について合意している必要がある.
+              <spanx style="verb">acr</spanx> 値は大文字と小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="acr">
@@ -1884,18 +1832,7 @@
 
             <t hangText="amr">
               OPTIONAL.
-              Authentication Methods References.
-              JSON array of strings that are identifiers for authentication methods
-              used in the authentication.
-              For instance, values might indicate that both password and OTP
-              authentication methods were used.
-              The definition of particular values to be used in the
-              <spanx style="verb">amr</spanx> Claim
-              is beyond the scope of this specification.
-              Parties using this claim will need to agree upon the meanings of
-              the values used, which may be context-specific.
-              The <spanx style="verb">amr</spanx> value is an array of
-              case sensitive strings.
+              Authentication Methods References. 認証の中で使用される認証方式の識別子となる文字列の JSON 配列である. 例えば, 値はパスワードと OTP 認証方法の両方が使用されることを示すかもしれない. <spanx style="verb">amr</spanx> Claim で使用されるそれぞれの値の定義は, この仕様の範囲を超える. 両 Party はコンテキスト固有であるかもしれない使用されているその値の意味について合意している必要がある. <spanx style="verb">amr</spanx> 値は大文字と小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="amr">
@@ -1917,16 +1854,7 @@
 
             <t hangText="azp">
               OPTIONAL.
-              Authorized party - the party to which the ID Token was issued.
-              If present, it MUST contain the OAuth 2.0
-              Client ID of this party.
-              This Claim is only needed when
-              the ID Token has a single audience value
-              and that audience is different than the authorized party.
-              It MAY be included even when the authorized party is the same
-              as the sole audience.
-              The <spanx style="verb">azp</spanx> value is a case sensitive string
-              containing a StringOrURI value.
+            Authorized party. ID Token を発行された party である. 存在す婦場合, この party の OAuth 2.0 Client ID を含めなければならない(MUST). ID Token が単一の audience 値を含み, その audience が authorized party とは異なるときにのみこの Claim が必要である. Authorized party がその単一の audience と同じときであっても含んでよい(MAY). <spanx style="verb">azp</spanx> 値は文字列または URI を含む大文字と小文字を区別する文字列である.
             </t>
             <!--
             <t hangText="azp">
@@ -1945,15 +1873,12 @@
             -->
 
             <t hangText="sub_jwk">
-              Public key used to check the signature of an ID Token
-              issued by a Self-Issued OpenID Provider,
-              as specified in <xref target="SelfIssued"/>.
-              The key is a bare key in JWK <xref target="JWK"/> format
-              (not an X.509 certificate value).
-              Use of the <spanx style="verb">sub_jwk</spanx> Claim
-              is REQUIRED when the OP is a Self-Issued OP and
-              is NOT RECOMMENDED when the OP is not Self-Issued.
-              The <spanx style="verb">sub_jwk</spanx> value is a JSON object.
+              <xref target="SelfIssued"/>で定義されるとおり, Self-Issued OpenID Provider から発行された ID Token の署名検証に使われる公開鍵.
+              鍵は <xref target="JWK"/> フォーマットのベア鍵である(X.509証明書ではない).
+              <spanx style="verb">sub_jwk</spanx> Claim の使用は,
+              OP が Self-Issued OP の場合は必須(REQUIRED)であり,
+              そうでない場合は推奨されない(NOT RECOMMENDED).
+              <spanx style="verb">sub_jwk</spanx> 値は JSON オブジェクトである.
             </t>
             <!--
             <t hangText="sub_jwk">
@@ -1973,8 +1898,8 @@
         </t>
 
         <t>
-          ID Tokens MAY contain other Claims.
-          Any Claims used that are not understood MUST be ignored.
+          ID Token は他の Claim を含むかもしれない(MAY).
+          理解できないすべての Claim は無視しなければならない(MUST).
         </t>
         <!--
         <t>
@@ -1983,10 +1908,9 @@
         </t>
         -->
 
-        <t>ID Tokens MUST be signed using <xref
-        target="JWS">JWS</xref>.
-        Clients MUST validate the ID Token per
-        <xref target="IDTokenValidation"/>.
+        <t>
+          ID Token は <xref target="JWS">JWS</xref> を使って署名されなければならない(MUST).
+          Client は ID Token を <xref target="IDTokenValidation"/> に従って検証しなければならない(MUST).
         </t>
         <!--
         <t>ID Tokens MUST be signed using <xref
@@ -1996,14 +1920,13 @@
         </t>
         -->
         <t>
-          ID Tokens SHOULD NOT use the JWS or JWE
+          ID Token は JWS ないしJWE の
           <spanx style="verb">x5u</spanx>,
           <spanx style="verb">x5c</spanx>,
-          <spanx style="verb">jku</spanx>, or
+          <spanx style="verb">jku</spanx>, または
           <spanx style="verb">jwk</spanx>
-          header parameter fields.
-          Instead, keys used for ID Tokens are
-          communicated in advance using Discovery and Registration parameters.
+          ヘッダーパラメータフィールドを使用するべきではない(SHOULD NOT).
+          ID Token で使用される鍵は Discovery および Registration パラメータとして, 事前に提供される.
         </t>
         <!--
         <t>
@@ -2019,8 +1942,13 @@
         -->
 
         <figure>
+          <preamble>
+            以下は Base64URL デコードされた ID Token の例である.
+          </preamble>
+          <!--
           <preamble>The following is a non-normative example of a base64url decoded
           ID Token:</preamble>
+          -->
 
           <artwork><![CDATA[
   {
@@ -2038,9 +1966,7 @@
         <section anchor="IDTokenValidation" title="ID Token Validation">
 
           <t>
-            If any of the validation procedures defined in this specification fail, any operations requiring
-            the information that failed to correctly validate MUST be aborted and
-            the information that failed to validate MUST NOT be used.
+            本仕様の定めるバリデーションが1つでも失敗した場合, バリデーションが失敗した情報を必要とする処理を全て中止し (MUST), バリデーションが失敗した情報を利用してはならない (MUST NOT).
           </t>
           <!--
           <t>
@@ -2050,8 +1976,9 @@
           </t>
           -->
 
-          <t>To validate the ID Token in the Authorization Response,
-          the Client MUST do the following:</t>
+          <t>
+            Authorization Response の ID Token を検証するために, Client は以下を検証しなければならない(MUST):
+          </t>
           <!--
           <t>To validate the ID Token in the Authorization Response,
           the Client MUST do the following:</t>
@@ -2061,10 +1988,7 @@
             <list style="numbers">
 
               <t>
-                The Issuer Identifier for the OpenID Provider
-                (which is typically obtained during Discovery)
-                MUST exactly match the value of the
-                <spanx style="verb">iss</spanx> (issuer) Claim.
+                OpenID Provider の Issuer Identifier (これは通常 Discovery によって得られる) が <spanx style="verb">iss</spanx> (issuer) Claim と一致しなければならない (MUST).
               </t>
               <!--
               <t>
@@ -2075,14 +1999,8 @@
               </t>
               -->
               <t>
-                The Client MUST validate that the
-                <spanx style="verb">aud</spanx> (audience) Claim
-                contains its <spanx style="verb">client_id</spanx> value
-                registered at the Issuer identified by the
-                <spanx style="verb">iss</spanx> (issuer) Claim
-                as an audience.
-                The ID Token MUST be rejected if the ID Token does not list
-                the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
+                <spanx style="verb">aud</spanx> Claim が, <spanx style="verb">iss</spanx> Claim に紐づく Issuer に登録されている Client 自身の <spanx style="verb">client_id</spanx> をオーディエンスとして含まなければならない(MUST).
+                ID Token のオーディエンスに Client が含まれていなかったり, Client にとって信頼できない主体がオーディエンスに含まれている場合, その ID Token を拒絶しなければならない (MUST).
               </t>
               <!--
               <t>
@@ -2097,8 +2015,7 @@
               </t>
               -->
               <t>
-                If the ID Token contains multiple audiences, the Client SHOULD verify
-                that an <spanx style="verb">azp</spanx> Claim is present.
+                ID Token が複数のオーディエンスを含む場合, Client は <spanx style="verb">azp</spanx> Claim が存在するべきである(SHOULD).
               </t>
               <!--
               <t>
@@ -2107,9 +2024,7 @@
               </t>
               -->
               <t>
-                If an <spanx style="verb">azp</spanx> (authorized party) Claim is present,
-                the Client SHOULD verify that its <spanx style="verb">client_id</spanx>
-                is the Claim Value.
+                <spanx style="verb">azp</spanx> Claim が存在する場合, Client はそれが自身の <spanx style="verb">client_id</spanx> と一致するべきである(SHOULD).
               </t>
               <!--
               <t>
@@ -2120,10 +2035,8 @@
               -->
 
               <t>
-                The Client MUST validate the signature of the ID Token according to
-                <xref target="JWS">JWS</xref> using the algorithm specified in the
-                <spanx style="verb">alg</spanx> parameter of the JWT header.
-                The Client MUST use the keys provided by the Issuer.
+                Client は ID Token の署名を, JWT ヘッダ中の <spanx style="verb">alg</spanx> パラメータで指定されたアルゴリズムを使い, <xref target="JWS">JWS</xref> に従って検証しなければならない(MUST).
+                Client は Issuer によって提供された鍵を使わなければならない(MUST).
               </t>
               <!--
               <t>
@@ -2134,10 +2047,12 @@
               </t>
               -->
 
-              <t>The <spanx style="verb">alg</spanx> value SHOULD be <spanx style="verb">RS256</spanx>.
-              Validation of tokens using other signing algorithms is described in the
-              <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
-              specification.</t>
+              <t>
+                <spanx style="verb">alg</spanx> の値は <spanx style="verb">RS256</spanx> であるべきである(SHOULD).
+                他の署名アルゴリズムを用いたトークン検証については
+                <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
+                に記述されている.
+              </t>
               <!--
               <t>The <spanx style="verb">alg</spanx> value SHOULD be <spanx style="verb">RS256</spanx>.
               Validation of tokens using other signing algorithms is described in the
@@ -2146,9 +2061,8 @@
               -->
 
               <t>
-                The current time MUST be before the time represented by the
-                <spanx style="verb">exp</spanx> Claim
-                (possibly allowing for some small leeway to account for clock skew).
+                現在時刻は <spanx style="verb">exp</spanx> Claim の時刻表現より前でなければならない (MUST).
+                (時計のズレを考慮した多少の猶予は許容される)
               </t>
               <!--
               <t>
@@ -2158,10 +2072,11 @@
               </t>
               -->
 
-              <t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
-              were issued too far away from the current time, limiting the amount of
-              time that nonces need to be stored to prevent attacks.
-              The acceptable range is Client specific.</t>
+              <t>
+                <spanx style="verb">iat</spanx> Claim が現在時刻からあまりにかけ離れている場合は, そのトークンを拒絶してもよい.
+                これにより nonce の保存期間を制限することができる.
+                適切な閾値は, Client ごとにことなる.
+              </t>
               <!--
               <t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
               were issued too far away from the current time, limiting the amount of
