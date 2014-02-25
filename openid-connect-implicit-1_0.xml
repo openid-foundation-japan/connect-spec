@@ -3427,7 +3427,7 @@
         </t>
         <t>
           他のパラメータも送ってもよい (MAY).
-          すべてのクレームは ID トークンの中で返されることに留意すること.
+          すべてのクレームは ID Token の中で返されることに留意すること.
         </t>
         <!--
         <t>
@@ -3486,7 +3486,7 @@
           </t>
           -->
           <t>
-            <spanx style="verb">sub_jwk</spanx> クレームが存在し, その値が ID トークンの署名を検証するための公開鍵となっている.
+            <spanx style="verb">sub_jwk</spanx> クレームが存在し, その値が ID Token の署名を検証するための公開鍵となっている.
           </t>
           <!--
           <t>
@@ -3526,8 +3526,8 @@
           </t>
           -->
           <t>
-            UserInfo エンドポイントへアクセスするためのアクセストークンは返されないため,
-            すべてのクレームは ID トークンの中で返されなければならない (MUST).
+            UserInfo エンドポイントへアクセスするための Access Token は返されないため,
+            すべてのクレームは ID Token の中で返されなければならない (MUST).
           </t>
           <!--
           <t>
@@ -3541,7 +3541,7 @@
       <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
 
         <t>
-          返された ID トークンの検証を行うため, クライアントは以下のことを実施しなくてはならない (MUST).
+          返された ID Token の検証を行うため, クライアントは以下のことを実施しなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -3553,7 +3553,7 @@
             <t>
               クライアントは <spanx style="verb">iss</spanx> (issuer) クレームの値が <spanx style="verb">https://self-isued.me</spanx> であることを検証しなければならない (MUST).
               もし <spanx style="verb">iss</spanx> が別の値を含んでいた場合,
-              その ID トークンは自己発行されたものではないので,
+              その ID Token は自己発行されたものではないので,
               <xref target="IDTokenValidation"/>
               に沿って検証されなければならない (MUST).
             </t>
@@ -3579,7 +3579,7 @@
             </t>
             -->
             <t>
-              クライアントは JWT ヘッダ <xref target="JWT"/> の <spanx style="verb">alg</spanx> パラメータに指定されたアルゴリズムを使い <xref target="JWS">JWS</xref> に沿って ID トークンの署名を検証しなければならない (MUST).
+              クライアントは JWT ヘッダ <xref target="JWT"/> の <spanx style="verb">alg</spanx> パラメータに指定されたアルゴリズムを使い <xref target="JWS">JWS</xref> に沿って ID Token の署名を検証しなければならない (MUST).
               その際, <spanx style="verb">sub_jwk</spanx> クレームの中の鍵を使用する;
               鍵は <xref target="JWK"/> フォーマットの鍵である (X.509 証明書ではない).
             </t>
@@ -3683,7 +3683,7 @@
           </list>
         </t>
         <figure>
-          <preamble>以下は自己発行された ID トークンを base64url デコードした参考例である.
+          <preamble>以下は自己発行された ID Token を base64url デコードした参考例である.
           (改行は掲載上の都合による):</preamble>
           <!--
           <preamble>The following is a non-normative example of a base64url decoded

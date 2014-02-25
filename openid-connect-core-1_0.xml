@@ -944,8 +944,8 @@
       </t>
       -->
       <t>
-        ID トークンは <xref target="JWS">JWS</xref> によって署名される, <xref target="JWS">JWS</xref> と <xref target="JWE">JWE</xref> のそれぞれによって署名された後に暗合化の両方をされていなければならない(MUST).これにより各 <xref target="SigningOrder"/> に, 認証, 完全性, 否認防止, および任意で機密性を提供する.
-        ID トークンが暗合化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗合化されなければならなく(MUST), 認可エンドポイントから ID トークンのない戻り値を使用するレスポンスタイプ(認可コードフローを用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</xref> の使用を要求したクライアントでない限り, ID トークンは <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</xref> を使用してはいけない(MUST NOT).
+        ID トークンは <xref target="JWS">JWS</xref> によって署名される, <xref target="JWS">JWS</xref> と <xref target="JWE">JWE</xref> のそれぞれによって署名された後に暗号化の両方をされていなければならない(MUST).これにより各 <xref target="SigningOrder"/> に, 認証, 完全性, 否認防止, および任意で機密性を提供する.
+        ID トークンが暗号化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗号化されなければならなく(MUST), 認可エンドポイントから ID トークンのない戻り値を使用するレスポンスタイプ(認可コードフローを用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</xref> の使用を要求したクライアントでない限り, ID トークンは <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</xref> を使用してはいけない(MUST NOT).
       </t>
       <!--
       <t>
