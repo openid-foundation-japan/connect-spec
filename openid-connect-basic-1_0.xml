@@ -567,7 +567,7 @@
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
         Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいずれかのフローに従う.
-        Authorization Code Flow は, 認可サーバーとクライアント自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
+        Authorization Code Flow は, Authorization Server と Client 自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
         それが不可能な Client は Implicit Flow を用いる.
         しかしながら, Client Secret をセキュアに保持できないにも関わらず, Refresh Token 取得のためにしばしば Native アプリケーションやその他の Client が Authorization Code flow を利用することもある.
         Hybrid Flow は Authorization Code Flow と Implicit Flow をあわせたものであり, Client が Authorization Server から直接 ID Token およびオプションで Access Token を受け取ることでレイテンシ低下を防ぎつつも, 後から Client が Token Endpoint にアクセスして各種トークン (特に Refresh Token) を取得できるようにするものである.
@@ -1670,7 +1670,7 @@
               OPTIONAL.
               Access Token のハッシュ値.
               ID Token が Token Endpoint から発行される場合には, 任意 (OPTIONAL) であるが, その場合にも <spanx style="verb">at_hash</spanx> Claim を含めてもよい (MAY).
-              この値は, <spanx style="verb">access_token</spanx> の ASCII バイト列のハッシュ値の左半分を Basd64URL エンコードしたものであり, ハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> で用いられるハッシュアルゴリズムと同じものを用いる.
+              この値は, <spanx style="verb">access_token</spanx> の ASCII オクテット列のハッシュ値の左半分を Basd64URL エンコードしたものであり, ハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> で用いられるハッシュアルゴリズムと同じものを用いる.
               例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, <spanx style="verb">access_token</spanx> の SHA-256 ハッシュ値を計算し, その左半分の128ビットを Base64URL エンコードする.
               <spanx style="verb">at_hash</spanx> は大文字小文字を区別する文字列である.
               <!--
@@ -1702,7 +1702,7 @@
               金銭にかかわるリソースへのアクセス認可要求時には, level 0 の認証を受け入れるべきではない (SHOULD NOT).
               <spanx style="verb">acr</spanx> 値には, 絶対 URL か <xref target="RFC6711">RFC 6711</xref> に登録された値を用いるべきである (SHOULD).
               <xref target="RFC6711">RFC 6711</xref> 登録済の値を用いる場合, <xref target="RFC6711">RFC 6711</xref> と異なる意味でそれを用いてはならない (MUST NOT).
-              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, この Claim を利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">acr</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -1734,7 +1734,7 @@
               認証時に用いられた認証方式を示す識別子文字列の JSON 配列.
               例として, パスワードと OTP 認証が両方行われたことを示すといったケースが考えられる.
               <spanx style="verb">amr</spanx> Claim にどのような値を用いるかは本仕様の定めるところではない.
-              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, この Claim を利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">amr</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -1756,9 +1756,9 @@
             <t hangText="azp">
               OPTIONAL.
               ID Token 発行対象である認可された関係者 (authorized party).
-              このクレームが存在する場合, その値は受け取り手の OAuth 2.0 Client ID でなければならない.
-              このクレームは, ID Token のオーディエンス値が単一文字列であり, かつその値が <spanx style="verb">azp</spanx> の値と異なる場合にのみ必要となる.
-              オーディエンスと <spanx style="verb">azp</spanx> 値が同値である場合にも, このクレームを含んでもよい (MAY).
+              この Claim が存在する場合, その値は受け取り手の OAuth 2.0 Client ID でなければならない.
+              この Claim は, ID Token のオーディエンス値が単一文字列であり, かつその値が <spanx style="verb">azp</spanx> の値と異なる場合にのみ必要となる.
+              オーディエンスと <spanx style="verb">azp</spanx> 値が同値である場合にも, この Claim を含んでもよい (MAY).
               <spanx style="verb">azp</spanx> は大文字小文字を区別する文字列である.
               <!--
               OPTIONAL.
@@ -2082,7 +2082,7 @@
           </t>
           -->
           <t>
-            Client はレスポンスを返した OP が意図した通りの OP であることを, <xref target="RFC6125">RFC 6125</xref> に従いTLS サーバー証明書チェックを通じて検証しなければならない (MUST).
+            Client はレスポンスを返した OP が意図した通りの OP であることを, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバー証明書チェックを通じて検証しなければならない (MUST).
           </t>
           <!--
           <t>
@@ -2448,7 +2448,7 @@
           <c>website</c>
           <c>string</c>
           <c>
-            End-USer の Web ページやブログの URL.
+            End-User の Web ページやブログの URL.
             この Web ページは End-User 自身や End-User が所属する組織が発信する情報を含むべきである (SHOULD).
           </c>
           <!--
@@ -2549,7 +2549,7 @@
             <xref target="RFC5646">BCP47</xref> 言語タグ表現.
             これは通常 <xref target="ISO639-1">ISO 639-1 Alpha-2</xref> 言語コードを小文字表記, <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref> 国コードを大文字表記し, ダッシュでつなげたものである.
             (<spanx style="verb">en-US</spanx>, <spanx style="verb">fr-CA</spanx> 等)
-            実装に酔ってはダッシュの代わりにアンダースコアを区切り文字に用いる場合もあるため, 互換性の観点からは注意すること.
+            実装によってはダッシュの代わりにアンダースコアを区切り文字に用いる場合もあるため, 互換性の観点からは注意すること.
             (<spanx style="verb">en_US</spanx> 等)
             Relying Party はダッシュ区切りに加えてアンダースコア区切りのシンタックスを受け入れてもよい (MAY).
           </c>
@@ -2761,7 +2761,7 @@
 
         <section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
           <t>
-            Human-readable な Claim Value およびそれらへの参照は複数言語および複数文字種で表現されうる (MAY).
+            Human-readable な Claim Value およびそれらへの参照は, 複数言語および複数文字種で表現することができる (MAY).
             言語および文字種の指定には <xref target="RFC5646">BCP47</xref> 言語タグを <spanx style="verb">#</spanx> を区切り文字としてメンバー名に付与する.
             例えば <spanx style="verb">family_name#ja-Kana-JP</spanx> は日本語のカタカナ表記の Family Name を示す.
             カタカナ表記の氏名は, 漢字表記 (<spanx style="verb">family_name#ja-Hani-JP</spanx>) の氏名の発音を示したりインデックス目的等で用いられることが多い.
@@ -2785,7 +2785,7 @@
           </t>
           -->
           <t>
-            Claim Name は大文字小文字を区別するため, Claim Name 内の現御託は <xref target="IANA.Language">IANA Language Subtag Registry</xref> に登録されたままの表記とすることを強く推奨する (RECOMMENDED).
+            Claim Name は大文字小文字を区別するため, Claim Name 内の言語タグは <xref target="IANA.Language">IANA Language Subtag Registry</xref> に登録されたままの表記とすることを強く推奨する (RECOMMENDED).
             一般的に言語名は小文字, 地域名は大文字, 文字種は大文字小文字混合で表記されることが多い.
             しかしながら BCP47 言語タグ値は大文字小文字を区別しないため, 実装は言語タグを大文字小文字区別なく処理できるべきである (SHOULD).
           </t>
@@ -2905,7 +2905,7 @@
 
     <section anchor="Serializations" title="Serializations">
       <t>
-        リクエストメッセージは以下のいずれかの方法でシリアライズ化されることがある(MAY):
+        リクエストメッセージは以下のいずれかの方法でシリアライズできる (MAY).
         <list style="numbers">
           <t>Query String Serialization</t>
           <t>Form Serialization</t>
@@ -2923,8 +2923,11 @@
 
       <section anchor="QuerySerialization" title="Query String Serialization">
 
-        <t>Query String Serialization でパラメータをシリアライズ化するために, クライアントは <xref target="W3C.REC-html401-19991224"/> で定義されているように <spanx style="verb">application/x-www-form-urlencoded</spanx> 形式で, クエリコンポーネントにパラメータと値をつけ加えることで文字列を作成する.
-        Query String Serialization は一般的にはHTTP <spanx style="verb">GET</spanx> リクエストで利用される.
+        <t>Query String Serialization を使ってパラメータをシリアライズするためには,
+        Client は <xref target="W3C.REC-html401-19991224"/> で定義された
+        <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを使いパラメータと値をクエリコンポーネントへ追加することで文字列を構成する.
+        Query String Serialization は一般的に
+        HTTP <spanx style="verb">GET</spanx> リクエストで使用される.
         </t>
         <!--
         <t>In order to serialize the parameters using the Query String
@@ -2939,8 +2942,8 @@
 
         <figure>
           <preamble>
-            以下がこのシリアライゼーションの標準化されていない例となる
-            (改行は掲載上の都合による):
+            以下はシリアライズの参考例である.
+            (改行は掲載上の都合による)
           </preamble>
           <!--
           <preamble>
@@ -2961,8 +2964,8 @@
 
       <section anchor="FormSerialization" title="Form Serialization">
 
-        <t>パラメータやその値は, HTTPリクエストのエンティティボディに <xref target="W3C.REC-html401-19991224"/> に定義されているように <spanx style="verb">application/x-www-form-urlencoded</spanx> 形式でパラメータ名とその値を追加することで Form Serialize 化される.
-        Form Serialization は一般的にはHTTP <spanx style="verb">POST</spanx> リクエストで利用される.</t>
+        <t>パラメータやその値は, HTTP リクエストのエンティティボディに <xref target="W3C.REC-html401-19991224"/> に定義されているように <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットでパラメータ名とその値を追加することで Form Serialize される.
+        Form Serialization は一般的には HTTP <spanx style="verb">POST</spanx> リクエストで利用される.</t>
         <!--
         <t>Parameters and their values are Form Serialized by adding the
         parameter names and values to the entity body of the HTTP request using
@@ -2973,8 +2976,8 @@
 
         <figure>
           <preamble>
-            以下がこのシリアライゼーションの標準化されていない例となる
-            (改行は掲載上の都合による):
+            以下はシリアライズの参考例である.
+            (改行は掲載上の都合による)
           </preamble>
           <!--
           <preamble>
@@ -3000,7 +3003,9 @@
 
     <section anchor="StringOps" title="String Operations">
       <t>
-        OpenID Connect のメッセージのいくつかを処理するのにメッセージ内の値と既知の値とを比較する必要がある. 例えば, UserInfo Endpoint によって返されるClaim Namesは, 特定の Claim Names 例えば <spanx style="verb">sub</spanx> と比較されるかもしれない. しかしながら, Unicode 文字列の比較では, セキュリティに関する重要な暗黙の仮定が存在する.
+        いくつかの OpenID Connect メッセージを処理する際にはメッセージの中の値を既知の値を比較することが求められる.
+        例えば, UserInfo エンドポイントから返された Claim Name は <spanx style="verb">sub</spanx> などの特定の Claim Name と比較される.
+        よって Unicode 文字列比較処理はセキュリティ上重要な意味を持つ.
       </t>
       <!--
       <t>
@@ -3013,17 +3018,17 @@
       </t>
       -->
       <t>
-        故に, JSON 文字列と他のUnicode 文字列との比較は以下の方法で実施されなければならない(MUST):
+        したがって, JSON 文字列を他の Unicode 文字列と比較する際は下記の通り実施しなければならない (MUST).
 
         <list style="numbers">
           <t>
             JSON に適用されたすべてのエスケープ処理を取り除き Unicode コードポイントの配列を生成する.
           </t>
           <t>
-            Unicode Normalization <xref target="USA15"/> をJSON 文字列, もしくは比較対象文字列に対していかなる時点であっても適用してはならない(MUST NOT).
+            Unicode Normalization <xref target="USA15"/> を JSON 文字列, もしくは比較対象文字列に対していかなる時点であっても適用してはならない (MUST NOT).
           </t>
           <t>
-            二つの文字列の比較は, Unicode コードポイント同士の同等比較として実施されなければならない(MUST).
+            二つの文字列の比較は, Unicode コードポイント同士の等値比較として実施されなければならない (MUST).
           </t>
         </list>
       </t>
@@ -3050,7 +3055,9 @@
       </t>
       -->
       <t>
-        いくつかの箇所で, 本仕様書はスペースで区切られた文字列のリストを利用している. そのような場合すべてにおいて, ASCII のスペース文字(0x20) はこの目的に用いられる唯一の文字でなければならない(MUST).
+        いくつかの箇所において, 本仕様はスペースで区切られた文字列のリストを使用している.
+        そのようないかなる場合においても, この目的では ASCII のスペース文字 (0x20)
+        のみを使用しなければならない (MUST).
       </t>
       <!--
       <t>
@@ -3064,8 +3071,9 @@
 
     <section anchor='TLS' title='TLS Version'>
       <t>
-        Transport Layer Security (TLS) が本仕様書で用いられている場合,
-        TLSの適切なバージョン(、もしくはバージョン群)は時期によって異なり, 実際に広く利用されているものや既知のセキュリティ脆弱性に依存する. 本仕様執筆時には, TLS バージョン 1.2 <xref target='RFC5246' />　が最新であるが、実際の利用が限られており, 実装用としてはすぐに利用可能とはいえないかもしれない. TLS バージョン 1.0 <xref target='RFC2246' /> はもっとも広く利用されているバージョンで, 最も広範な相互運用性を提供する.
+        本仕様では Transport Layer Security (TLS) が用いられるが, 実際に広く使われている実装や既知のセキュリティ脆弱性に依存して, TLS の適切なバージョンはその時々で異なりうる.
+        本仕様執筆時には, TLS バージョン 1.2 <xref target='RFC5246' />　が最新であるが, 実装が限定されており, すぐに各実装で利用可能とはいえないかもしれない.
+        TLS バージョン 1.0 <xref target='RFC2246' /> は現在もっとも広く利用されているバージョンで, 最も広範な相互運用性を提供するであろう.
       </t>
       <!--
       <t>
@@ -3082,8 +3090,8 @@
 
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
-        本仕様書では Relying Partiesが, OAuth Authorization Code Flow で利用する機能を定義する.
-        Relying Parties は本仕様書内で"REQUIRED"であると記載されている, もしくは"MUST"付きで説明されている機能を実装しなければならない(MUST).
+        本仕様書では Relying Party が, OAuth Authorization Code Flow で利用する機能を定義する.
+        Relying Parties は本仕様書内で "REQUIRED" であると記載されている, もしくは "MUST" 付きで説明されている機能を実装しなければならない (MUST).
       </t>
       <!--
       <t>
@@ -3096,7 +3104,10 @@
 
       <section anchor="DiscoReg" title="Discovery and Registration">
 
-        <t>いくつかの OpenID Connect 環境ではあらかじめ設定された OpenID Providers と Relying Partiesの双方もしくは片方を利用することができる. その場合, クライアントのアイデンティティ情報, サービス情報, 動的登録情報の動的ディスカバリをサポートする必要はないかもしれない.</t>
+        <t>
+          OpenID Connect 環境によっては, あらかじめ設定された OpenID Provider や Relying Party を利用することができる.
+          その場合, アイデンティティ情報やサービス情報の Discovery や Client の Dynamic Registration をサポートする必要はないかもしれない.
+        </t>
         <!--
         <t>Some OpenID Connect installations can use a pre-configured set of
         OpenID Providers and/or Relying Parties. In those cases, it might not be
@@ -3104,10 +3115,9 @@
         or services or dynamic registration of Clients.</t>
         -->
 
-        <t>しかしながら, あらかじめ設定された関連のないRelying PartiesとOpenID Providersの間の, 不測の通信をサポートする場合には, <xref
-        target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>仕様 と <xref
-        target="OpenID.Registration">OpenID Connect Dynamic Client Registration
-        1.0</xref> 仕様で定義された設備を実装してこれを実現すべきである(SHOULD).</t>
+        <t>
+          しかしながら, 事前の信頼構築を前提とせず, Relying Party と OpenID Provider の間での事前予測不可能な形でのインタラクションをサポートする場合には, <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> と <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> によってこれを実現すべきである (SHOULD).
+        </t>
         <!--
         <t>However, if installations choose to support unanticipated
         interactions between Relying Parties and OpenID Providers that do not
@@ -3123,8 +3133,8 @@
     <section anchor="Security" title="Security Considerations">
 
       <t>
-        以下に挙げられる以外のセキュティ上の考慮事項については,
-        <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> の仕様を参照.
+        以下に挙げたもの以外のセキュリティ上の考慮点については,
+        <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> 仕様を参照すること.
       </t>
       <!--
       <t>
@@ -3135,10 +3145,10 @@
 
       <section anchor="TLSRequirements" title="TLS Requirements">
         <t>
-          実装はTLSをサポートしなければならない(MUST).
-          どのバージョンが実装されるべきかは時期によって異なり, 実装時に実際に広く利用されているものや, 既知のセキュリティ脆弱性に依存する.
-          本仕様執筆時には, TLS バージョン 1.2 <xref target='RFC5246' /> が最新であるが、実際の利用が限られており, 実装用ツールキットとしてはすぐに利用可能とはいえないかもしれない.
-          TLS バージョン 1.0 <xref target='RFC2246' /> はもっとも広く利用されているバージョンで, 最も広範な相互運用性を提供する.
+          実装する際は TLS をサポートしなくてはならない (MUST).
+          どのバージョンを実装するかは時期によって異なり, 実装時に広く使われているかと既知のセキュリティ上の脆弱性に依存する.
+          本仕様を執筆している段階では TLS バージョン 1.2 <xref target='RFC5246' /> が最新バージョンであるが, 実際に使われている例は非常に限られており, 実装に利用するツールキットが対応していない可能性もある.
+          TLS version 1.0 <xref target='RFC2246' /> が最も広く使われているバージョンであり, 最も高い相互運用性を提供している.
         </t>
         <!--
         <t>
@@ -3157,7 +3167,7 @@
         </t>
         -->
         <t>
-          情報の開示や改ざんから保護するためには, 機密性と完全性を保護する暗号群とともにTLSを利用することで機密性保護が適用されなければならない(MUST).
+          情報の漏えいや改ざんを防ぐため, TLS を使った機密保護を, 機密性と完全性の保護を提供する暗号スイートを用いて適用しなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -3168,7 +3178,7 @@
         </t>
         -->
         <t>
-          TLS が利用される度にTLS サーバ証明書の確認は <xref target="RFC6125">RFC 6125</xref> に従って実行されなければならない(MUST).
+          TLS を使用する際は, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバ証明書を検証しなければならない (MUST).
         </t>
         <!--
         <t>
@@ -3183,8 +3193,11 @@
 
       <section anchor="PII" title="Personally Identifiable Information">
 
-        <t>UserInfo Response は一般的にはPersonally Identifiable Information (PII)を含む. 故に, 特定の目的のための情報の開示に関するEnd-Userの同意は, 関連する法律に従い, 認可時もしくは認可時に先立って取得されるべきである(SHOULD). 利用目的は一般的には <spanx
-        style="verb">redirect_uris</spanx> とともに登録される.</t>
+        <t>
+          UserInfo Response は一般的には Personally Identifiable Information (PII) を含む.
+          したがって, 特定の目的のための情報の開示に関する End-User の同意は, 関連する法律に従い, 認可時もしくは認可時に先立って取得されるべきである (SHOULD).
+          利用目的は一般的には <spanx style="verb">redirect_uris</spanx> とともに登録される.
+        </t>
         <!--
         <t>The UserInfo Response typically contains Personally Identifiable
         Information (PII). As such, End-User consent for the release of the information
@@ -3194,7 +3207,9 @@
         style="verb">redirect_uris</spanx>.</t>
         -->
 
-        <t>必要なUserInfoデータだけがClient側に保管されるべきであり, Clientは受信したデータを告知した利用目的と関連づけるべきである(SHOULD).</t>
+        <t>
+          必要な UserInfo データだけが Client 側に保管されるべきであり, Client は受信したデータを告知した利用目的と関連づけるべきである (SHOULD).
+        </t>
         <!--
         <t>Only necessary UserInfo data should be stored at the Client and the
         Client SHOULD associate the received data with the purpose of use
@@ -3204,7 +3219,7 @@
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
         <t>
-          Resource Server はEnd-Usersが自分自身のUserInfoへのアクセスログの閲覧することを可能にべきである(SHOULD). その結果エンドユーザは誰が自分のデータにアクセスしたかを監視できる.
+          Resource Server は End-User に対して, 誰が自分のデータにアクセスしたかを監視できよう, 自身の UserInfo へのアクセスログを閲覧可能にべきである (SHOULD).
         </t>
         <!--
         <t>
@@ -3215,8 +3230,9 @@
       </section>
 
       <section anchor="Correlation" title="Correlation">
-        <t>Clients間での紐づけの可能性からEnd-Userを保護するために, Pairwise Pseudonymous Identifier (PPID) の
-        <spanx style="verb">sub</spanx> (subject)としての利用を検討すべきである(SHOULD).</t>
+        <t>
+          Client 間での名寄せの可能性からエンドユーザを保護するため, Pairwise Pseudonymous Identifier (PPID) を <spanx style="verb">sub</spanx> (subject) として使用することを検討すべきである (SHOULD).
+        </t>
         <!--
         <t>To protect the End-User from a possible correlation among Clients, the
         use of a Pairwise Pseudonymous Identifier (PPID) as the

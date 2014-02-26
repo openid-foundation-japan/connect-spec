@@ -620,7 +620,7 @@
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
         Authentication Requests は Authorization Code Flow, Implicit Flow および Hybrid Flow のいずれかのフローに従う.
-        Authorization Code Flow は, 認可サーバーとクライアント自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
+        Authorization Code Flow は, Authorization Server と Client 自身との間でセキュアに Client Secret を管理できる Client 向けのフローである.
         それが不可能な Client は Implicit Flow を用いる.
         しかしながら, Client Secret をセキュアに保持できないにも関わらず, Refresh Token 取得のためにしばしば Native アプリケーションやその他の Client が Authorization Code flow を利用することもある.
         Hybrid Flow は Authorization Code Flow と Implicit Flow をあわせたものであり, Client が Authorization Server から直接 ID Token およびオプションで Access Token を受け取ることでレイテンシ低下を防ぎつつも, 後から Client が Token Endpoint にアクセスして各種トークン (特に Refresh Token) を取得できるようにするものである.
@@ -1542,7 +1542,7 @@
             -->
 
             <t>
-              以下はクライアントが <spanx style="verb">redirect_uri</spanx> で提供する JavaScript ファイルの例である.
+              以下は Client が <spanx style="verb">redirect_uri</spanx> で提供する JavaScript ファイルの例である.
               このファイルは Authorization Server からのリダイレクトによって読み込まれる.
               フラグメント部分はパースされ, <spanx style="verb">POST</spanx> によって送信される先の URI で検証とユーザー情報の受信が行われる.
             </t>
@@ -1779,7 +1779,7 @@
             <t hangText="at_hash">
               REQUIRED.
               Access Token のハッシュ値.
-              Implicit Flow 内で ID Token が <spanx style="verb">access_token</spanx> とともに発行された場合 (この項で説明しているOpenID Connectのサブセットではこのケースに該当する), このクレームは必須である (REQUIRED).
+              Implicit Flow 内で ID Token が <spanx style="verb">access_token</spanx> とともに発行された場合 (この項で説明しているOpenID Connectのサブセットではこのケースに該当する), この Claim は必須である (REQUIRED).
               この値は, <spanx style="verb">access_token</spanx> の ASCII バイト列のハッシュ値の左半分を Basd64URL エンコードしたものであり, ハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> で用いられるハッシュアルゴリズムと同じものを用いる.
               例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, <spanx style="verb">access_token</spanx> の SHA-256 ハッシュ値を計算し, その左半分の128ビットを Base64URL エンコードする.
               <spanx style="verb">at_hash</spanx> は大文字小文字を区別する文字列である.
@@ -1814,7 +1814,7 @@
               金銭にかかわるリソースへのアクセス認可要求時には, level 0 の認証を受け入れるべきではない (SHOULD NOT).
               <spanx style="verb">acr</spanx> 値には, 絶対 URL か <xref target="RFC6711">RFC 6711</xref> に登録された値を用いるべきである (SHOULD).
               <xref target="RFC6711">RFC 6711</xref> 登録済の値を用いる場合, <xref target="RFC6711">RFC 6711</xref> と異なる意味でそれを用いてはならない (MUST NOT).
-              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, この Claim を利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">acr</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
@@ -1848,7 +1848,7 @@
               認証時に用いられた認証方式を示す識別子文字列の JSON 配列.
               例として, パスワードと OTP 認証が両方行われたことを示すといったケースが考えられる.
               <spanx style="verb">amr</spanx> Claim にどのような値を用いるかは本仕様の定めるところではない.
-              この値の意味するところはコンテキストによって異なる可能性があるため, このクレームを利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
+              この値の意味するところはコンテキストによって異なる可能性があるため, この Claim を利用する場合は, 関係者間で値の意味するところについて合意しておくこと.
               <spanx style="verb">amr</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
@@ -1872,9 +1872,9 @@
             <t hangText="azp">
               OPTIONAL.
               ID Token 発行対象である認可された関係者 (authorized party).
-              このクレームが存在する場合, その値は受け取り手の OAuth 2.0 Client ID でなければならない.
-              このクレームは, ID Token のオーディエンス値が単一文字列であり, かつその値が <spanx style="verb">azp</spanx> の値と異なる場合にのみ必要となる.
-              オーディエンスと <spanx style="verb">azp</spanx> 値が同値である場合にも, このクレームを含んでもよい (MAY).
+              この Claim が存在する場合, その値は受け取り手の OAuth 2.0 Client ID でなければならない.
+              この Claim は, ID Token のオーディエンス値が単一文字列であり, かつその値が <spanx style="verb">azp</spanx> の値と異なる場合にのみ必要となる.
+              オーディエンスと <spanx style="verb">azp</spanx> 値が同値である場合にも, この Claim を含んでもよい (MAY).
               <spanx style="verb">azp</spanx> は大文字小文字を区別する文字列である.
             </t>
             <!--
@@ -1930,8 +1930,8 @@
         -->
 
         <t>
-          ID Token は <xref target="JWS">JWS</xref> を使って署名されなければならない(MUST).
-          Client は ID Token を <xref target="IDTokenValidation"/> に従って検証しなければならない(MUST).
+          ID Token は <xref target="JWS">JWS</xref> を使って署名されなければならない (MUST).
+          Client は ID Token を <xref target="IDTokenValidation"/> に従って検証しなければならない (MUST).
         </t>
         <!--
         <t>ID Tokens MUST be signed using <xref
@@ -1998,7 +1998,7 @@
           -->
 
           <t>
-            Authorization Response の ID Token を検証するために, Client は以下を検証しなければならない(MUST):
+            Client は Authorization Response に含まれる ID Token を以下のようにバリデートしなければならない (MUST).
           </t>
           <!--
           <t>To validate the ID Token in the Authorization Response,
@@ -2069,7 +2069,7 @@
               -->
 
               <t>
-                <spanx style="verb">alg</spanx> の値は <spanx style="verb">RS256</spanx> であるべきである(SHOULD).
+                <spanx style="verb">alg</spanx> の値は <spanx style="verb">RS256</spanx> であるべきである (SHOULD).
                 他の署名アルゴリズムを用いたトークン検証については
                 <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
                 に記述されている.
@@ -2107,9 +2107,9 @@
 
               <t>
                 <spanx style="verb">nonce</spanx>
-                Claim の値が Authentication Request にて送られたものと一致することを確認するためにチェックされなければならない (MUST).
-                Client は <spanx style="verb">nonce</spanx> の値を リプレイアタックのためにチェックすべきである (SHOULD).
-                リプレイアタックを検知する正確な方法は Client によって異なる.
+                Claim の値が Authentication Request にて送られたものと一致することを確認しなければならない (MUST).
+                Client は <spanx style="verb">nonce</spanx> の値をリプレイアタック対策のためにチェックすべきである (SHOULD).
+                リプレイアタック検知方法の詳細は Client によって異なる.
               </t>
               <!--
               <t>The value of the <spanx style="verb">nonce</spanx>
@@ -2121,7 +2121,7 @@
               -->
 
               <t>
-                <spanx style="verb">acr</spanx> Claim が 要求されたならば, Client は主張された Claim の値が適切かどうかをチェックすべきである (SHOULD).
+                <spanx style="verb">acr</spanx> Claim が要求されたならば, Client は主張された Claim の値が適切かどうかをチェックすべきである (SHOULD).
                 <spanx style="verb">acr</spanx> Claim の値と意味はこの仕様の対象外である.
               </t>
               <!--
@@ -2151,7 +2151,7 @@
         <section anchor="AccessTokenValidation" title="Access Token Validation">
           <t>
             Implicit Flow で ID Token とともに 発行された Access Token を検証するには、
-            Client は以下を検証するべきである(SHOULD):
+            Client は以下を検証するべきである (SHOULD).
           </t>
           <!--
           <t>To validate an Access Token issued with an ID Token in
@@ -2162,7 +2162,7 @@
             <list style="numbers">
               <t>
                 <spanx style="verb">access_token</spanx> の ASCII オクテット列のハッシュ値を求める。このとき用いるハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーにある <spanx style="verb">alg</spanx> ヘッダーパラメータに対応する <xref target="JWA">JWA</xref> で定められたものである.
-                例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, ハッシュアルゴリズムは SHA-256である. 
+                例えば <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> であれば, ハッシュアルゴリズムは SHA-256である.
               </t>
               <!--
               <t>Hash the octets of the ASCII representation of
@@ -2185,7 +2185,7 @@
 
               <t>
                 ID Token に <spanx style="verb">at_hash</spanx> が存在する場合は,
-                その値は, 直前のステップで求めた値と一致しなければならない(MUST).
+                その値は, 直前のステップで求めた値と一致しなければならない (MUST).
               </t>
               <!--
               <t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
@@ -2321,7 +2321,7 @@
           </t>
           -->
           <t>
-            Client はレスポンスを返した OP が意図した通りの OP であることを, <xref target="RFC6125">RFC 6125</xref> に従いTLS サーバー証明書チェックを通じて検証しなければならない (MUST).
+            Client はレスポンスを返した OP が意図した通りの OP であることを, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバー証明書チェックを通じて検証しなければならない (MUST).
           </t>
           <!--
           <t>
@@ -2459,7 +2459,7 @@
 
             <!-- basicと異なる -->
             <t hangText="offline_access">
-              この scope 値は OpenID Connect Implicit Client Implementer's Guide 1.0 では使用してはならない(MUST NOT).
+              この scope 値は OpenID Connect Implicit Client Implementer's Guide 1.0 では使用してはならない (MUST NOT).
               Basic Client での使用については <xref target="OpenID.Basic">OpenID Connect Basic Client Implementer's Guide 1.0</xref> を参照のこと.
             </t>
             <!--
@@ -2692,7 +2692,7 @@
           <c>website</c>
           <c>string</c>
           <c>
-            End-USer の Web ページやブログの URL.
+            End-User の Web ページやブログの URL.
             この Web ページは End-User 自身や End-User が所属する組織が発信する情報を含むべきである (SHOULD).
           </c>
           <!--
@@ -2793,7 +2793,7 @@
             <xref target="RFC5646">BCP47</xref> 言語タグ表現.
             これは通常 <xref target="ISO639-1">ISO 639-1 Alpha-2</xref> 言語コードを小文字表記, <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref> 国コードを大文字表記し, ダッシュでつなげたものである.
             (<spanx style="verb">en-US</spanx>, <spanx style="verb">fr-CA</spanx> 等)
-            実装に酔ってはダッシュの代わりにアンダースコアを区切り文字に用いる場合もあるため, 互換性の観点からは注意すること.
+            実装によってはダッシュの代わりにアンダースコアを区切り文字に用いる場合もあるため, 互換性の観点からは注意すること.
             (<spanx style="verb">en_US</spanx> 等)
             Relying Party はダッシュ区切りに加えてアンダースコア区切りのシンタックスを受け入れてもよい (MAY).
           </c>
@@ -3005,7 +3005,7 @@
 
         <section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
           <t>
-            Human-readable な Claim Value およびそれらへの参照は複数言語および複数文字種で表現されうる (MAY).
+            Human-readable な Claim Value およびそれらへの参照は, 複数言語および複数文字種で表現することができる (MAY).
             言語および文字種の指定には <xref target="RFC5646">BCP47</xref> 言語タグを <spanx style="verb">#</spanx> を区切り文字としてメンバー名に付与する.
             例えば <spanx style="verb">family_name#ja-Kana-JP</spanx> は日本語のカタカナ表記の Family Name を示す.
             カタカナ表記の氏名は, 漢字表記 (<spanx style="verb">family_name#ja-Hani-JP</spanx>) の氏名の発音を示したりインデックス目的等で用いられることが多い.
@@ -3029,7 +3029,7 @@
           </t>
           -->
           <t>
-            Claim Name は大文字小文字を区別するため, Claim Name 内の現御託は <xref target="IANA.Language">IANA Language Subtag Registry</xref> に登録されたままの表記とすることを強く推奨する (RECOMMENDED).
+            Claim Name は大文字小文字を区別するため, Claim Name 内の言語タグは <xref target="IANA.Language">IANA Language Subtag Registry</xref> に登録されたままの表記とすることを強く推奨する (RECOMMENDED).
             一般的に言語名は小文字, 地域名は大文字, 文字種は大文字小文字混合で表記されることが多い.
             しかしながら BCP47 言語タグ値は大文字小文字を区別しないため, 実装は言語タグを大文字小文字区別なく処理できるべきである (SHOULD).
           </t>
@@ -3149,7 +3149,7 @@
 
     <section anchor="SelfIssued" title="Self-Issued OpenID Provider">
       <t>
-        OpenID Connect は Self-Issued OpenID プロバイダー ( 私的な, 自己提供されたOpenID Providerであり, 自己署名つきのID Tokenを発行するもの ) をサポートしている.
+        OpenID Connect は Self-Issued OpenID プロバイダー (私有の self-hosted な OpenID Provider であり, 自己署名つきの ID Token を発行するもの) をサポートしている.
         Self-Issued OP は
         <spanx style="verb">https://self-issued.me</spanx> という特別な Issuer 識別子を使用する.
       </t>
@@ -3200,9 +3200,9 @@
           注記: OpenID ファウンデーションは
           <spanx style="verb">https://self-issued.me/</spanx>
           という OpenID プロバイダーサイトを提供することを計画している.
-          提供される内容には WebFinger サービスも含まれており, ディスカバリを実行すると上記の静的なディスカバリ情報を返すため, RP は Self-Issued OP のディスカバリのための特別な処理を行う必要はない.
+          その場合は WebFinger サービスも提供され, ディスカバリを実行すると上記の静的なディスカバリ情報を返すため, RP は Self-Issued OP のディスカバリのために特別な処理を行う必要はない.
           このサイトは実験的に提供される予定である.
-          プロダクション環境を実装する際は OpenID ファウンデーションがそのサイトをプロダクション用途を想定して提供することのコミットメントを行う以前はその環境に依存すべきではない.
+          プロダクション環境を実装する際は, OpenID ファウンデーションが当該サイトをプロダクション用途を想定して提供するまでその環境に依存すべきではない.
         </t>
         <!--
         <t>
@@ -3222,7 +3222,7 @@
       <section anchor="SelfIssuedRegistration" title="Self-Issued OpenID Provider Registration">
         <t>
           Self-Issued OP を使う際は登録は必要ない.
-          クライアントは登録しなくても OP 登録したかのように振る舞い, 以下のクライアント登録レスポンスを得る.
+          Client は登録しなくても OP に登録したかのように振る舞い, 以下の Client Registration Response を得る.
        </t>
         <!--
         <t>
@@ -3235,7 +3235,7 @@
         <t>
           <list style="hanging">
             <t hangText="client_id">
-              <spanx style="verb">redirect_uri</spanx> value of the Client.
+              Client の <spanx style="verb">redirect_uri</spanx> 値.
             </t>
             <!--
             <t hangText="client_id">
@@ -3255,9 +3255,9 @@
         <t>
           注記: OpenID ファウンデーションは
           <spanx style="verb">https://self-issued.me/registration/1.0/</spanx>
-          という ( ステートレスな ) エンドポイントを提供することを計画しており, そのエンドポイントは上記レスポンスを返すため, RP は Self-Issued OP の登録のための特別な処理を行う必要はない.
+          という (ステートレスな) エンドポイントを提供することを計画しており, そのエンドポイントは上記レスポンスを返すため, RP は Self-Issued OP の登録のために特別な処理を行う必要はない.
           このサイトは実験的に提供される予定である.
-          プロダクション環境を実装する際は OpenID ファウンデーションがそのサイトをプロダクション用途を想定して提供することのコミットメントを行う以前はその環境に依存すべきではない.
+          プロダクション環境を実装する際は, OpenID ファウンデーションが当該サイトをプロダクション用途を想定して提供するまでその環境に依存すべきではない.
         </t>
         <!--
         <t>
@@ -3276,7 +3276,7 @@
                  title='Providing Information with the "registration" Request Parameter'>
 
           <t>
-            OpenID Connect はクライアントが Self-Issued OpenID プロバイダーに追加の登録情報を提供することが出来るようにするために以下の認可リクエストパラメータを定義している.
+            OpenID Connect は Client が Self-Issued OpenID プロバイダーに追加の登録情報を提供することが出来るようにするために以下の認可リクエストパラメータを定義している.
             <!--
             OpenID Connect defines the following Authorization Request parameter
             to enable Clients to provide additional registration information to
@@ -3286,11 +3286,11 @@
             <list style="hanging">
 
               <t hangText="registration">
-                任意 ( OPTIONAL ).
-                このパラメータは通常, 動的クライアント登録の間にクライアントが自身の情報を Self-Issued OP に提供する際に利用される.
+                任意 (OPTIONAL).
+                このパラメータは通常, Dynamic Client Registration の間に Client が自身の情報を Self-Issued OP に提供する際に利用される.
                 この値は
                 <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-                仕様の Section 2.1 で定義されているクライアントメタデータの値を含む JSON オブジェクトである.
+                仕様の Section 2.1 で定義されている Client メタデータの値を含む JSON オブジェクトである.
                 <spanx style="verb">registration</spanx> パラメータは OP が Self-Issued OP ではないときは利用すべきではない (SHOULD NOT).
               </t>
               <!--
@@ -3334,7 +3334,7 @@
             <spanx style="verb">policy_uri</spanx>,
             <spanx style="verb">tos_uri</spanx>, and
             <spanx style="verb">logo_uri</spanx>.
-            クライアントが一つ以上のリダイレクト先 URI を使用する際, それらを登録するために
+            Client が一つ以上の Redirection URI を使用する際, それらを登録するために
             <spanx style="verb">redirect_uris</spanx>
             パラメータを利用する.
           </t>
@@ -3354,7 +3354,7 @@
       </section>
 
       <section anchor="SelfIssuedRequest" title="Self-Issued OpenID Provider Request">
-        <t>クライアントは認可エンドポイントへ以下のパラメータを付けて認証要求を送信する.</t>
+        <t>Client は Authorization Endpoint へ以下のパラメータを付けて Authentication Request を送信する.</t>
         <!--
         <t>The Client sends the Authentication Request to the Authorization Endpoint
         with the following parameters:</t>
@@ -3370,10 +3370,10 @@
           -->
           <t hangText="client_id">
             必須 (REQUIRED).
-            クライアントのためのクライアント ID, この場合はクライアントの
+            Client の Client ID, この場合は Client の
             <spanx style="verb">redirect_uri</spanx> の値を含む.
-            クライアントの
-            <spanx style="verb">redirect_uri</spanx> URI の値はクライアント ID として通信されるので,
+            Client の
+            <spanx style="verb">redirect_uri</spanx> URI の値は Client ID として送信されるので,
             <spanx style="verb">redirect_uri</spanx> パラメータをリクエストの中に含む必要はない (NOT REQUIRED).
           </t>
           <!--
@@ -3412,7 +3412,7 @@
           -->
           <t hangText="registration">
             任意 (OPTIONAL).
-            このパラメータは通常 <xref target="RegistrationParameter"/> で定義されているように, 動的クライアント登録の間にクライアントが自身の情報を Self-Issued OP に提供する際に利用される.
+            このパラメータは通常 <xref target="RegistrationParameter"/> で定義されているように, Dynamic Client Registration の間に Client が自身の情報を Self-Issued OP に提供する際に利用される.
           </t>
           <!--
           <t hangText="registration">
@@ -3427,7 +3427,7 @@
         </t>
         <t>
           他のパラメータも送ってもよい (MAY).
-          すべてのクレームは ID Token の中で返されることに留意すること.
+          すべての Claim は ID Token の中で返されることに留意すること.
         </t>
         <!--
         <t>
@@ -3441,8 +3441,8 @@
         -->
         <figure>
           <preamble>
-            以下は, User Agent が Self-Issued OpenID プロバイダーに対して認証要求を生成するためのトリガーとなる, クライアントによる HTTP 302 リダイレクトレスポンスの参考例である.
-            (改行は掲載上の都合による):
+            以下は, User Agent が Self-Issued OpenID プロバイダーに対して Authentication Request を生成するためのトリガーとなる, Client による HTTP 302 リダイレクトレスポンスの参考例である.
+            (改行は掲載上の都合による)
             <!--
             The following is a non-normative example
             HTTP 302 redirect response by the Client, which triggers
@@ -3476,7 +3476,7 @@
         -->
         <t><list style="numbers">
           <t>
-            <spanx style="verb">iss</spanx> (issuer) クレームの値が
+            <spanx style="verb">iss</spanx> (issuer) Claim の値が
             <spanx style="verb">https://self-issued.me</spanx> である.
           </t>
           <!--
@@ -3486,7 +3486,7 @@
           </t>
           -->
           <t>
-            <spanx style="verb">sub_jwk</spanx> クレームが存在し, その値が ID Token の署名を検証するための公開鍵となっている.
+            <spanx style="verb">sub_jwk</spanx> Claim が存在し, その値が ID Token の署名を検証するための公開鍵となっている.
           </t>
           <!--
           <t>
@@ -3495,8 +3495,8 @@
           </t>
           -->
           <t>
-            <spanx style="verb">sub</spanx> (subject) クレームの値は
-            <spanx style="verb">sub_jwk</spanx> クレームの中の base64url エンコードされたキー値の UTF-8 表現のオクテットを結合したものの SHA-256 ハッシュを base64url エンコードしたものである.
+            <spanx style="verb">sub</spanx> (subject) Claim の値は
+            <spanx style="verb">sub_jwk</spanx> Claim の中の Base64URL エンコードされたキー値の UTF-8 表現のオクテットを結合したものの SHA-256 ハッシュを Base64URL エンコードしたものである.
             <spanx style="verb">kty</spanx> の値が
             <spanx style="verb">RSA</spanx> である時, キーの値は
             <spanx style="verb">n</spanx> と,
@@ -3527,7 +3527,7 @@
           -->
           <t>
             UserInfo エンドポイントへアクセスするための Access Token は返されないため,
-            すべてのクレームは ID Token の中で返されなければならない (MUST).
+            すべての Claim は ID Token の中で返されなければならない (MUST).
           </t>
           <!--
           <t>
@@ -3541,7 +3541,7 @@
       <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
 
         <t>
-          返された ID Token の検証を行うため, クライアントは以下のことを実施しなくてはならない (MUST).
+          返された ID Token の検証を行うため, Client は以下のことを実施しなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -3551,9 +3551,9 @@
         <t>
           <list style="numbers">
             <t>
-              クライアントは <spanx style="verb">iss</spanx> (issuer) クレームの値が <spanx style="verb">https://self-isued.me</spanx> であることを検証しなければならない (MUST).
+              Client は, <spanx style="verb">iss</spanx> (issuer) Claim の値が <spanx style="verb">https://self-isued.me</spanx> であることを検証しなければならない (MUST).
               もし <spanx style="verb">iss</spanx> が別の値を含んでいた場合,
-              その ID Token は自己発行されたものではないので,
+              その ID Token は Self-Issued ではないので,
               <xref target="IDTokenValidation"/>
               に沿って検証されなければならない (MUST).
             </t>
@@ -3567,8 +3567,7 @@
             </t>
             -->
             <t>
-              クライアントは <spanx style="verb">aud</spanx> (audience) クレームが
-              クライアントが認証りクレストの中で audience として送った <spanx style="verb">redirect_uri</spanx> の値を含んでいることを確認しなければならない (MUST).
+              Client は, Client が認証リクエストで送信した <spanx style="verb">redirect_uri</spanx> の値が, <spanx style="verb">aud</spanx> Claim にオーディエンスとして含まれていることを検証しなければならない (MUST).
             </t>
             <!--
             <t>
@@ -3579,8 +3578,8 @@
             </t>
             -->
             <t>
-              クライアントは JWT ヘッダ <xref target="JWT"/> の <spanx style="verb">alg</spanx> パラメータに指定されたアルゴリズムを使い <xref target="JWS">JWS</xref> に沿って ID Token の署名を検証しなければならない (MUST).
-              その際, <spanx style="verb">sub_jwk</spanx> クレームの中の鍵を使用する;
+              Client は, JWT ヘッダ <xref target="JWT"/> の <spanx style="verb">alg</spanx> パラメータに指定されたアルゴリズムを使い <xref target="JWS">JWS</xref> に沿って ID Token の署名を検証しなければならない (MUST).
+              その際, <spanx style="verb">sub_jwk</spanx> Claim の中の鍵を使用する;
               鍵は <xref target="JWK"/> フォーマットの鍵である (X.509 証明書ではない).
             </t>
             <!--
@@ -3594,9 +3593,8 @@
             </t>
             -->
             <t>
-              <spanx style="verb">alg</spanx> の値は初期値である
-              <spanx style="verb">RS256</spanx> であるべきである (SHOULD).
-              その値は <spanx style="verb">ES256</spanx> であってもよい (MAY).
+              <spanx style="verb">alg</spanx> の値はデフォルトとしては <spanx style="verb">RS256</spanx> であるべきである (SHOULD).
+              この値は <spanx style="verb">ES256</spanx> であってもよい (MAY).
             </t>
             <!--
             <t>
@@ -3606,9 +3604,8 @@
             </t>
             -->
             <t>
-              クライアントは <spanx style="verb">sub</spanx> (subject) クレームの値が
-              base64url エンコードされた <spanx style="verb">sub_jwk</spanx> クレームの
-              中のキーの値が base64url エンコードされた UTF-8 表現のオクテットを結合したものの SHA-256 ハッシュであることを検証しなくてはならない (MUST).
+              Client は <spanx style="verb">sub</spanx> (subject) Claim の値が
+              Base64URL エンコードされた <spanx style="verb">sub_jwk</spanx> Claim の中のキーの値が Base64URL エンコードされた UTF-8 表現のオクテットを結合したものの SHA-256 ハッシュであることを検証しなくてはならない (MUST).
               <spanx style="verb">kty</spanx> の値が
               <spanx style="verb">RSA</spanx> である時, キーの値は
               <spanx style="verb">n</spanx> と
@@ -3638,8 +3635,8 @@
             </t>
             -->
             <t>
-              現在の時刻は <spanx style="verb">exp</spanx> クレームによりあらわされる時刻より前でなければならない (MUST).
-              (時計の誤差による少しのずれは許容される).
+              現在時刻が <spanx style="verb">exp</spanx> Claim より前でなければならない (MUST).
+              (時計のズレを考慮した多少の猶予は許容される)
             </t>
             <!--
             <t>
@@ -3649,9 +3646,9 @@
             </t>
             -->
             <t>
-              <spanx style="verb">iat</spanx> クレームは現在の時刻とかけ離れた時刻に発行された
-              トークンを拒否するために使われ, 攻撃を防ぐために nonce が保持される期間を制限する.
-              許容する幅はクライアントごとに固有である.
+              <spanx style="verb">iat</spanx> Claim が現在時刻からあまりにかけ離れている場合は, そのトークンを拒絶してもよい.
+              これにより nonce の保存期間を制限することができる.
+              適切な閾値は, Client ごとにことなる.
             </t>
             <!--
             <t>
@@ -3662,11 +3659,11 @@
             </t>
             -->
             <t>
-              nonce が認証リクエストで送られた場合,
-              <spanx style="verb">nonce</spanx> クレームが存在し,
-              その値は認証リクエストで送られたものと同じ値であることを検証されなくてはならない (MUST).
-              クライアントはリプレイアタックを防ぐため <spanx style="verb">nonce</spanx> の値を検証すべきである (SHOULD).
-              リプレイアタックを検知するための詳細は方法はクライアントごとに固有である.
+              nonce が Authentication Request で送られた場合,
+              <spanx style="verb">nonce</spanx> Claim が存在し,
+              その値は Authentication Request で送られたものと同じ値であることを検証されなくてはならない (MUST).
+              Client はリプレイアタックを防ぐため <spanx style="verb">nonce</spanx> の値を検証すべきである (SHOULD).
+              リプレイアタックを検知するための詳細は方法は Client ごとに固有である.
             </t>
             <!--
             <t>
@@ -3683,8 +3680,8 @@
           </list>
         </t>
         <figure>
-          <preamble>以下は自己発行された ID Token を base64url デコードした参考例である.
-          (改行は掲載上の都合による):</preamble>
+          <preamble>以下は Self-Issued ID Token を Base64URL デコードした参考例である.
+          (改行は掲載上の都合による)</preamble>
           <!--
           <preamble>The following is a non-normative example of a base64url decoded
           Self-Issued ID Token
@@ -3718,30 +3715,23 @@
 
     <section anchor="Serializations" title="Serializations">
       <t>
-        リクエストメッセージは以下の手法の一つを使ってシリアライズしてもよい (MAY):
+        リクエストメッセージは以下のいずれかの方法でシリアライズできる (MAY).
         <!--
         A request message MAY be serialized using one of the following methods:
         -->
         <list style="numbers">
-          <t>クエリ文字列シリアライズ</t>
-          <!--
           <t>Query String Serialization</t>
-          -->
-          <t>フォームシリアライズ</t>
-          <!--
           <t>Form Serialization</t>
-          -->
         </list>
       </t>
 
       <section anchor="QuerySerialization" title="Query String Serialization">
 
-        <t>クエリ文字列シリアライズを使ってパラメータをシリアライズするためには,
-        クライアントは <xref target="W3C.REC-html401-19991224"/> で定義された
-        <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを使い
-        パラメータと値をクエリコンポーネントへ追加することで文字列を構成する.
-        クエリ文字列のシリアライズは一般的に
-        HTTP <spanx style="verb">GET</spanx> リクエストの中で使用される.
+        <t>Query String Serialization を使ってパラメータをシリアライズするためには,
+        Client は <xref target="W3C.REC-html401-19991224"/> で定義された
+        <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを使いパラメータと値をクエリコンポーネントへ追加することで文字列を構成する.
+        Query String Serialization は一般的に
+        HTTP <spanx style="verb">GET</spanx> リクエストで使用される.
         同じシリアライズ手法は URL のフラグメントコンポーネントにパラメータを追加する際にも使用される.
         </t>
         <!--
@@ -3759,8 +3749,8 @@
 
         <figure>
           <preamble>
-            以下はシリアライズの参考例である
-            (改行は掲載上の都合による):
+            以下はシリアライズの参考例である.
+            (改行は掲載上の都合による)
             <!--
             Following is a non-normative example of this serialization
             (with line wraps within values for display purposes only):
@@ -3780,11 +3770,8 @@
 
       <section anchor="FormSerialization" title="Form Serialization">
 
-        <t>パラメータとその値は <xref target="W3C.REC-html401-19991224"/> に定義された
-        <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットで
-        パラメータ名と値を HTTP リクエストのエンティティボディに追加することで
-        フォームシリアライズされる.
-        フォームシリアライズは一般に <spanx style="verb">POST</spanx> リクエストの中で使用される.</t>
+        <t>パラメータやその値は, HTTP リクエストのエンティティボディに <xref target="W3C.REC-html401-19991224"/> に定義されているように <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットでパラメータ名とその値を追加することで Form Serialize される.
+        Form Serialization は一般的には HTTP <spanx style="verb">POST</spanx> リクエストで利用される.</t>
         <!--
         <t>Parameters and their values are Form Serialized by adding the
         parameter names and values to the entity body of the HTTP request using
@@ -3795,8 +3782,8 @@
 
         <figure>
           <preamble>
-            以下はシリアライズの参考例である
-            (改行は掲載上の都合による):
+            以下はシリアライズの参考例である.
+            (改行は掲載上の都合による)
             <!--
             Following is a non-normative example of this serialization
             (with line wraps within values for display purposes only):
@@ -3820,11 +3807,9 @@
 
     <section anchor="StringOps" title="String Operations">
       <t>
-        いくつかの OpenID Connect メッセージを処理する際には
-        メッセージの中の値を既知の値を比較することが求められる.
-        例えば, UserInfo エンドポイントから返されたクレーム名は
-        <spanx style="verb">sub</spanx> などの特定のクレーム名と
-        比較される. しかしながら Unicode 文字列を比較することはセキュリティ上重要な意味を持つ.
+        いくつかの OpenID Connect メッセージを処理する際にはメッセージの中の値を既知の値を比較することが求められる.
+        例えば, UserInfo エンドポイントから返された Claim Name は <spanx style="verb">sub</spanx> などの特定の Claim Name と比較される.
+        よって Unicode 文字列比較処理はセキュリティ上重要な意味を持つ.
       </t>
       <!--
       <t>
@@ -3837,14 +3822,14 @@
       </t>
       -->
       <t>
-        したがって, JSON 文字列を他の Unicode 文字列と比較する際は下記の通り実施しなければならない (MUST):
+        したがって, JSON 文字列を他の Unicode 文字列と比較する際は下記の通り実施しなければならない (MUST).
         <!--
         Therefore, comparisons between JSON strings and other Unicode
         strings MUST be performed as specified below:
         -->
         <list style="numbers">
           <t>
-            Unicode 符号点の配列を提供するために JSON に適用されたエスケープを取り除く.
+            JSON に適用されたすべてのエスケープ処理を取り除き Unicode コードポイントの配列を生成する.
           </t>
           <!--
           <t>
@@ -3853,9 +3838,7 @@
           </t>
           -->
           <t>
-            Unicode の平準化 <xref target="USA15"/> は
-            JSON 文字列もしくは比較される文字列のどちらにも
-            適用してはならない (MUST NOT).
+            Unicode Normalization <xref target="USA15"/> を JSON 文字列, もしくは比較対象文字列に対していかなる時点であっても適用してはならない (MUST NOT).
           </t>
           <!--
           <t>
@@ -3865,7 +3848,7 @@
           </t>
           -->
           <t>
-            2つの文字列を比較する際は Unicode 符号点の一致を比較をしなければならない (MUST).
+            二つの文字列の比較は, Unicode コードポイント同士の等値比較として実施されなければならない (MUST).
           </t>
           <!--
           <t>
@@ -3876,7 +3859,7 @@
         </list>
       </t>
       <t>
-        いくつかの点において, 本仕様はスペースで区切られた文字列のリストを使用している.
+        いくつかの箇所において, 本仕様はスペースで区切られた文字列のリストを使用している.
         そのようないかなる場合においても, この目的では ASCII のスペース文字 (0x20)
         のみを使用しなければならない (MUST).
       </t>
@@ -3892,12 +3875,9 @@
 
     <section anchor='TLS' title='TLS Version'>
       <t>
-        本仕様の中でトランスポートレイヤーセキュリティ (TLS) が使われるすべての場合において,
-        その時期に広く使われていたり, 既知のセキュリティ脆弱性により, 適切な TLS のバージョンは時期によって様々である.
-        本仕様を執筆している段階においては, TLS バージョン 1.2 <xref target='RFC5246' />
-        が最新バージョンであるが, 限られた範囲でしか使われておらず実装される準備が出来ていないかもしれない.
-        TLS バージョン 1.0 <xref target='RFC2246' /> が最も広く使われているバージョンであり,
-        広く相互運用性を提供している.
+        本仕様では Transport Layer Security (TLS) が用いられるが, 実際に広く使われているかどうかや既知のセキュリティ脆弱性に依存して, TLS の適切なバージョンはその時々で異なりうる.
+        本仕様執筆時には, TLS バージョン 1.2 <xref target='RFC5246' />　が最新であるが, 実装が限定されており, すぐに各実装で利用可能とはいえないかもしれない.
+        TLS バージョン 1.0 <xref target='RFC2246' /> は現在もっとも広く利用されているバージョンで, 最も広範な相互運用性を提供するであろう.
       </t>
       <!--
       <t>
@@ -3914,9 +3894,8 @@
 
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
-        本仕様はリライングパーティによって使用される機能を OAuth Implicit フローを使って定義している.
-        それらのリライングパーティは本仕様の中で "必須である (REQUIRED)" もしくは "しなくてはならない (MUST)"
-        として挙げられている機能を実装しなくてはならない (MUST).
+        本仕様書では Relying Party が, OAuth Implicit Flow で利用する機能を定義する.
+        Relying Parties は本仕様書内で "REQUIRED" であると記載されている, もしくは "MUST" 付きで説明されている機能を実装しなければならない (MUST).
       </t>
       <!--
       <t>
@@ -3929,9 +3908,10 @@
 
       <section anchor="DiscoReg" title="Discovery and Registration">
 
-        <t>いくつかの OpenID Connect の導入は事前に定義された OpenID プロバイダやリライングパーティのセットを利用できる.
-        それらの場合においてはアイデンティティやサービスに関する情報の動的ディスカバリ
-        やクライアントのダイナミックレジストレーションをサポートする必要はない.</t>
+        <t>
+          OpenID Connect 環境によっては, あらかじめ設定された OpenID Provider や Relying Party を利用することができる.
+          その場合, アイデンティティ情報やサービス情報の Discovery や Client の Dynamic Registration をサポートする必要はないかもしれない.
+        </t>
         <!--
         <t>Some OpenID Connect installations can use a pre-configured set of
         OpenID Providers and/or Relying Parties. In those cases, it might not be
@@ -3939,10 +3919,9 @@
         or services or dynamic registration of Clients.</t>
         -->
 
-        <t>しかしながら, リライングパーティと OpenID プロバイダーの関係を事前に定義せず,
-        特殊な接続をサポートしようとする場合は, <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>
-        と <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-        の仕様を導入することにより実現すべきである (SHOULD).</t>
+        <t>
+          しかしながら, 事前の信頼構築を前提とせず, Relying Party と OpenID Provider の間での事前予測不可能な形でのインタラクションをサポートする場合には, <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> と <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> によってこれを実現すべきである (SHOULD).
+        </t>
         <!--
         <t>However, if installations choose to support unanticipated
         interactions between Relying Parties and OpenID Providers that do not
@@ -3971,13 +3950,9 @@
       <section anchor="TLSRequirements" title="TLS Requirements">
         <t>
           実装する際は TLS をサポートしなくてはならない (MUST).
-          どのバージョンを実装するかは時期によって異なり, 実装時に
-          広く使われているかと既知のセキュリティ上の脆弱性に依存する.
-          本仕様を執筆している段階では TLS バージョン 1.2 <xref target='RFC5246' />
-          が最新バージョンであるが, 実際に使われている例は非常に限られており,
-          導入ツールキットが対応していないであろう.
-          TLS version 1.0 <xref target='RFC2246' /> が最も広く使われている
-          バージョンであり, 最も高い相互運用性を提供している.
+          どのバージョンを実装するかは時期によって異なり, 実装時に広く使われているかと既知のセキュリティ上の脆弱性に依存する.
+          本仕様を執筆している段階では TLS バージョン 1.2 <xref target='RFC5246' /> が最新バージョンであるが, 実際に使われている例は非常に限られており, 実装に利用するツールキットが対応していない可能性もある.
+          TLS version 1.0 <xref target='RFC2246' /> が最も広く使われているバージョンであり, 最も高い相互運用性を提供している.
         </t>
         <!--
         <t>
@@ -3996,8 +3971,7 @@
         </t>
         -->
         <t>
-          情報の漏えいや改ざんを防ぐため, TLS を使った機密保護を
-          機密性と完全性の保護を提供する暗号化機能を用いて適用しなくてはならない (MUST).
+          情報の漏えいや改ざんを防ぐため, TLS を使った機密保護を, 機密性と完全性の保護を提供する暗号スイートを用いて適用しなくてはならない (MUST).
         </t>
         <!--
         <t>
@@ -4008,7 +3982,7 @@
         </t>
         -->
         <t>
-          TLS を使用する際は, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバ証明書の検証が実行されなくてはならない (MUST).
+          TLS を使用する際は, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバ証明書を検証しなければならない (MUST).
         </t>
         <!--
         <t>
@@ -4023,11 +3997,11 @@
 
       <section anchor="PII" title="Personally Identifiable Information">
 
-        <t>UserInfo レスポンスは一般的に個人を識別する情報 (PII) を含む.
-        適合する法令に従い, 特定の目的でそれらの情報を提供することに関する
-        利用者の同意を認可時もしくは事前に取得すべきである (SHOULD).
-        一般に利用目的は <spanx style="verb">redirect_uris</spanx> と紐づけ登録
-        である.</t>
+        <t>
+          UserInfo Response は一般的には Personally Identifiable Information (PII) を含む.
+          したがって, 特定の目的のための情報の開示に関する End-User の同意は, 関連する法律に従い, 認可時もしくは認可時に先立って取得されるべきである (SHOULD).
+          利用目的は一般的には <spanx style="verb">redirect_uris</spanx> とともに登録される.
+        </t>
         <!--
         <t>The UserInfo Response typically contains Personally Identifiable
         Information (PII). As such, End-User consent for the release of the information
@@ -4037,8 +4011,9 @@
         style="verb">redirect_uris</spanx>.</t>
         -->
 
-        <t>必要な UserInfo の情報のみをクライアントに保持するべきであり、クライアントは
-        受け取った情報を利用目的の定義と一致させるべきである (SHOULD).</t>
+        <t>
+          必要な UserInfo データだけが Client 側に保管されるべきであり, Client は受信したデータを告知した利用目的と関連づけるべきである (SHOULD).
+        </t>
         <!--
         <t>Only necessary UserInfo data should be stored at the Client and the
         Client SHOULD associate the received data with the purpose of use
@@ -4048,7 +4023,7 @@
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
         <t>
-          リソースサーバは利用者の UserInfo へのアクセスログを, 自身の情報へのアクセスを監視できるようにするため, 利用者向けに有効にすべきである (SHOULD).
+          Resource Server は End-User に対して, 誰が自分のデータにアクセスしたかを監視できよう, 自身の UserInfo へのアクセスログを閲覧可能にべきである (SHOULD).
         </t>
         <!--
         <t>
@@ -4059,9 +4034,9 @@
       </section>
 
       <section anchor="Correlation" title="Correlation">
-        <t>クライアント間での紐づけの可能性からエンドユーザを保護するため,
-        対となる匿名識別子 (PPID) を <spanx style="verb">sub</spanx> (subject)
-        として使用することを検討すべきである (SHOULD).</t>
+        <t>
+          Client 間での名寄せの可能性からエンドユーザを保護するため, Pairwise Pseudonymous Identifier (PPID) を <spanx style="verb">sub</spanx> (subject) として使用することを検討すべきである (SHOULD).
+        </t>
         <!--
         <t>To protect the End-User from a possible correlation among Clients, the
         use of a Pairwise Pseudonymous Identifier (PPID) as the
