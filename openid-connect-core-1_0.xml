@@ -61,7 +61,7 @@
 
     <abstract>
       <t>
-        OpenIC Connect 1.0 は, OAuth 2.0 プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
+        OpenID Connect 1.0 は, OAuth 2.0 プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
         このプロトコルは Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証可能にする.
         また同時に End-User の必要最低限のプロフィール情報を, 相互運用可能かつ RESTful な形で取得することも可能にする.
       </t>
@@ -93,7 +93,7 @@
     <section anchor='Introduction' title='Introduction'>
 
       <t>
-        OpenIC Connect 1.0 は, OAuth 2.0 <xref target="RFC6749"/> プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
+        OpenID Connect 1.0 は, OAuth 2.0 <xref target="RFC6749"/> プロトコルの上にシンプルなアイデンティティレイヤーを付与したものである.
         このプロトコルは Client が Authorization Server の認証結果に基づいて End-User のアイデンティティを検証可能にする.
         また同時に End-User の必要最低限のプロフィール情報を, 相互運用可能かつ RESTful な形で取得することも可能にする.
       </t>
@@ -244,7 +244,7 @@
           "Grant Type", "Protected Resource", "Redirection URI", "Refresh Token",
           "Resource Owner", "Resource Server", "Response Type", および "Token Endpoint",
           <xref target="JWT">JSON Web Token (JWT)</xref> で定義された "Claim Name", "Claim Value", "JSON Web Token (JWT)", および "Nested JWT" ,
-          <xref target="RFC2616">RFC 2616</xref> で定義された "User Agent", 
+          <xref target="RFC2616">RFC 2616</xref> で定義された "User Agent",
           <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> で定義された "Response Mode" という用語を用いる.
         </t>
         <!--
@@ -540,7 +540,7 @@
             <t hangText="UserInfo Endpoint">
               Protected Resource のひとつ.
               Access Token を提示する Client に対して, Authorization Grant に従って End-User に関する情報を提供する.
-              URLは <spanx style="verb">https</spanx> scheme を利用しなければならず (MUST), ポート番号, パス, クエリパラメータの要素を含むことがある (MAY). 
+              URLは <spanx style="verb">https</spanx> scheme を利用しなければならず (MUST), ポート番号, パス, クエリパラメータの要素を含むことがある (MAY).
               <!--
               Protected Resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding
@@ -593,7 +593,7 @@
 	</t>
     -->
 	<t>
-      利用される用語の一部分の詳細を知るために, <xref target="RFC4949">Internet Security Glossary, Version 2</xref>, <xref target="ISO29115">ISO/IEC 29115 Entity Authentication Assurance</xref>, および <xref target="X.1252">ITU-T X.1252</xref> を参照すること. 
+      利用される用語の一部分の詳細を知るために, <xref target="RFC4949">Internet Security Glossary, Version 2</xref>, <xref target="ISO29115">ISO/IEC 29115 Entity Authentication Assurance</xref>, および <xref target="X.1252">ITU-T X.1252</xref> を参照すること.
 	</t>
     <!--
 	<t>
@@ -919,7 +919,7 @@
         解明されない使用されるいくつかのクレームは無視しなければならない(MUST).この仕様によって定義される追加のクレームのための
 	<xref target="CodeIDToken" format="counter"/>,
 	<xref target="HybridIDToken" format="counter"/>,
-	<xref target="StandardClaims" format="counter"/> と 
+	<xref target="StandardClaims" format="counter"/> と
 	<xref target="SelfIssuedResponse" format="counter"/>
         セクションを参照すること.
       </t>
@@ -964,7 +964,7 @@
         ID トークンは JWS あるいは JWE の
 	<spanx style="verb">x5u</spanx>,
 	<spanx style="verb">x5c</spanx>,
-	<spanx style="verb">jku</spanx> と 
+	<spanx style="verb">jku</spanx> と
 	<spanx style="verb">jwk</spanx>
   ヘッダーパラメーターフィールド を使用すべきではない.代わりに, 使用されるキーへの参照は各 <xref target="SigEnc"/> に Discovery と Registration parameters を用いて事前に伝えられる.
       </t>
@@ -1793,26 +1793,26 @@
 		  Authorization Server は, 全ての OAuth 2.0 パラメータを OAuth 2.0 仕様に従って検証しなければならない (MUST).
 		</t>
 		<t>
-		  <spanx style="verb">scope</spanx> パラメータが存在することと, 
+		  <spanx style="verb">scope</spanx> パラメータが存在することと,
 		  <spanx style="verb">openid</spanx> scope 値を含んでいることを検証.
-		  (もし <spanx style="verb">openid</spanx> scope 値が存在しなかった場合, 
-		  その要求は OpenID Connect の要求ではないが, 
+		  (もし <spanx style="verb">openid</spanx> scope 値が存在しなかった場合,
+		  その要求は OpenID Connect の要求ではないが,
 		  有効な OAuth 2.0 の要求である可能性がある.)
 		</t>
 		<t>
-		  Authorization Server は, 全ての必須 (REQUIRED) パラメータが存在するか, 
+		  Authorization Server は, 全ての必須 (REQUIRED) パラメータが存在するか,
 		  そしてそれらの使用方法が当仕様に従っているかを検証しなければならない (MUST).
 		</t>
 		<t>
-		  ID Token の <spanx style="verb">sub</spanx> (subject) Claim に値が指定されて要求された場合, 
-		  Authorization Server は, <spanx style="verb">sub</spanx> 値で識別される End-Userが, 
-		  Authorization Server 上にアクティブなセッションを持っているか, 
-		  またはその要求の結果として認証された場合のみ, 
+		  ID Token の <spanx style="verb">sub</spanx> (subject) Claim に値が指定されて要求された場合,
+		  Authorization Server は, <spanx style="verb">sub</spanx> 値で識別される End-Userが,
+		  Authorization Server 上にアクティブなセッションを持っているか,
+		  またはその要求の結果として認証された場合のみ,
 		  成功応答を送信しなければならない (MUST) .
-		  End-User が Authorization Server 上にアクティブなセッションを持っていたとしても, 
+		  End-User が Authorization Server 上にアクティブなセッションを持っていたとしても,
 		  Authorization Server は, 異なるユーザの ID Token や Access Token を応答してはならない (MUST NOT) .
-		  このような要求は,  <spanx style="verb">id_token_hint</spanx> パラメータを用いるか, 
-		  もしくは実装が <spanx style="verb">claims</spanx> パラメータをサポートしていれば, 
+		  このような要求は,  <spanx style="verb">id_token_hint</spanx> パラメータを用いるか,
+		  もしくは実装が <spanx style="verb">claims</spanx> パラメータをサポートしていれば,
 		  <xref target="IndividualClaimsRequests"/> に記述されているように特定の Claim 値を要求することによって実現することができる.
 		</t>
 	      </list>
@@ -1858,7 +1858,7 @@
             -->
 
 	    <t>
-	      <xref target="RFC6749">OAuth 2.0</xref> の規定どおり, 
+	      <xref target="RFC6749">OAuth 2.0</xref> の規定どおり,
 	      Authorization Server は認識できない要求パラメータを無視すべきである (SHOULD) .
 	    </t>
 	    <!--
@@ -1869,8 +1869,8 @@
 	    -->
 
 	    <t>
-	      Authorization Server はなんからのエラーに遭遇した場合, 
-	      <xref target="AuthError"/> に従い, 
+	      Authorization Server はなんからのエラーに遭遇した場合,
+	      <xref target="AuthError"/> に従い,
 	      失敗応答を返さなければならない (MUST) .
 	    </t>
 	    <!--
@@ -1884,10 +1884,10 @@
 	  <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
 	    <t>
-	      要求が妥当であった場合,  Authorization Server は使用された要求パラメータに応じて, 
+	      要求が妥当であった場合,  Authorization Server は使用された要求パラメータに応じて,
 	      End-User を 認証するか, End-User が認証済かの確認を試みる.
 	      Authorization Server によって用いられる End-User の認証方式 (例えば, ユーザ名とパスワード, セッションクッキー等) については当仕様の規定範疇外である.
-	      使用された要求パラメータの値や使用された認証方式に応じ, 
+	      使用された要求パラメータの値や使用された認証方式に応じ,
 	      Authorization Server は認証ユーザーインタフェースを表示するかもしれない (MAY).
 	    </t>
 	    <!--
@@ -1912,10 +1912,10 @@
 	      </t>
 
 	      <t>
-		Authentication Request は,  
+		Authentication Request は,
 		<spanx style="verb">login</spanx> という値を持つ
 		<spanx style="verb">prompt</spanx> パラメータを含んでいる.
-		このケースでは, End-User が既に認証されていたとしても, 
+		このケースでは, End-User が既に認証されていたとしても,
 		Authorization Server は End-User を再認証しなければならない (MUST).
 	      </t>
 	    </list>
@@ -1939,11 +1939,11 @@
 	      Authorization Server は以下のケースのとき, End-User と対話を行ってはならない (MUST NOT).
 	    <list style="symbols">
 	      <t>
-		Authentication Request は, 
+		Authentication Request は,
 		<spanx style="verb">none</spanx> という値を持つ
 		<spanx style="verb">prompt</spanx> パラメータを含んでいる.
-		このケースでは, End-User がまだ認証されていなかったり, 
-		対話なしに認証することができない場合, 
+		このケースでは, End-User がまだ認証されていなかったり,
+		対話なしに認証することができない場合,
 		Authorization Server は エラーを返さなければならない (MUST).
 	      </t>
 	    </list>
@@ -1963,8 +1963,8 @@
 	    -->
 
 	    <t>
-	      End-User と対話を行うとき, 
-	      <xref target="RFC6749">OAuth 2.0</xref> の Section 10.12 と 10.13 に記述されている通り, 
+	      End-User と対話を行うとき,
+	      <xref target="RFC6749">OAuth 2.0</xref> の Section 10.12 と 10.13 に記述されている通り,
 	      Authorization Server は, Cross-Site Request Forgery や Clickjacking に対する適切な対策を行わなければならない (MUST).
 	    </t>
 	    <!--
@@ -1981,12 +1981,12 @@
 
 	    <t>
 	      End-User を認証した後, Authorization Server は, Relying Party に 情報を送る前に認可決定を取得しなければならない (MUST).
-	      使用された要求パラメータによって許可されている場合, 
-	      同意事項を明確にした End-User 対話を通じてか, 
-	      要求の処理やその他の手法 (例えば, 管理機能を用いた事前同意) による同意の確立によって, 
+	      使用された要求パラメータによって許可されている場合,
+	      同意事項を明確にした End-User 対話を通じてか,
+	      要求の処理やその他の手法 (例えば, 管理機能を用いた事前同意) による同意の確立によって,
 	      この認可決定は行われるかもしれない (MAY).
 	      Sections <xref target="IDToken" format="counter"/> と
-	      <xref target="UserInfo" format="counter"/> で, 
+	      <xref target="UserInfo" format="counter"/> で,
 	      情報の送出機構について述べる.
 	    </t>
 	    <!--
@@ -2095,7 +2095,7 @@
 	    </t>
         -->
 	    <t>
-          Redirection URI が無効でない限り, Authorization Server は適切なエラーと state パラメータで Authorization Request にて指定された Redirection URI に Client を返す. 
+          Redirection URI が無効でない限り, Authorization Server は適切なエラーと state パラメータで Authorization Request にて指定された Redirection URI に Client を返す.
 	    </t>
         <!--
 	    <t>
@@ -2225,7 +2225,7 @@
 	    </t>
 
 	    <t>
-          エラーレスポンスパラメータは以下のようになる: 
+          エラーレスポンスパラメータは以下のようになる:
           <!--
 	      The error response parameters are the following:
           -->
@@ -2428,7 +2428,7 @@
       -->
       <t>
         クライアントから有効かつ認可されたトークンリクエストの受信, 確認後, 認可サーバーは ID トークンとアクセストークンを含む正常なレスポンスを返却する.
-        正常なレスポンス内のパラメーターは <xref target="RFC6749">OAuth 2.0</xref> の Section 4.1.4 に定義されている. 
+        正常なレスポンス内のパラメーターは <xref target="RFC6749">OAuth 2.0</xref> の Section 4.1.4 に定義されている.
         レスポンスは <spanx style="verb">application/json</spanx> メディアタイプを使用する.
       </t>
       <!--
@@ -2673,7 +2673,7 @@
 	      <list style="numbers">
 		<t>
           ID Token が 暗号化されているならば, Client が Registration にて指定し OP が ID Token の暗号化に利用した鍵とアルゴリズムを用いて復号する.
-          Registration 時に OP と暗号化が取り決められても ID Token が暗号化されていなかったときは, RP はそれを拒絶するべき (SHOULD). 
+          Registration 時に OP と暗号化が取り決められても ID Token が暗号化されていなかったときは, RP はそれを拒絶するべき (SHOULD).
 		</t>
         <!--
 		<t>
@@ -3039,7 +3039,7 @@
       正確に一致しなければならない(MUST).
       このフローを用いるとき, クライアントがネイティブアプリケーションでない限り
       リダイレクト URI は <spanx style="verb">http</spanx> スキームを使用してはいけない(MUST).
-      この場合のネイティブアプリケーションは, 
+      この場合のネイティブアプリケーションは,
       ホストネームとして <spanx style="verb">localhost</spanx> で <spanx style="verb">http:</spanx>　スキームを使用してもよい(MAY).
 		</t>
 
@@ -3077,7 +3077,7 @@
         </preamble>
         -->
 	      <preamble>
-          以下は, クライアントによる対応する HTTP 302 リダイレクトレスポンスに応じて, 
+          以下は, クライアントによる対応する HTTP 302 リダイレクトレスポンスに応じて,
           User Agent によって認可サーバーへ送信される Implicit フローを用いたリクエストの一例である.
 	      </preamble>
 
@@ -3418,7 +3418,7 @@
 
 	<section anchor="HybridAuthorizationEndpoint" title="Authorization Endpoint">
 
-	  
+
 	  <t>
 	    ハイブリッドフローを使用する場合, 認可エンドポイントは, このセクションで指定された違いを除いて, <xref target="AuthorizationEndpoint"/>で定義されるように, 認可コードフローと同様の方式で利用される.
 	  </t>
@@ -3551,8 +3551,8 @@
 	      <list style="hanging">
 		         <t hangText="access_token">
 		  OAuth2.0のAccess Token.
-		  <spanx style="verb">response_type</spanx>の値が, 
-		  <spanx style="verb">code&nbsp;token</spanx> か, 
+		  <spanx style="verb">response_type</spanx>の値が,
+		  <spanx style="verb">code&nbsp;token</spanx> か,
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>の場合返却される.
 		  (同じケースでは<spanx style="verb">token_type</spanx>の値も返却される.)
 		</t>
@@ -3569,7 +3569,7 @@
 
                 <t hangText="id_token">
 		  ID Token.
-		  <spanx style="verb">response_type</spanx>の値が, 
+		  <spanx style="verb">response_type</spanx>の値が,
 		  <spanx style="verb">code&nbsp;id_token</spanx> か
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>の場合返却される.
 		</t>
@@ -3628,9 +3628,9 @@
 	      with the exception of the differences specified in this section.
 		</t> -->
             <t>
-		  もしエンドユーザがリクエストを拒否または認証に失敗した場合, 
-		  認可サーバは, 異なるResponse Modeが定義されていない限り, 
-		  <xref target="RFC6749">OAuth 2.0</xref>の4.2.2.1章と<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>に定義されるように, 
+		  もしエンドユーザがリクエストを拒否または認証に失敗した場合,
+		  認可サーバは, 異なるResponse Modeが定義されていない限り,
+		  <xref target="RFC6749">OAuth 2.0</xref>の4.2.2.1章と<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>に定義されるように,
 		  リダイレクトURIのフラグメントコンポーネントに含めて, error Authorization Responseを返却しなければならない(MUST)
 			</t>
 
