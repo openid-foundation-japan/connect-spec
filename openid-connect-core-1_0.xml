@@ -3829,20 +3829,32 @@
 
           <section anchor="HybridIDToken" title="ID Token">
 
+      <!--
 	    <t>
 	      The contents of the ID Token are as described in <xref target="IDToken"/>.
 	      When using the Hybrid Flow,
 	      these additional requirements for the following ID Token Claims apply
 	      to an ID Token returned from the Authorization Endpoint:
-	    </t>
+      </t>
+      -->
+      <t>
+        ID トークンの内容は, <xref target="IDToken"/> に記載されている.
+        Hybrid フローを用いるとき, 以下の ID トークンクレームの追加要求は認可エンドポイントから返却される ID トークンに適用される:
+      </t>
             <t>
 	      <list style="hanging">
 
+    <!--
                 <t hangText="nonce">
 		  Use of the <spanx style="verb">nonce</spanx> Claim is REQUIRED
 		  for this flow.
-		</t>
+    </t>
+    -->
+    <t hangText="nonce">
+      このフローでは <spanx style="verb">nonce</spanx> クレームの使用は必須である(REQUIRED).
+    </t>
 
+    <!--
                 <t hangText="at_hash">
 		  Access Token hash value.
 		  Its value is the base64url encoding of the left-most half of the
@@ -3856,15 +3868,36 @@
 		  <spanx style="verb">access_token</spanx> value
 		  with SHA-256, then take the left-most 128 bits and base64url encode them.
 		  The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
-		</t>
+    </t>
+    -->
+    <t hangText="at_hash">
+      アクセストークンのハッシュ値.
+      その値は <spanx style="verb">access_token</spanx> 値の ASCII 表記のオクテットを
+      ハッシュした値の左端を base64url エンコーディングしたものである.
+      そのハッシュアルゴリズムは ID トークンの <xref target="JWS">JWS</xref> ヘッダーの
+      <spanx style="verb">alg</spanx> ヘッダーパラメーターで用いられているハッシュアルゴリズムである.
+      例えば, <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> である場合,
+      SHA-256 を用いて <spanx style="verb">access_token</spanx> の値をハッシュし,
+      左端 128 ビットを取り, それらを base64url エンコードする.
+      <spanx style="verb">at_hash</spanx> の値は大文字と小文字を区別する文字列である.
+    </t>
+    <!--
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with an
 		  <spanx style="verb">access_token</spanx> value,
 		  which is the case for the <spanx style="verb">response_type</spanx> value
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
-		</t>
+    </t>
+    -->
+    <t>
+      <spanx style="verb">response_type</spanx> の値が <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx> で
+      認可エンドポイントから <spanx style="verb">access_token</spanx> 値と共に
+      ID トークンが発行された場合, これは必須である(REQUIRED).
+      それ以外の場合, 含めることは任意である(OPTIONAL).
+    </t>
 
+    <!--
 		<t hangText="c_hash">
 		  Code hash value.
 		  Its value is the base64url encoding of the left-most half of the
@@ -3878,7 +3911,20 @@
 		  <spanx style="verb">code</spanx> value
 		  with SHA-512, then take the left-most 256 bits and base64url encode them.
 		  The <spanx style="verb">c_hash</spanx> value is a case sensitive string.
-		</t>
+    </t>
+    -->
+		<t hangText="c_hash">
+      コードのハッシュ値.
+      <spanx style="verb">code</spanx> 値の ASCII 表記のオクテットを
+      ハッシュした値の左端を base64url エンコーディングしたものである.
+      そのハッシュアルゴリズムは ID トークンの <xref target="JWS">JWS</xref> ヘッダーの
+      <spanx style="verb">alg</spanx> ヘッダーパラメーターで用いられているハッシュアルゴリズムである.
+      例えば, <spanx style="verb">alg</spanx> が <spanx style="verb">HS512</spanx> である場合,
+      SHA-512 を用いて <spanx style="verb">code</spanx> の値をハッシュし,
+      左端 256 ビットを取り, それらを base64url エンコードする.
+      <spanx style="verb">c_hash</spanx> の値は大文字と小文字を区別する文字列である.
+    </t>
+    <!--
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with a
 		  <spanx style="verb">code</spanx>,
@@ -3886,7 +3932,14 @@
 		  <spanx style="verb">code&nbsp;id_token</spanx> and
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
-		</t>
+    </t>
+    -->
+    <t>
+      <spanx style="verb">response_type</spanx> の値が <spanx style="verb">code&nbsp;id_token</spanx> と <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx> で,
+      認可エンドポイントから <spanx style="verb">code</spanx> と共に ID トークンが
+      発行された場合, これは必須である(REQUIRED).
+      それ以外の場合, 含めることは任意である(OPTIONAL).
+    </t>
 
 	      </list>
 	    </t>
@@ -3894,68 +3947,112 @@
 
 	  <section anchor="HybridIDTValidation" title="ID Token Validation">
 
+      <!--
 	    <t>
 	      When using the Hybrid Flow, the contents of an ID Token
 	      returned from the Authorization Endpoint MUST be validated
 	      in the same manner as for the Implicit Flow,
 	      as defined in <xref target="ImplicitIDTValidation"/>.
 	    </t>
+      -->
+      <t>
+        Hybrid フローを用いるとき, <xref target="ImplicitIDTValidation"/> に
+        定義されているように, 認可エンドポイントから返却される ID トークンの内容は
+        Implicit フローと同様に確認されなければならない(MUST).
+      </t>
 	  </section>
 
 	</section>
 
 	<section anchor="HybridTokenEndpoint" title="Token Endpoint">
 
+    <!--
 	  <t>
 	    When using the Hybrid Flow, the Token Endpoint is used
 	    in the same manner as for the Authorization Code Flow,
 	    as defined in <xref target="TokenEndpoint"/>,
 	    with the exception of the differences specified in this section.
-	  </t>
+    </t>
+    -->
+    <t>
+      Hybrid フローを用いるとき, このセクションで指定された相違点を除いて,
+      <xref target="TokenEndpoint"/> で定義されている認可コードフローと
+      同様にトークンエンドポイントが使用される.
+    </t>
 
 	  <section anchor="HybridTokenRequest" title="Token Request">
 
+      <!--
 	    <t>
 	      When using the Hybrid Flow, Token Requests are made
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="TokenRequest"/>.
-	    </t>
+      </t>
+      -->
+      <t>
+        Hybrid フローが用いられるとき, <xref target="TokenRequest"/> に定義されている
+        認可コードフローと同様にトークンリクエストが作られる.
+      </t>
 	  </section>
 
 	  <section anchor="HybridTokenRequestValidation" title="Token Request Validation">
 
+      <!--
 	    <t>
 	      When using the Hybrid Flow, Token Requests are validated
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="TokenRequestValidation"/>.
-	    </t>
+      </t>
+      -->
+      <t>
+        Hybrid フローが用いられるとき, <xref target="TokenRequestValidation"/> に定義されている
+        認可コードフローと同様にトークンリクエストが確認される.
+      </t>
 	  </section>
 
 	  <section anchor="HybridTokenResponse" title="Successful Token Response">
 
+      <!--
 	    <t>
 	      When using the Hybrid Flow, Token Responses are made
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="TokenResponse"/>.
-	    </t>
+      </t>
+      -->
+      <t>
+        Hybrid フローが用いられるとき, <xref target="TokenResponse"/> に定義されている
+        認可コードフローと同様にトークンレスポンスが作られる.
+      </t>
 	  </section>
 
 	  <section anchor="HybridTokenErrorResponse" title="Token Error Response">
 
+      <!--
 	    <t>
 	      When using the Hybrid Flow, Token Error Responses are made
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="TokenErrorResponse"/>.
-	    </t>
+      </t>
+      -->
+      <t>
+        Hybrid フローが用いられるとき, <xref target="TokenErrorResponse"/> に定義されている
+        認可コードフローと同様にトークンエラーレスポンスが作られる.
+      </t>
 	  </section>
 
 	  <section anchor="HybridTokenResponseValidation" title="Token Response Validation">
 
+      <!--
 	    <t>
 	      When using the Hybrid Flow, Token Responses are validated
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="TokenResponseValidation"/>.
-	    </t>
+      </t>
+      -->
+      <t>
+        Hybrid フローが用いられるとき, <xref target="TokenResponseValidation"/> に定義されている
+        認可コードフローと同様にトークンレスポンスは確認される.
+      </t>
 	  </section>
 
           <section anchor="HybridIDToken2" title="ID Token">
