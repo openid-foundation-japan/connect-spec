@@ -945,7 +945,7 @@
       -->
       <t>
         ID トークンは <xref target="JWS">JWS</xref> によって署名される, <xref target="JWS">JWS</xref> と <xref target="JWE">JWE</xref> のそれぞれによって署名された後に暗号化の両方をされていなければならない(MUST).これにより各 <xref target="SigningOrder"/> に, 認証, 完全性, 否認防止, および任意で機密性を提供する.
-        ID トークンが暗号化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗号化されなければならなく(MUST), 認可エンドポイントから ID トークンのない戻り値を使用するレスポンスタイプ(認可コードフローを用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</xref> の使用を要求したクライアントでない限り, ID トークンは <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</xref> を使用してはいけない(MUST NOT).
+        ID トークンが暗号化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗号化されなければならなく(MUST), 認可エンドポイントから ID トークンのない戻り値を使用するレスポンスタイプ(認可コードフローを用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</spanx> の使用を要求したクライアントでない限り, ID トークンは <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</spanx> を使用してはいけない(MUST NOT).
       </t>
       <!--
       <t>
@@ -2849,7 +2849,7 @@
         -->
 
         <t>
-          JWT <spanx style="verb">alg</spanx> ヘッダパラメータが spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx> および <spanx style="verb">HS512</spanx> のような MAC ベースのアルゴリズムを利用するならば, <spanx style="verb">aud</spanx> (audience) Claim に含まれる <spanx style="verb">client_id</spanx> に対応する <spanx style="verb">client_secret</spanx> の UTF-8 表現バイト列が署名の確認に用いられる.
+          JWT <spanx style="verb">alg</spanx> ヘッダパラメータが <spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx> および <spanx style="verb">HS512</spanx> のような MAC ベースのアルゴリズムを利用するならば, <spanx style="verb">aud</spanx> (audience) Claim に含まれる <spanx style="verb">client_id</spanx> に対応する <spanx style="verb">client_secret</spanx> の UTF-8 表現バイト列が署名の確認に用いられる.
           MAC ベースのアルゴリズムについて, <spanx style="verb">aud</spanx> が複数の値を持つとき, もしくは <spanx style="verb">aud</spanx> の値と異なる <spanx style="verb">azp</spanx> の値があるときの振る舞いは規定されない.
         </t>
         <!--
