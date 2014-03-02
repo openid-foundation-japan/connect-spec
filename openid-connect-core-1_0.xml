@@ -4789,6 +4789,12 @@
       <section anchor="UserInfo" title="UserInfo Endpoint">
 
 	<t>
+    UserInfo Endpoint は, 認証された End-User に関する Claim を返す OAuth 2.0 Protected Resource である.
+    要求された End-User のクレームを取得するため, クライアントは OpenID Connect Authentication を通して得られた Access Token を用いて UserInfo Endpoint に要求する.
+    これらのクレームは通常, クレームの名前と値のペアのコレクションを含んだ JSON オブジェクトで表現される.
+	</t>
+<!--
+	<t>
 	  The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
 	  returns Claims about the authenticated End-User.
 	  To obtain the requested Claims about the End-User, the Client
@@ -4797,27 +4803,54 @@
 	  These Claims are normally represented by a JSON object that contains
 	  a collection of name and value pairs for the Claims.
 	</t>
+-->
+	<t>
+    UserInfo Endpoint にアクセスする際には TLS は必須である (MUST).
+    TLS 利用についての詳細は <xref target="TLSRequirements"/> 参照.
+	</t>
+<!--
 	<t>
 	  Communication with the UserInfo Endpoint MUST utilize TLS.
 	  See <xref target="TLSRequirements"/> for more information on using TLS.
 	</t>
+-->
 
+	<t>
+    UserInfo Endpoint は <xref target="RFC2616">RFC 2616</xref> で定義された HTTP <spanx style="verb">GET</spanx> メソッドと HTTP <spanx style="verb">POST</spanx> メソッドをサポートしなければならない (MUST).
+	</t>
+<!--
 	<t>
 	  The UserInfo Endpoint MUST support the use of the
 	  HTTP <spanx style="verb">GET</spanx> and
 	  HTTP <spanx style="verb">POST</spanx> methods
 	  defined in <xref target="RFC2616">RFC 2616</xref>.
 	</t>
+-->
 
+  <t>
+    UserInfo Endpoint は <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> の Access Token を受け入れなければいけない (MUST).
+  </t>
+<!--
 	<t>The UserInfo Endpoint MUST accept Access Tokens as
 	<xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
+-->
 
+  <t>
+    UserInfo Endpoint は Java Scipt クライアントが Endpoint にアクセスできるように <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> や 必要に応じて他の方法をサポートすべきである (SHOULD).
+  </t>
+<!--
 	<t>The UserInfo Endpoint SHOULD support the use of
 	<xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> and
 	or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
+-->
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
 
+	  <t>
+      クライアントは HTTP <spanx style="verb">GET</spanx> か HTTP <spanx style="verb">POST</spanx> のいずれかを用いて UserInfo Request を送信する.
+      OpenID Connect Authentication Request で得られた Access Token は <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> のセクション 2 に従って, Bearer Token として送信されなければいけない (MUST).
+	  </t>
+<!--
 	  <t>
 	    The Client sends the UserInfo Request using either
 	    HTTP <spanx style="verb">GET</spanx> or HTTP <spanx style="verb">POST</spanx>.
@@ -4825,17 +4858,28 @@
 	    from an OpenID Connect Authentication Request MUST be sent as a Bearer Token,
 	    per Section 2 of <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
 	  </t>
+-->
+	  <t>
+      要求は HTTP <spanx style="verb">GET</spanx> メソッドを用いて, Access Token が <spanx style="verb">Authorization</spanx> ヘッダフィールドで送信されることを推奨する (SHOULD).
+	  </t>
+<!--
 	  <t>
 	    It is RECOMMENDED that the request use the
 	    HTTP <spanx style="verb">GET</spanx> method and
 	    the Access Token be sent using the
 	    <spanx style="verb">Authorization</spanx> header field.
 	  </t>
+-->
 
 	  <figure>
 	    <preamble>
+        以下に UserInfo Request の一例を示す:
+	    </preamble>
+<!--
+	    <preamble>
 	      The following is a non-normative example of a UserInfo Request:
 	    </preamble>
+-->
 
 	    <artwork><![CDATA[
   GET /userinfo HTTP/1.1
@@ -4847,24 +4891,51 @@
 
 	<section anchor="UserInfoResponse" title="Successful UserInfo Response">
 	  <t>
+      クライアントの登録時に署名または暗号化されたレスポンスが要求されていない限り, UserInfo Claim は JSON オブジェクトのメンバーとして返される (MUST).
+      <xref target="StandardClaims"/> に定義されている Claim に加え, そこに明記されていない Claim も返却可能である.
+	  </t>
+<!--
+	  <t>
 	    The UserInfo Claims MUST be returned as the members of a JSON object
 	    unless a signed or encrypted response was requested during Client Registration.
 	    The Claims defined in <xref target="StandardClaims"/> can be returned,
 	    as can additional Claims not specified there.
 	  </t>
+-->
+	  <t>
+      プライバシー上の理由により, OpenID Provider はいくつかの要求されたクレームの値を返さなくてもよい (MAY).
+	  </t>
+<!--
 	  <t>
 	    For privacy reasons, OpenID Providers MAY elect to not return
 	    values for some requested Claims.
 	  </t>
+-->
+	  <t>
+      クレームが返されない場合, クレーム名は JSON オブジェクトから除かれるべきであり (SHOULD), 値を null や空文字列にした状態で該当のクレームを含めるべきではない (SHOULD NOT).
+	  </t>
+<!--
 	  <t>
 	    If a Claim is not returned, that Claim Name SHOULD be
 	    omitted from the JSON object representing the Claims; it
 	    SHOULD NOT be present with a null or empty string value.
 	  </t>
+-->
+	  <t>
+      UserInfo Response には, 必ず <spanx style="verb">sub</spanx> クレームを含むこと (MUST).
+	  </t>
+<!--
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) Claim
 	    MUST always be returned in the UserInfo Response.
 	  </t>
+-->
+	  <t>
+      注) トークン置換攻撃(<xref target="TokenSubstitution"/> 参照)を考慮すると, UserInfo Response が必ずしも ID Token の <spanx style="verb">sub</spanx> Claim が示す End-User のものであるとは保証できない.
+      そのため UserInfo Response に含まれる <spanx style="verb">sub</spanx> Claim が ID Token のそれと一致することを検証しなければならない (MUST).
+      もし2つが一致しない場合, UserInfo Response を利用してはならない (MUST NOT).
+	  </t>
+<!--
 	  <t>
 	    NOTE:  Due to the possibility of token substitution attacks
 	    (see <xref target="TokenSubstitution"/>),
@@ -4876,6 +4947,13 @@
 	    <spanx style="verb">sub</spanx> Claim in the ID Token;
 	    if they do not match, the UserInfo Response values MUST NOT be used.
 	  </t>
+-->
+	  <t>
+      登録 <xref target="OpenID.Registration"/> 時に別の形式が指定された場合を除き, UserInfo Request を受信すると UserInfo Endpoint は <xref target="JSONSerialization"/> のように, UserInfor Response の JSON Serialization を HTTP レスポンスボディで返さなければならない (MUST).
+      UserInfo Endpoint は Content-Type ヘッダーを用いてフォーマットを示すこと (MUST).
+      レスポンスボディがテキスト JSON オブジェクトである場合, HTTP レスポンスの Content-Type は <spanx style="verb">application/json</spanx> でなければならず (MUST), レスポンスボディは UTF-8 エンコードとすること (SHOULD).
+	  </t>
+<!--
 	  <t>
 	    Upon receipt of the UserInfo Request, the UserInfo Endpoint MUST
 	    return the JSON Serialization of the UserInfo Response as in
@@ -4890,6 +4968,14 @@
 	    JSON object;
 	    the response body SHOULD be encoded using UTF-8.
 	  </t>
+-->
+	  <t>
+      UserInfo Response が署名や暗号化をされている場合,
+      クレームは JWT で返され, Content-Type は <spanx style="verb">application/jwt</spanx> でなければならない (MUST).
+      レスポンスは署名無しに暗号化をしてもよい (MAY).
+      署名と暗号化の両方が要求された場合, レスポンスは <xref target="JWT"/> で定義されているように, 結果はネストされた JWT となり, 署名した後に暗号化しなければならない (MUST).
+	  </t>
+<!--
 	  <t>
 	    If the UserInfo Response is
 	    signed and/or encrypted, then the Claims are returned in a JWT and the
@@ -4899,6 +4985,14 @@
 	    the response MUST be signed then encrypted,
 	    with the result being a Nested JWT, as defined in <xref target="JWT"/>.
 	  </t>
+-->
+	  <t>
+      署名する場合, UserInfo Response は
+      メンバーとして <spanx style="verb">iss</spanx> (issuer) クレームと <spanx style="verb">aud</spanx> (audience) クレームを含むべきである (SHOULD).
+      <spanx style="verb">iss</spanx> は OP の Issuer Identifier URL であるべきである (SHOULD).
+      <spanx style="verb">aud</spanx> は RP の Client ID の値とするか, 値を含むべきである (SHOULD).
+	  </t>
+<!--
 	  <t>
 	    If signed, the UserInfo Response
 	    SHOULD contain the Claims
@@ -4907,10 +5001,16 @@
 	    The <spanx style="verb">iss</spanx> value SHOULD be the OP's Issuer Identifier URL.
 	    The <spanx style="verb">aud</spanx> value SHOULD be or include the RP's Client ID value.
 	  </t>
+-->
 
 	  <figure>
+      <preamble>
+        以下に UserInfo Response の一例を示す:
+      </preamble>
+<!--
 	    <preamble>The following is a non-normative example
 	    of a UserInfo Response:</preamble>
+-->
 
 	    <artwork><![CDATA[
   HTTP/1.1 200 OK
@@ -4932,16 +5032,27 @@
 	<section anchor="UserInfoError" title="UserInfo Error Response">
 
 	  <t>
+      もし何らかのエラーが起こった場合, UserInfo Endpoint は  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> SEction 3 に示す Error Response を返す.
+      (RFC 6750 に関係のないエラーは, 適切な HTTP ステータスコードを用いて User Agent に返すこと)
+	  </t>
+<!--
+	  <t>
 	    When an error condition occurs, the UserInfo Endpoint returns
 	    an Error Response as defined in Section 3 of
 	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
 	    (HTTP errors unrelated to RFC 6750 are returned to the User Agent using the
 	    appropriate HTTP status code.)
 	  </t>
+-->
 
 	  <figure>
+      <preamble>
+        以下に UserInfo Error Response の一例を示す:
+      </preamble>
+<!--
 	    <preamble>The following is a non-normative example
 	    of a UserInfo Error Response:</preamble>
+-->
 
 	    <artwork><![CDATA[
   HTTP/1.1 401 Unauthorized
@@ -4959,18 +5070,33 @@
 
 	  <t>
 	    <list style="numbers">
+        <t>
+          レスポンスを返した OP が意図した通りの OP であることを, <xref target="RFC6125">RFC 6125</xref> に従い TLS サーバー証明書チェックを通じて検証する.
+        </t>
+<!--
 	      <t>Verify that the OP that responded was the intended OP
 	      through a TLS server certificate check, per
 	      <xref target="RFC6125">RFC 6125</xref>.</t>
+-->
 
+        <t>
+          クライアントが登録時に <spanx style="verb">userinfo_encrypted_response_alg</spanx> パラメータを提供した場合, 登録時に指定した鍵を使用して UserInfo Response を復号する.
+        </t>
+<!--
 	      <t>If the Client has provided a
 	      <spanx style="verb">userinfo_encrypted_response_alg</spanx>
 	      parameter during Registration, decrypt the UserInfo Response
 	      using the keys specified during Registration.</t>
+-->
 
+        <t>
+          レスポンスが署名されている場合, クライアントは <xref target="JWS">JWS</xref> に従って署名を検証すべきである (SHOULD).
+        </t>
+<!--
 	      <t>If the response was signed, the Client SHOULD validate the
 	      signature according to <xref
 	      target="JWS">JWS</xref>.</t>
+-->
 	    </list>
 	  </t>
 	</section>
