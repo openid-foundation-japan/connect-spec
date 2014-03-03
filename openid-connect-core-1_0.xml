@@ -4240,6 +4240,7 @@
     </section>
 
     <section anchor="ThirdPartyInitiatedLogin" title="Initiating Login from a Third Party">
+      <!--
       <t>
         In some cases, the login flow is initiated by an OpenID Provider
         or another party, rather than the Relying Party.
@@ -4252,17 +4253,37 @@
         register this endpoint value using the
         <spanx style="verb">initiate_login_uri</spanx> Registration parameter.
       </t>
+      -->
+      <t>
+        いくつかの場合, Relying Party よりもむしろ OpenID プロバイダーあるいは他の Party によってログインフローは開始される.
+        この場合, RP が 指定された OP に認証リクエストを要求する開始プログラムは, 自身のログイン初期化エンドポイントで RP にリダイレクトする.
+        このログイン初期化エンドポイントは, デフォルトのランディングページよりも, RP で深いリンクにすることができる.
+        <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> をサポートする RPs は<spanx style="verb">initiate_login_uri</spanx> レジストレーションパラメーターを用いてこのエンドポイントの値を登録する.
+      </t>
+      <!--
       <t>
         The party initiating the login request does so by redirecting
         to the login initiation endpoint at the RP, passing the following parameters:
       </t>
+      -->
+      <t>
+        ログインリクエストを初期化する Party は, 以下のパラメーターを渡して RP でログイン初期化エンドポイントにリダイレクトすることによってそれを行う:
+      </t>
       <t>
         <list style="hanging">
+          <!--
           <t hangText="iss">REQUIRED.
             Issuer Identifier for the OP that the RP is to send
             the Authentication Request to.
             Its value MUST be a URL using the <spanx style="verb">https</spanx> scheme.
           </t>
+          -->
+          <t hangText="iss">
+            必須(REQUIRED).
+            RP が認証リクエストを送信する OP のための Issuer Identifier.
+            その値は <spanx style="verb">https</spanx> スキームを用いた URL でなければならない(MUST).
+          </t>
+          <!--
           <t hangText="login_hint">OPTIONAL.
             Hint to the Authorization Server
             about the login identifier the End-User might use to log in.
@@ -4270,37 +4291,76 @@
             it MUST include it in the Authentication Request
             as the <spanx style="verb">login_hint</spanx> parameter value.
           </t>
+          -->
+          <t hangText="login_hint">
+            任意(OPTIONAL).
+            End-User が　ログインするために使用されるかもしれないログイン識別子について
+            の認可サーバーへのヒント.
+            クライアントがこの文字列値パラメーターのために値を受け付ける場合,
+            <spanx style="verb">login_hint</spanx> パラメーター値として認証リクエストの中に
+            含めなければならない(MUST).
+          </t>
+          <!--
           <t hangText="target_link_uri">OPTIONAL.
             URL that the RP is requested to redirect to after authentication.
             RPs MUST verify the value of the
             <spanx style="verb">target_link_uri</spanx> to prevent being used as
             an open redirector to external sites.
           </t>
+          -->
+          <t hangText="target_link_uri">
+            任意(OPTIONAL).
+            認証後, RP がリダイレクトするために要求される URL.
+            RPs は外部サイトへのオープンリダイレクターとして使用されることを防ぐために
+            <spanx style="verb">target_link_uri</spanx> の値を検証しなければならない(MUST).
+          </t>
 
         </list>
       </t>
+      <!--
       <t>
         The parameters can either be passed as query parameters using
         the HTTP <spanx style="verb">GET</spanx> method
         or be passed as HTML form values that are auto-submitted in the User Agent,
         and thus are transmitted via the HTTP <spanx style="verb">POST</spanx> method.
       </t>
+      -->
+      <t>
+        パラメーターは HTTP <spanx style="verb">GET</spanx> メソッドを用いた
+        クエリストリングとして渡すか, User Agent で自動送信される HTML フォーム値として
+        渡すことができ, HTTP <spanx style="verb">POST</spanx> メソッド経由で転送される.
+      </t>
 
+      <!--
       <t>
         Other parameters MAY be sent, if defined by extensions.
         Any parameters used that are not understood MUST be ignored by the Client.
       </t>
+      -->
+      <t>
+        拡張によって他のパラメーターが定義される場合, 送られてもよい(MAY).
+        解釈されず使用されたいくつかのパラメーターはクライアントによって無視されなければならない(MUST).
+      </t>
 
+      <!--
       <t>
         Clients SHOULD employ frame busting and other techniques to prevent
         End-Users from being logged in by third party sites without their knowledge
         through attacks such as Clickjacking.
         Refer to Section 4.4.1.9 of <xref target="RFC6819"/> for more details.
       </t>
+      -->
+      <t>
+        クライアントはフレームバスティングや End-User をクリックジャッキングのような攻撃を
+        通じてこれらの知識なしに third party サイトによってロギングされることから 
+        防ぐための他の技術を採用すべきである(SHOULD).
+        詳細は <xref target="RFC6819"/> の Section 4.4.1.9 を参照.
+      </t>
 
     </section>
 
     <section anchor="Claims" title="Claims">
+      <!--
       <t>
         This section specifies how the Client can obtain Claims about the End-User
         and the Authentication event.
@@ -4311,12 +4371,29 @@
         The Claims can come directly from the OpenID Provider
         or from distributed sources as well.
       </t>
+      -->
+      <t>
+        この章はクライアントが End-User と認証イベントについてのクレームをどのように
+        付与することができるかということについて示す.
+        ベーシックプロフィールクレームの標準セットも定義する.
+        クレームの事前に定義されたセットは指定された scope 値を用いて要求することができ,
+        個別のクレームは <spanx style="verb">claims</spanx> リクエストパラメーターを用いて
+        要求することができる.
+        そのクレームは OpenID Provider あるいは同様に分散ソースから直接送られてくる.
+      </t>
 
       <section anchor="StandardClaims" title="Standard Claims">
+        <!--
         <t>This specification defines a set of standard Claims.
         They can be requested to be returned either in the
         UserInfo Response, per <xref target="UserInfoResponse"/>,
         or in the ID Token, per <xref target="IDToken"/>.
+        </t>
+        -->
+        <t>
+          この仕様は標準クレームのセットを定義する.
+          それらは <xref target="UserInfoResponse"/> の UserInfo レスポンス内
+          あるいは <xref target="IDToken"/> の ID トークン内で返却されるように要求できる.
         </t>
 
         <texttable anchor="ClaimTable" title="Registered Member Definitions">
