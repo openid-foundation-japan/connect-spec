@@ -7787,20 +7787,33 @@
 
     <section anchor="Serializations" title="Serializations">
       <t>
+        メッセージは以下のいずれかの方法でシリアライズされる.
+        <!--
         Messages are serialized using one of the following methods:
+        -->
         <list style="numbers">
           <t>Query String Serialization</t>
           <t>Form Serialization</t>
           <t>JSON Serialization</t>
         </list>
 
+        ここではこれらのシリアライゼーション方法のシンタックスについて記述する.
+        それらがいつ利用可能, もしくは利用する必要があるかを記述するのは, 他セクションに委ねる.
+        すべてのシリアライゼーションがすべてのメッセージに利用可能ではないことに注意すること.
+        <!--
         This section describes the syntax of these serialization methods;
         other sections describe when they can and must be used.
         Note that not all methods can be used for all messages.
+        -->
       </t>
 
       <section anchor="QuerySerialization" title="Query String Serialization">
 
+        <t>
+          Query String Serialization を使ってパラメータをシリアライズするためには, Client は <xref target="W3C.REC-html401-19991224"></xref> で定義された <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットを使いパラメータと値を URL のクエリコンポーネントへ追加することで文字列を構成する.
+          Query String Serialization は一般的に HTTP <spanx style="verb">GET</spanx> リクエストで使用される.
+        </t>
+        <!--
         <t>In order to serialize the parameters using the Query String
         Serialization, the Client constructs the string by adding the
         parameters and values to the query component of a URL using the <spanx
@@ -7811,12 +7824,19 @@
         The same serialization method is also used when adding
         parameters to the fragment component of a URL.
         </t>
+        -->
 
         <figure>
+          <preamble>
+            以下はシリアライズの参考例である.
+            (改行は掲載上の都合による)
+          </preamble>
+          <!--
           <preamble>
             The following is a non-normative example of this serialization
             (with line wraps within values for display purposes only):
           </preamble>
+          -->
 
           <artwork><![CDATA[
   GET /authorize?
@@ -7831,17 +7851,29 @@
 
       <section anchor="FormSerialization" title="Form Serialization">
 
+        <t>
+          パラメータやその値は, HTTP リクエストのエンティティボディに <xref target="W3C.REC-html401-19991224"></xref> に定義されているように <spanx style="verb">application/x-www-form-urlencoded</spanx> フォーマットでパラメータ名とその値を追加することで Form Serialize される.
+          Form Serialization は一般的には HTTP <spanx style="verb">POST</spanx> リクエストで利用される.
+        </t>
+        <!--
         <t>Parameters and their values are Form Serialized by adding the
         parameter names and values to the entity body of the HTTP request using
         the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
         as defined by <xref target="W3C.REC-html401-19991224"></xref>.
         Form Serialization is typically used in HTTP <spanx style="verb">POST</spanx> requests.</t>
+        -->
 
         <figure>
+          <preamble>
+            以下はシリアライズの参考例である.
+            (改行は掲載上の都合による)
+          </preamble>
+          <!--
           <preamble>
             The following is a non-normative example of this serialization
             (with line wraps within values for display purposes only):
           </preamble>
+          -->
 
           <artwork><![CDATA[
   POST /authorize HTTP/1.1
@@ -7858,6 +7890,14 @@
 
       <section anchor="JSONSerialization" title="JSON Serialization">
         <t>
+          パラメータは各パラメータを JSON オブジェクトの最上位メンバーに追加する形で, JSON オブジェクトにシリアライズされる.
+          パラメータ名と文字列値は JSON 文字列として表現される.
+          数値は JSON 数値, Boolean 値は JSON 真偽値となる.
+          他で特別に指示されない限り, 省略されているパラメータおよび値が指定されていないパラメータは省略し, JSON <spanx style="verb">null</spanx> としないようにすべきである (SHOULD).
+          各パラメータは JSON オブジェクトおよび JSON 配列をその値とすることができる (MAY).
+        </t>
+        <!--
+        <t>
           The parameters are serialized into a JSON object structure by adding each
           parameter at the highest structure level. Parameter names and string
           values are represented as JSON strings.
@@ -7868,11 +7908,17 @@
           a JSON <spanx style="verb">null</spanx> value, unless otherwise specified.
           A parameter MAY have a JSON object or a JSON array as its value.
         </t>
+        -->
 
         <figure>
           <preamble>
+            以下はシリアライズの参考例である.
+          </preamble>
+          <!--
+          <preamble>
             The following is a non-normative example of this serialization:
           </preamble>
+          -->
 
           <artwork><![CDATA[
   {
@@ -7890,6 +7936,12 @@
     <section anchor="StringOps" title="String Operations">
 
       <t>
+        いくつかの OpenID Connect メッセージを処理する際にはメッセージの中の値を既知の値を比較することが求められる.
+        例えば, UserInfo エンドポイントから返された Claim Name は <spanx style="verb">sub</spanx> などの特定の Claim Name と比較される.
+        よって Unicode 文字列比較処理はセキュリティ上重要な意味を持つ.
+      </t>
+      <!--
+      <t>
         Processing some OpenID Connect messages requires comparing
         values in the messages to known values. For example, the Claim
         Names returned by the UserInfo Endpoint might be compared to
@@ -7897,6 +7949,23 @@
         style="verb">sub</spanx>.  Comparing Unicode strings,
         however, has significant security implications.
       </t>
+      -->
+      <t>
+        したがって, JSON 文字列を他の Unicode 文字列と比較する際は下記の通り実施しなければならない (MUST).
+
+        <list style="numbers">
+          <t>
+            JSON に適用されたすべてのエスケープ処理を取り除き Unicode コードポイントの配列を生成する.
+          </t>
+          <t>
+            Unicode Normalization <xref target="USA15"/> を JSON 文字列, もしくは比較対象文字列に対していかなる時点であっても適用してはならない (MUST NOT).
+          </t>
+          <t>
+            二つの文字列の比較は, Unicode コードポイント同士の等値比較として実施されなければならない (MUST).
+          </t>
+        </list>
+      </t>
+      <!--
       <t>
         Therefore, comparisons between JSON strings and other Unicode
         strings MUST be performed as specified below:
@@ -7919,11 +7988,19 @@
 
         </list>
       </t>
+      -->
+
+      <t>
+        いくつかの箇所において, 本仕様はスペースで区切られた文字列のリストを使用している.
+        そのようないかなる場合においても, この目的では単一の ASCII のスペース文字 (0x20) を区切り文字として使用しなければならない (MUST).
+      </t>
+      <!--
       <t>
         In several places, this specification uses space delimited
         lists of strings.  In all such cases, a single ASCII space
         character (0x20) MUST be used as the delimiter.
       </t>
+      -->
 
     </section>
 
