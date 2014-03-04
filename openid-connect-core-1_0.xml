@@ -6424,6 +6424,11 @@
 
       <section anchor="RequestUriParameter" title="Passing a Request Object by Reference">
         <t>
+          <spanx style="verb">request_uri</spanx> Authorization Request パラメータにより, OpenID Connect リクエストを参照渡し可能になる.
+          このパラメータは, Request Object そのものが値として渡されるのではなく, Request Object が指定された URL から取得されるという点以外は, <spanx style="verb">request</spanx> パラメータと同等である.
+        </t>
+        <!--
+        <t>
           The <spanx style="verb">request_uri</spanx> Authorization Request parameter enables
           OpenID Connect requests to be passed by reference, rather than by value.
           This parameter is used identically to the
@@ -6431,6 +6436,12 @@
           the Request Object value is retrieved from the resource at the specified URL,
           rather than passed by value.
         </t>
+        -->
+        <t>
+          Discovery 結果の <spanx style="verb">request_uri_parameter_supported</spanx> により, OP がこのパラメータをサポートしていることを知ることができる.
+          OP がこのパラメータをサポートしていないにも関わらず RP がこれを利用する場合, OP は <spanx style="verb">request_uri_not_supported</spanx> エラーを返すこと (MUST).
+        </t>
+        <!--
         <t>
           The <spanx style="verb">request_uri_parameter_supported</spanx>
           Discovery result indicates whether the OP supports this parameter.
@@ -6438,6 +6449,13 @@
           the OP MUST return the <spanx style="verb">request_uri_not_supported</spanx>
           error.
         </t>
+        -->
+        <t>
+          <spanx style="verb">request_uri</spanx> パラメータを利用する際には, 参照先の JWT に含まれる OpenID Connect パラメータ値が OAuth 2.0 リクエストシンタックスで送信されるパラメータに取って代わる.
+          しかしながら, <spanx style="verb">request_uri</spanx> を利用する場合にでも, パラメータを OAuth 2.0 リクエストシンタックスでも送信することができる (MAY).
+          こうすることで, キャッシュ可能で署名済 (および暗号化済) の Request Object 値に静的なリクエストパラメータを含め, リクエストごとに可変パラメータ (<spanx style="verb">state</spanx> , <spanx style="verb">nonce</spanx> 等) を OAuth 2.0 パラメータとして送信することなどが可能になる.
+        </t>
+        <!--
         <t>
           When the <spanx style="verb">request_uri</spanx> parameter is used,
           the OpenID Connect request parameter values contained in the referenced JWT
@@ -6450,6 +6468,13 @@
           can vary with each request, such as <spanx style="verb">state</spanx> and
           <spanx style="verb">nonce</spanx>, are passed as OAuth 2.0 parameters.
         </t>
+        -->
+        <t>
+          リクエスト自体を有効な OAuth 2.0 Authorization Request とするため, <spanx style="verb">response_type</spanx> および <spanx style="verb">client_id</spanx> パラメータは OAuth 2.0 リクエストシンタックスでリクエストに含まねばならない (MUST).
+          これは OAuth 2.0 で必須とされている (REQUIRED).
+          もし Request Object にもこれらと同じパラメータが含まれている場合は, 2つのパラメータは一致しなければならない (MUST).
+        </t>
+        <!--
         <t>
           So that the request is a valid OAuth 2.0 Authorization Request,
           values for the <spanx style="verb">response_type</spanx> and
@@ -6458,6 +6483,12 @@
           The values for these parameters MUST match those in the Request Object,
           if present.
         </t>
+        -->
+        <t>
+          <spanx style="verb">scope</spanx> パラメータが Request Object に含まれる場合でも, <spanx style="verb">scope</spanx> パラメータは OAuth 2.0 リクエストシンタックスで <spanx style="verb">openid</spanx> scope を含んだ形で送信しなければならない (MUST).
+          これにより下位レイヤーの OAuth 2.0 処理系に, 当該リクエストが OpenID Connect リクエストであることを明示することができる.
+        </t>
+        <!--
         <t>
           Even if a <spanx style="verb">scope</spanx> parameter
           is present in the referenced Request Object,
@@ -6466,6 +6497,13 @@
           <spanx style="verb">openid</spanx> scope value to indicate to the
           underlying OAuth 2.0 logic that this is an OpenID Connect request.
         </t>
+        -->
+        <t>
+          サーバーは Request URI 参照先のコンテンツをキャッシュしても良い (MAY).
+          もし参照先のリソースが可変の場合は, URI フラグメントとしてコンテンツの SHA-256 ハッシュの Base64URL エンコード値を含めるべきである (SHOULD).
+          もし URI フラグメント値が変わった場合は, 古いフラグメント値を含む URI に紐づいたキャッシュ値はもはや有効でない.
+        </t>
+        <!--
         <t>
           Servers MAY cache the contents of the resources referenced by Request URIs.
           If the contents of the referenced resource could ever change,
@@ -6475,6 +6513,12 @@
           that any cached value for that URI with the old fragment value
           is no longer valid.
         </t>
+        -->
+        <t>
+          Client が <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> Section 2.1 で定義される <spanx style="verb">request_uris</spanx> パラメータを用いて <spanx style="verb">request_uri</spanx> を事前登録することも可能である (MAY).
+          OP は, 事前登録済の <spanx style="verb">request_uri</spanx> 値以外の利用を許可しないということを, <spanx style="verb">require_request_uri_registration</spanx> ディスカバリパラメータで示すことができる.
+        </t>
+        <!--
         <t>
           Note that Clients MAY pre-register
           <spanx style="verb">request_uri</spanx> values using the
@@ -6486,9 +6530,21 @@
           be pre-registered with the <spanx style="verb">require_request_uri_registration</spanx>
           discovery parameter.
         </t>
+        -->
+        <t>
+          Request URI は全体で 512 ASCII 文字を超えてはならない (MUST NOT).
+        </t>
+        <!--
         <t>
           The entire Request URI MUST NOT exceed 512 ASCII characters.
         </t>
+        -->
+        <t>
+          URL 参照先のリソースは, Request Object でなければならない (MUST).
+          Request Object が Authorization Server に検証可能な方法で署名されていない限り, <spanx style="verb">request_uri</spanx> のスキーマは <spanx style="verb">https</spanx> でなければならない (MUST).
+          <spanx style="verb">request_uri</spanx> 値は Authorization Server が到達可能でなければならず (MUST), Client にも到達可能であるべきである (SHOULD).
+        </t>
+        <!--
         <t>
           The contents of the resource referenced by the URL MUST be a Request Object.
           The scheme used in the
@@ -6498,13 +6554,20 @@
           The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
           Authorization Server, and SHOULD be reachable by the Client.
         </t>
+        -->
 
         <t>
           <figure>
+            <preamble>
+              以下は <spanx style="verb">request_uri</spanx> 参照先の Request Object の例である.
+              (改行は掲載上の都合による)
+            </preamble>
+            <!--
             <preamble>The following is a non-normative example of
             the contents of a Request Object resource that can be
             referenced by a <spanx style="verb">request_uri</spanx>
             (with line wraps within values for display purposes only):</preamble>
+            -->
 
             <artwork><![CDATA[
   eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiAiczZCaGRSa3
@@ -6533,10 +6596,23 @@
         <section anchor="CreateRequestUri"
                  title="URL Referencing the Request Object">
           <t>
+            Client は Request Object をローカルもしくはリモートの Server にアクセス可能な URL に配置する.
+            この URI が Request URI (<spanx style="verb">request_uri</spanx>) である.
+          </t>
+          <!--
+          <t>
             The Client stores the Request Object resource either
             locally or remotely at a URL the Server can access.
             This URL is the Request URI, <spanx style="verb">request_uri</spanx>.
           </t>
+          -->
+          <t>
+            Request Object が Claim リクエストを含む場合, その Request Object は Authorization Server 以外の何者にも知られてはならない (MUST NOT).
+            例えば, <spanx style="verb">request_uri</spanx> はそのライフタイムに応じて適切なエントロピーを持っていなければならない (MUST).
+            再び利用することの無いのが明らかな場合や適切なタイムアウト後には, そのコンテンツを削除することが推奨される (RECOMMENDED).
+            ただしなんらかのアクセスコントロールが実施されている場合はその限りではない.
+          </t>
+          <!--
           <t>
             If the Request Object includes requested values for Claims,
             it MUST NOT be revealed to anybody but the Authorization Server.
@@ -6547,10 +6623,17 @@
             or after a reasonable timeout
             unless access control measures are taken.
           </t>
+          -->
           <figure>
+            <preamble>
+              以下は Request URI 値の例である.
+              (改行は掲載上の都合による)
+            </preamble>
+            <!--
             <preamble>The following is a non-normative example
             of a Request URI value
             (with line wraps within values for display purposes only):</preamble>
+            -->
 
             <artwork><![CDATA[
   https://client.example.org/request.jwt#
@@ -6562,13 +6645,24 @@
 
         <section anchor="UseRequestUri"
                  title='Request using the "request_uri" Request Parameter'>
+          <t>
+            Client は Authorization Request を Authorization Endpoint に送信する.
+          </t>
+          <!--
           <t>The Client sends the Authorization Request to the
           Authorization Endpoint.</t>
+          -->
 
           <figure>
+            <preamble>
+              以下は <spanx style="verb">request_uri</spanx> パラメータを使った Authorization Request の例である.
+              (改行は掲載上の都合による)
+            </preamble>
+            <!--
             <preamble>The following is a non-normative example
             of an Authorization Request using the <spanx style="verb">request_uri</spanx> parameter
             (with line wraps within values for display purposes only):</preamble>
+            -->
 
             <artwork><![CDATA[
   https://server.example.com/authorize?
