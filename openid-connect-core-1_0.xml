@@ -6677,19 +6677,37 @@
         </section>
 
         <section anchor="GetRequestUri" title="Authorization Server Fetches Request Object">
+          <t>
+            Request を受けると, Authorization Server は参照先の Request Object を取得するため, <spanx style="verb">request_uri</spanx> に HTTP <spanx style="verb">GET</spanx> リクエストを送らなければならない (MUST).
+            ただし Request Object がキャッシュ済の場合を除く.
+            Request Object を取得すると, Authorization Server は Authorization Request を取得するため Request Object をパースする.
+          </t>
+          <!--
           <t>Upon receipt of the Request, the Authorization Server MUST
           send an HTTP <spanx style="verb">GET</spanx> request to the <spanx style="verb">request_uri</spanx>
           to retrieve the referenced Request Object, unless it is already cached, and parse it
           to recreate the Authorization Request parameters.</t>
+          -->
 
+          <t>
+            RP はリクエストごとに異なるパラメータを用いる場合は, リクエストごとにユニークな URI を用いるべきである (SHOULD).
+            もしくは Authorization Server が <spanx style="verb">request_uri</spanx> 参照先のコンテンツをキャッシュするのを防ぐこと.
+          </t>
+          <!--
           <t>Note that the RP SHOULD use a unique URI for each
           request utilizing distinct parameters, or otherwise
           prevent the Authorization Server from caching the <spanx style="verb">request_uri</spanx>.
           </t>
+          -->
 
           <figure>
+            <preamble>
+              以下は Request Object フェッチ例である.
+            </preamble>
+            <!--
             <preamble>The following is a non-normative example of this fetch
             process:</preamble>
+            -->
 
             <artwork><![CDATA[
   GET /request.jwt HTTP/1.1
@@ -6700,20 +6718,42 @@
 
         <section anchor="RequestUriRationale" title="&quot;request_uri&quot; Rationale">
           <t>
+            <spanx style="verb">request_uri</spanx> を利用する理由はいくつか挙げられる.
+          </t>
+          <!--
+          <t>
             There are several reasons that one might choose to use the
             <spanx style="verb">request_uri</spanx> parameter:
           </t>
+          -->
           <t>
             <list style="numbers">
+              <t>
+                リクエストパラメータセットが長大になり, ブラウザの URI 長制限を超える.
+                リクエストパラメータを参照渡しすることで, この問題を回避できる.
+              </t>
+              <!--
               <t>
                 The set of request parameters can become large, and can exceed browser
                 URI size limitations.  Passing the request parameters by reference
                 can solve this problem.
               </t>
+              -->
+              <t>
+                リクエスト全体を値として渡すより, <spanx style="verb">request_uri</spanx> を渡す方がリクエストレイテンシを抑えることができる.
+              </t>
+              <!--
               <t>
                 Passing a <spanx style="verb">request_uri</spanx> value, rather than
                 a complete request by value, can reduce request latency.
               </t>
+              -->
+              <t>
+                RP が送ってくる Claim は, 基本的に不変である.
+                <spanx style="verb">request_uri</spanx> は, 事前に不変のリクエストパラメータセットを用意しておき, 時には事前に署名や暗号化を施しておくことを可能にする.
+                (<spanx style="verb">request_uri</spanx> 値は, 特定の不変なリクエストパラメータに対する "artifact" となる)
+              </t>
+              <!--
               <t>
                 Most requests for Claims from an RP are constant.
                 The <spanx style="verb">request_uri</spanx> is a way of creating
@@ -6722,17 +6762,30 @@
                 (The <spanx style="verb">request_uri</spanx> value becomes an "artifact"
                 representing a particular fixed set of request parameters.)
               </t>
+              -->
+              <t>
+                Registration 時に不変なリクエストパラメータを事前登録しておくことで, OP は Registration 時にリクエストパラメータを事前に検証済にした状態でキャッシュすることができる.
+                これにより, OP はリクエストを受け取った際にコンテンツを取得しにいく必要がなくなる.
+              </t>
+              <!--
               <t>
                 Pre-registering a fixed set of request parameters at Registration time
                 enables OPs to cache and pre-validate the request parameters at
                 Registration time, meaning they need not be retrieved at request time.
               </t>
+              -->
+              <t>
+                Registration 時に不変なリクエストパラメータを事前登録しておくことで, OP は顧客保護などの視点から送られてくるであろうリクエストの事前審査を行うことができる.
+                事前審査を行う主体は, OP 自身なこともあれば, サードパーティであることもあろう.
+              </t>
+              <!--
               <t>
                 Pre-registering a fixed set of request parameters at
                 Registration time enables OPs to vet the contents of
                 the request from consumer protection and other points
                 of views, either itself or by utilizing a third party.
               </t>
+              -->
             </list>
           </t>
         </section>
@@ -6740,6 +6793,11 @@
 
       <section anchor="JWTRequestValidation" title="Validating JWT-Based Requests">
 
+        <t>
+          <spanx style="verb">request</spanx> ないしは <spanx style="verb">request_uri</spanx> Authorization Request パラメータを利用する場合, Authentication Request の検証には <xref target="AuthRequestValidation" format="counter"/>, <xref target="ImplicitValidation" format="counter"/> および <xref target="HybridValidation" format="counter"/> に加えて更なるステップが必要となる.
+          このステップとは, Request Object を含む JWT の検証と, Request Object 自体の検証である.
+        </t>
+        <!--
         <t>
           When the <spanx style="verb">request</spanx> or
           <spanx style="verb">request_uri</spanx> Authorization Request parameters
@@ -6750,11 +6808,15 @@
           <xref target="HybridValidation" format="counter"/>.
           These steps are to validate the JWT containing the Request Object
           and to validate the Request Object itself.
-
         </t>
+        -->
 
         <section anchor="EncryptedRequestObject" title="Encrypted Request Object">
 
+          <t>
+            もし Authorization Server が Discovery ドキュメント <xref target="OpenID.Discovery"/> 中の <spanx style="verb">request_object_encryption_alg_values_supported</spanx> と <spanx style="verb">request_object_encryption_enc_values_supported</spanx> で JWE 暗号化アルゴリズムを公表している場合, またはその他の手段により暗号かアルゴリズムを明らかにしている場合, Client はそれらのアルゴリズムを利用して JWT を暗号化する.
+          </t>
+          <!--
           <t>
             If the Authorization Server has advertised JWE encryption algorithms
             in the <spanx style="verb">request_object_encryption_alg_values_supported</spanx> and
@@ -6763,7 +6825,14 @@
             or has supplied encryption algorithms by other means,
             these are used by the Client to encrypt the JWT.
           </t>
+          -->
 
+          <t>
+            Authorization Server は <xref target="JWE">JSON Web Encryption</xref> の仕様に従って JWT を複合しなければならない (MUST).
+            Request Object は署名されているかもしれず, 署名無しの平文かもしれない (MAY).
+            前者の場合, 署名検証は <xref target="SignedRequestObject"/> に従うこと (MUST).
+          </t>
+          <!--
           <t>
             The Authorization Server MUST decrypt the JWT in accordance with
             the <xref target="JWE">JSON Web Encryption</xref> specification.
@@ -6771,14 +6840,25 @@
             In the former case, signature validation MUST be performed
             as defined in <xref target="SignedRequestObject"/>.
           </t>
+          -->
 
+          <t>
+            複合に失敗した場合, Authorization Server はエラーを返さねばならない (MUST).
+          </t>
+          <!--
           <t>
             The Authorization Server MUST return an error if decryption fails.
           </t>
+          -->
         </section>
 
         <section anchor="SignedRequestObject" title="Signed Request Object">
 
+          <t>
+            署名検証を行うには, JWS ヘッダーの <spanx style="verb">alg</spanx> パラメータが Client Registration 時の <spanx style="verb">request_object_signing_alg</spanx>, もしくはその他の手段により事前登録された値と一致しなければならない (MUST).
+            署名は <spanx style="verb">client_id</spanx> とアルゴリズムに対して適切な鍵を用いて行わなければならない (MUST).
+          </t>
+          <!--
           <t>
             To perform Signature Validation,
             the <spanx style="verb">alg</spanx> parameter in the JWS header MUST match the value
@@ -6789,14 +6869,26 @@
             for that <spanx style="verb">client_id</spanx>
             and algorithm.
           </t>
+          -->
 
+          <t>
+            署名検証に失敗した場合, Authorization Server はエラーを返さねばならない (MUST).
+          </t>
+          <!--
           <t>
             The Authorization Server MUST return an error if signature validation fails.
           </t>
+          -->
         </section>
 
         <section anchor="RequestParameterValidation" title="Request Parameter Assembly and Validation">
 
+          <t>
+            Authorization Server は, Request Object 値と OAuth 2.0 Authorization Request パラメータから (<spanx style="verb">request</spanx> と <spanx style="verb">request_uri</spanx> を除いて) Authorization Request パラメータを集約しなければならない (MUST).
+            Request Object と OAuth Authorization Request パラメータに同じパラメータが含まれる場合, Request Object に含まれるパラメータを用いること.
+            その後 Authorization Server は, 集約された Authorization Request パラメータを用いて, <xref target="AuthRequestValidation" format="counter"/>, <xref target="ImplicitValidation" format="counter"/> および <xref target="HybridValidation" format="counter"/> に従って, 利用されているフローに応じて通常通りリクエストを検証する.
+          </t>
+          <!--
           <t>
             The Authorization Server MUST assemble
             the set of Authorization Request parameters to be used
@@ -6814,6 +6906,7 @@
             <xref target="ImplicitValidation" format="counter"/>, or
             <xref target="HybridValidation" format="counter"/>.
           </t>
+          -->
 
         </section>
       </section>
