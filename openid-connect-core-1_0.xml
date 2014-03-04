@@ -5288,6 +5288,14 @@
       <section anchor="ScopeClaims" title="Requesting Claims using Scope Values">
 
         <t>
+          OpenID Connect Client は <xref target="RFC6749">OAuth 2.0</xref> Section 3.3 に従い, Access Token に要求されるアクセス権限を <spanx style="verb">scope</spanx> 値を通じて指定する.
+          Access Tokens に紐づく scope は, そのトークンを使って OAuth 2.0 で保護されたエンドポイントにアクセスした際にどのようなリソースが得られるかを規定する.
+          Protected Resource エンドポイントは,
+          提示された Access Token を要求した際に使用した scope 値やその他のパラメータに基づき,
+          異なる動作をしたり, 異なる情報を返却したりしてもよい (MAY).
+        </t>
+        <!--
+        <t>
           OpenID Connect Clients use <spanx style="verb">scope</spanx> values,
           as defined in Section 3.3 of <xref target="RFC6749">OAuth 2.0</xref>,
           to specify what
@@ -5298,26 +5306,51 @@
           return different information based on the scope values and other parameters
           used when requesting the presented Access Token.
         </t>
+        -->
+
+        <t>
+          OpenID Connect では, scope は Claim Value として取得可能な情報セットを指定する為に利用できる.
+          本仕様では OpenID Connect で用いられる scope についてのみ述べる.
+        </t>
+        <!--
         <t>
           For OpenID Connect, scopes
           can be used to request that specific sets of information
           be made available as Claim Values.
         </t>
+        -->
+
+        <t>
+          Authorization Server は, 以下の scope によって要求される Claim を Voluntary Claim として扱う.
+        </t>
+        <!--
         <t>
           Claims requested by the following scopes are treated by Authorization Servers
           as Voluntary Claims.
         </t>
+        -->
 
+        <t>
+          OpenID Connect は, Claim を要求する際に用いられる以下の <spanx style="verb">scope</spanx> 値を定義する:
+        </t>
+        <!--
         <t>
           OpenID Connect defines the following <spanx style="verb">scope</spanx> values
           that are used to request Claims:
         </t>
+        -->
+
         <t>
           <list style="hanging">
 
+            <t hangText="profile">
+              OPTIONAL.
+              この scope 値は, 以下に示す End-User のデフォルトプロフィール Claim へのアクセス要求に用いる.
+            <!--
             <t hangText="profile">OPTIONAL. This scope value
             requests access to the End-User's default profile Claims,
             which are:
+            -->
 
             <spanx style="verb">name</spanx>,
             <spanx style="verb">family_name</spanx>,
@@ -5334,23 +5367,56 @@
             <spanx style="verb">locale</spanx>, and
             <spanx style="verb">updated_at</spanx>.</t>
 
+            <t hangText="email">
+              OPTIONAL.
+              <spanx style="verb">email</spanx> および <spanx style="verb">email_verified</spanx> Claim へのアクセス要求に用いる.
+            </t>
+            <!--
             <t hangText="email">OPTIONAL. This scope value requests access to
             the <spanx style="verb">email</spanx> and
             <spanx style="verb">email_verified</spanx> Claims.</t>
+            -->
 
+            <t hangText="address">
+              OPTIONAL.
+              <spanx style="verb">address</spanx> Claim へのアクセス要求に用いる.
+            </t>
+            <!--
             <t hangText="address">OPTIONAL. This scope value requests access to
             the <spanx style="verb">address</spanx> Claim.</t>
+            -->
 
+            <t hangText="phone">
+              OPTIONAL.
+              <spanx style="verb">phone_number</spanx> および <spanx style="verb">phone_number_verified</spanx> Claim へのアクセス要求に用いる.
+            </t>
+            <!--
             <t hangText="phone">OPTIONAL. This scope value requests access to
             the <spanx style="verb">phone_number</spanx> and
             <spanx style="verb">phone_number_verified</spanx> Claims.</t>
+            -->
 
           </list>
         </t>
 
+        <t>
+          複数の scope 値は, スペース区切りの大文字小文字を区別した ASCII scope 値のリストによって指定することができる (MAY).
+        </t>
+        <!--
         <t>Multiple scope values MAY be used by creating a space delimited, case
         sensitive list of ASCII scope values.</t>
+        -->
 
+        <t>
+          処理の結果として Access Token が発行される <spanx style="verb">response_type</spanx> を使用したとき,
+          <spanx style="verb">profile</spanx>,
+          <spanx style="verb">email</spanx>,
+          <spanx style="verb">address</spanx>, および
+          <spanx style="verb">phone</spanx> scope 値により要求される Claim は, <xref target="UserInfoResponse"/> にある通り UserInfo Endpoint から返される.
+          しかし,
+          (<spanx style="verb">response_type</spanx> 値が <spanx style="verb">id_token</spanx> であるケースのように) Access Token が発行されない場合, 結果 Claim はID Token 内で返却される.
+        </t>
+        <!--
         <t>
           The Claims requested by the
           <spanx style="verb">profile</spanx>,
@@ -5366,7 +5432,13 @@
           value <spanx style="verb">id_token</spanx>),
           the resulting Claims are returned in the ID Token.
         </t>
+        -->
 
+        <t>
+          End-User が OpenID Provider に対して RP に要求された情報の一部もしくは全ての提供を拒否することもある.
+          End-User に要求する情報を最小化するために, RP は UserInfo Endpoint で提供される情報の一部のみをリクエストすることもできる.
+        </t>
+        <!--
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
         information requested by RPs.
@@ -5374,7 +5446,20 @@
         to disclose, an RP can elect to
         only request a subset of the information available from the
         UserInfo Endpoint.</t>
+        -->
 
+        <t>
+          <figure>
+            <preamble>
+              以下に符号化されていない <spanx style="verb">scope</spanx> リクエスト例を示す.
+            </preamble>
+
+            <artwork><![CDATA[
+  scope=openid profile email phone
+]]></artwork>
+          </figure>
+        </t>
+        <!--
         <t>
           <figure>
             <preamble>
@@ -5387,10 +5472,26 @@
 ]]></artwork>
           </figure>
         </t>
+        -->
       </section>
 
       <section anchor="ClaimsParameter" title='Requesting Claims using the "claims" Request Parameter'>
 
+        <t>
+          OpenID Connect は, 個々の Claim の要求や,
+          要求された Claim に適用されるパラメータの指定を可能とするために,
+          以下の Authorization Request パラメータを定義する:
+
+          <list style="hanging">
+
+            <t hangText="claims">
+              OPTIONAL.
+              当パラメータは, 特定の Claim の返却を要求するのに用いられる.
+              値は要求する Claim をリスト化した JSON オブジェクトである.
+            </t>
+          </list>
+        </t>
+        <!--
         <t>
           OpenID Connect defines the following Authorization Request parameter
           to enable requesting individual Claims
@@ -5405,6 +5506,15 @@
             </t>
           </list>
         </t>
+        -->
+
+        <t>
+          <spanx style="verb">claims</spanx> Authentication Request パラメータは,
+          特定の Claim を UserInfo Endpoint から, かつ/または ID Token 内で, 返却することを要求する.
+          これは要求する Claim のリストを含む JSON オブジェクトとして表される.
+          要求する Claim のプロパティが指定されていてもよい (MAY).
+        </t>
+        <!--
         <t>
           The <spanx style="verb">claims</spanx> Authentication Request
           parameter requests that specific Claims
@@ -5413,6 +5523,15 @@
           from these locations.
           Properties of the Claims being requested MAY also be specified.
         </t>
+        -->
+
+        <t>
+          <spanx style="verb">claims</spanx> パラメータのサポートは任意である (OPTIONAL).
+          当パラメータをサポートしない OP に対して RP が当パラメータを使用したとき,
+          OP は 適切と思われるヒューリスティックな方法を用いて, RP と End-User にとって有益と思われる Claim のセットを返すべきである (SHOULD).
+          <spanx style="verb">claims_parameter_supported</spanx> Discovery 結果は, OP が当パラメータをサポートしているかどうかを示す.
+        </t>
+        <!--
         <t>
           Support for the <spanx style="verb">claims</spanx> parameter is OPTIONAL.
           Should an OP not support this parameter and an RP uses it,
@@ -5422,6 +5541,16 @@
           The <spanx style="verb">claims_parameter_supported</spanx>
           Discovery result indicates whether the OP supports this parameter.
         </t>
+        -->
+
+        <t>
+          <spanx style="verb">claims</spanx> パラメータ値は, OAuth 2.0 要求の中で, UTF-8 でエンコードされた JSON として表される
+          (最終的には OAuth パラメータとして受け渡されるときに form-urlencoded される).
+          Request Object 値として使用される際は,
+          <xref target="RequestObject"/> により,
+          JSON が <spanx style="verb">claims</spanx> メンバーの値として使用される.
+        </t>
+        <!--
         <t>
           The <spanx style="verb">claims</spanx> parameter value is represented
           in an OAuth 2.0 request as UTF-8 encoded JSON
@@ -5430,6 +5559,51 @@
           the JSON is used as the value of the
           <spanx style="verb">claims</spanx> member.
         </t>
+        -->
+
+        <t>
+          Claim 要求 JSON オブジェクトのトップレベルメンバーは以下の通り:
+
+          <list style="hanging">
+            <t hangText="userinfo">
+              OPTIONAL.
+              UserInfo Endpoint へ返却を要求する個々の Claim のリストを示す.
+              当メンバーが存在した場合,
+              <spanx style="verb">scope</spanx> 値で要求された Claim に加え,
+              当メンバーでリストされた Claim も返却される.
+              当メンバーが存在しなかった場合,
+              <spanx style="verb">scope</spanx> 値で要求された Claim のみが返却される.
+            </t>
+            <t>
+              <spanx style="verb">userinfo</spanx> メンバーを指定する際は,
+              UserInfo Endpoint を使用するために,
+              <spanx style="verb">response_type</spanx> に対し,
+              Access Token を Client に発行するタイプの値を指定しなければならない (MUST).
+            </t>
+
+            <t hangText="id_token">
+              OPTIONAL.
+              ID Token 内に格納して返却を要求する個々の Claim のリストを示す.
+              当メンバーが存在した場合,
+              デフォルトの Claim に加え,
+              当メンバーでリストされた Claim も返却される.
+              当メンバーが存在しなかった場合,
+              デフォルトの Claim のみが返却される.
+              デフォルトの Claim 等の ID Token の定義については <xref target="IDToken"/>を,
+              フロー毎の ID Token 要件については Section
+              <xref target="CodeIDToken" format="counter"/>,
+              <xref target="ImplicitIDToken" format="counter"/>,
+              <xref target="HybridIDToken" format="counter"/>,
+              <xref target="HybridIDToken2" format="counter"/>
+              を参照すること.
+            </t>
+
+          </list>
+
+          上記以外のメンバーが存在してもよい (MAY).
+          認識できないメンバーが使用された場合は無視しなければならない (MUST).
+        </t>
+        <!--
         <t>
           The top-level members of the Claims request JSON object are:
 
@@ -5471,7 +5645,40 @@
           Other members MAY be present.
           Any members used that are not understood MUST be ignored.
         </t>
+        -->
 
+        <t>
+          <figure>
+            <preamble>Claim 要求の例を以下に示す:</preamble>
+
+            <artwork><![CDATA[
+  {
+   "userinfo":
+    {
+     "given_name": {"essential": true},
+     "nickname": null,
+     "email": {"essential": true},
+     "email_verified": {"essential": true},
+     "picture": null,
+     "http://example.info/claims/groups": null
+    },
+   "id_token":
+    {
+     "auth_time": {"essential": true},
+     "acr": {"values": ["urn:mace:incommon:iap:silver"] }
+    }
+  }
+]]></artwork>
+          </figure>
+          <xref target="StandardClaims"/> で定義されている標準セットには含まれていない Claim である
+          (example) <spanx style="verb">http://example.info/claims/groups</spanx> Claim が
+          要求されていることに注意すること.
+          <spanx style="verb">claims</spanx> パラメータの使用は,
+          標準セットに含まれていない Claim を要求する唯一の方法である.
+          また, <spanx style="verb">scope</spanx> 値では指定することが出来ない
+          標準の Claim 同士の特定の組み合わせを要求する唯一の方法でもある.
+        </t>
+        <!--
         <t>
           <figure>
             <preamble>An example Claims request is as follows:</preamble>
@@ -5504,6 +5711,7 @@
           It is also the only way to request specific combinations of the
           standard Claims that cannot be specified using scope values.
         </t>
+        -->
 
         <section anchor="IndividualClaimsRequests" title="Individual Claims Requests">
           <t>
