@@ -6029,11 +6029,19 @@
     <section anchor="JWTRequests" title="Passing Request Parameters as JWTs">
 
       <t>
+        OpenID Connect では, Authorization Request に署名および暗号化を可能にするため, 以下の Authorization Request パラメータを定義する.
+        <!--
         OpenID Connect defines the following Authorization Request parameters
         to enable Authentication Requests to be signed and optionally encrypted:
+        -->
 
         <list style="hanging">
           <t hangText="request">
+            任意 (OPTIONAL).
+            このパラメータにより, OpenID Connect リクエストを単一の self-contained なパラメータとすることができ, 任意で署名および暗号化を施せるようになる.
+            パラメータ値は Request Object 値である (<xref target="RequestObject"/> 参照).
+            Request Object は, 各 Claim がリクエストパラメータとなる JWT である.
+            <!--
             OPTIONAL.
             This parameter enables
             OpenID Connect requests to be passed in a single,
@@ -6042,8 +6050,14 @@
             as specified in <xref target="RequestObject"/>.
             It represents the request as a JWT whose Claims
             are the request parameters.
+            -->
           </t>
           <t hangText="request_uri">
+            任意 (OPTIONAL).
+            このパラメータにより, 値そのものではなく参照を送ることが可能になる.
+            <spanx style="verb">request_uri</spanx> 値は <spanx style="verb">https</spanx> スキーマで始まる URL であり, Request Object 値を含むリソースへの参照となる.
+            参照先の Request Object は, リクエストパラメータを含む JWT である.
+            <!--
             OPTIONAL.
             This parameter enables
             OpenID Connect requests to be passed by reference, rather than by value.
@@ -6051,19 +6065,31 @@
             using the <spanx style="verb">https</spanx> scheme
             referencing a resource containing a Request Object value,
             which is a JWT containing the request parameters.
+            -->
           </t>
         </list>
       </t>
       <t>
+        これらのパラメータを利用したリクエストは JWT として表現され, その値もしくは参照が送信される.
+        リクエストを参照渡しすることで, 長大なリクエストを扱いやすくなる.
+        上記のパラメータのいずれかを利用する場合は, 同一リクエスト中で他方を利用してはならない (MUST NOT).
+        <!--
         Requests using these parameters are represented as JWTs, which are respectively
         passed by value or by reference.
         The ability to pass requests by reference is particularly useful for large requests.
         If one of these parameters is used,
         the other MUST NOT be used in the same request.
+        -->
       </t>
 
       <section title="Passing a Request Object by Value" anchor="RequestObject">
 
+        <t>
+          <spanx style="verb">request</spanx> Authorization Request パラメータにより, OpenID Connect リクエストを単一の self-contained なパラメータとすることができ, 任意で署名および暗号化を施せるようになる.
+          このパラメータは, 各 Claim がリクエストパラメータとなる JWT である (<xref target="AuthorizationEndpoint"/> 参照).
+          この JWT は Request Object と呼ばれる.
+        </t>
+        <!--
         <t>
           The <spanx style="verb">request</spanx> Authorization Request parameter
           enables OpenID Connect requests to be passed in a single,
@@ -6072,6 +6098,13 @@
           specified in <xref target="AuthorizationEndpoint"/>.
           This JWT is called a Request Object.
         </t>
+        -->
+        <t>
+          <spanx style="verb">request</spanx> パラメータのサポートはオプションである (OPTIONAL).
+          Discovery 結果の <spanx style="verb">request_parameter_supported</spanx> により, OP がこのパラメータをサポートしていることを知ることができる.
+          OP がこのパラメータをサポートしていないにも関わらず RP がこれを利用する場合, OP は <spanx style="verb">request_not_supported</spanx> エラーを返すこと (MUST).
+        </t>
+        <!--
         <t>
           Support for the <spanx style="verb">request</spanx> parameter is OPTIONAL.
           The <spanx style="verb">request_parameter_supported</spanx>
@@ -6080,6 +6113,13 @@
           the OP MUST return the <spanx style="verb">request_not_supported</spanx>
           error.
         </t>
+        -->
+        <t>
+          <spanx style="verb">request</spanx> を利用する際には, JWT に含まれる OpenID Connect パラメータ値が OAuth 2.0 リクエストシンタックスで送信されるパラメータに取って代わる.
+          しかしながら, Request Object を利用する場合にでも, パラメータを OAuth 2.0 リクエストシンタックスでも送信することができる (MAY).
+          こうすることで, キャッシュ可能で署名済 (および暗号化済) の Request Object 値に静的なリクエストパラメータを含め, リクエストごとに可変パラメータ (<spanx style="verb">state</spanx>, <spanx style="verb">nonce</spanx> 等) を OAuth 2.0 パラメータとして送信することなどが可能になる.
+        </t>
+        <!--
         <t>
           When the <spanx style="verb">request</spanx> parameter is used,
           the OpenID Connect request parameter values contained in the JWT
@@ -6092,6 +6132,13 @@
           can vary with each request, such as <spanx style="verb">state</spanx> and
           <spanx style="verb">nonce</spanx>, are passed as OAuth 2.0 parameters.
         </t>
+        -->
+        <t>
+          リクエスト自体を有効な OAuth 2.0 Authorization Request とするため, <spanx style="verb">response_type</spanx> および <spanx style="verb">client_id</spanx> パラメータは OAuth 2.0 リクエストシンタックスでリクエストに含まねばならない (MUST).
+          これは OAuth 2.0 で必須とされている (REQUIRED).
+          もし Request Object にもこれらと同じパラメータが含まれている場合は, 2つのパラメータは一致しなければならない (MUST).
+        </t>
+        <!--
         <t>
           So that the request is a valid OAuth 2.0 Authorization Request,
           values for the <spanx style="verb">response_type</spanx> and
@@ -6100,6 +6147,12 @@
           The values for these parameters MUST match those in the Request Object,
           if present.
         </t>
+        -->
+        <t>
+          <spanx style="verb">scope</spanx> パラメータが Request Object に含まれる場合でも, <spanx style="verb">scope</spanx> パラメータは OAuth 2.0 リクエストシンタックスで <spanx style="verb">openid</spanx> scope を含んだ形で送信しなければならない (MUST).
+          これにより下位レイヤーの OAuth 2.0 処理系に, 当該リクエストが OpenID Connect リクエストであることを明示することができる.
+        </t>
+        <!--
         <t>
           Even if a <spanx style="verb">scope</spanx> parameter
           is present in the Request Object value,
@@ -6108,6 +6161,15 @@
           <spanx style="verb">openid</spanx> scope value to indicate to the
           underlying OAuth 2.0 logic that this is an OpenID Connect request.
         </t>
+        -->
+        <t>
+          Request Object は, 署名付きでも良いし, 署名無しの平文ても良い.
+          平文の場合, JWS ヘッダーに <spanx style="verb">none</spanx> アルゴリズム (<xref target="JWA" /> 参照) を指定すること.
+          署名付きの場合, Request Object は <spanx style="verb">iss</spanx> (issuer) および <spanx style="verb">aud</spanx> (audience) を含むべきである (SHOULD).
+          RP 以外の主体に署名されているのでない限り, <spanx style="verb">iss</spanx> 値は RP の Client ID とすべきである (SHOULD).
+          <spanx style="verb">aud</spanx> 値には OP の Issuer Identifier URL を含めるべきである (SHOULD).
+        </t>
+        <!--
         <t>
           The Request Object MAY be signed or unsigned (plaintext).
           When it is plaintext, this is indicated by use of the
@@ -6121,24 +6183,43 @@
           The <spanx style="verb">aud</spanx> value SHOULD be or include
           the OP's Issuer Identifier URL.
         </t>
+        -->
+        <t>
+          Request Object は <xref target="JWE">JWE</xref> を用いて暗号化することもできる (MAY).
+          また署名無しで暗号化のみを適用することもできる (MAY).
+          署名と暗号化を同時に利用する場合は, 署名後に暗号化すること (MUST).
+          これは Nested JWT となる (<xref target="JWT"/> 参照).
+        </t>
+        <!--
         <t>
           The Request Object MAY also be encrypted using <xref target="JWE">JWE</xref>
           and MAY be encrypted without also being signed.
           If both signing and encryption are performed, it MUST be signed then encrypted,
           with the result being a Nested JWT, as defined in <xref target="JWT"/>.
         </t>
+        -->
+        <t>
+          <spanx style="verb">request</spanx> および <spanx style="verb">request_uri</spanx> パラメータは, Request Object 中に含んではならない (MUST NOT).
+        </t>
+        <!--
         <t>
           <spanx style="verb">request</spanx> and
           <spanx style="verb">request_uri</spanx> parameters
           MUST NOT be included in Request Objects.
         </t>
+        -->
 
         <t>
           <figure>
             <preamble>
+              以下は Base64URL エンコードと署名を施す前段階の, Request Object 中の Claim の例である.
+            </preamble>
+            <!--
+            <preamble>
               The following is a non-normative example of the Claims in
               a Request Object before base64url encoding and signing:
             </preamble>
+            -->
 
             <artwork><![CDATA[
   {
@@ -6173,10 +6254,16 @@
           </figure>
           <figure>
             <preamble>
+              <spanx style="verb">RS256</spanx> アルゴリズムで上記 Request Object に署名した結果の Request Object 値は以下のようになる.
+              (改行は掲載上の都合による)
+            </preamble>
+            <!--
+            <preamble>
               Signing it with the <spanx style="verb">RS256</spanx> algorithm
               results in this Request Object value
               (with line wraps within values for display purposes only):
             </preamble>
+            -->
 
             <artwork><![CDATA[
   eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiAiczZCaGRSa3
@@ -6202,11 +6289,18 @@
           </figure>
           <figure>
             <preamble>
+              以下の JWK フォーマットで表現された RSA 公開鍵で, 上記 Request Object の署名検証を行える.
+              以降の Request Object 署名例でも, 同じ鍵を用いる.
+              (改行は掲載上の都合による)
+            </preamble>
+            <!--
+            <preamble>
               The following RSA public key, represented in JWK format, can be used to
               validate the Request Object signature in this
               and subsequent Request Object examples
               (with line wraps within values for display purposes only):
             </preamble>
+            -->
 
             <artwork><![CDATA[
   {
@@ -6272,16 +6366,27 @@
 
         <section anchor="RequestParameter"
                  title='Request using the "request" Request Parameter'>
+          <t>
+            Client は Authorization Request を Authorization Endpoint に送信する.
+          </t>
+          <!--
           <t>The Client sends the Authorization Request to the
           Authorization Endpoint.</t>
+          -->
 
           <t>
             <figure>
+              <preamble>
+                以下は <spanx style='verb'>request</spanx> パラメータを使った Authorization Request の例である.
+                (改行は掲載上の都合による)
+              </preamble>
+              <!--
               <preamble>The following is a non-normative example of an
               Authorization Request using the <spanx style='verb'>request</spanx>
               parameter
               (with line wraps within values for display purposes only):
               </preamble>
+              -->
 
               <artwork><![CDATA[
   https://server.example.com/authorize?
