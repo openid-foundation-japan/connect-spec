@@ -3303,13 +3303,14 @@
                 </t>
 
                 <t hangText="expires_in">
-                任意 (OPTIONAL). 
+                任意 (OPTIONAL).
                 Access Token の有効期限である, レスポンスが生成されてからの秒数.
                 <!--
                 OPTIONAL.
                 Expiration time of the Access Token in seconds
                 since the response was generated.</t>
                 -->
+                </t>
               </list>
             </t>
 
@@ -3325,13 +3326,13 @@
             -->
 
             <figure>
-                以下に Implicit Flow を用いた成功レスポンスの例を示す. (改行は掲載上の都合による)
               <preamble>
-              <!--
-              The following is a non-normative example
-              of a successful response using the Implicit Flow
-              (with line wraps for the display purposes only):
-              -->
+                以下に Implicit Flow を用いた成功レスポンスの例を示す. (改行は掲載上の都合による)
+                <!--
+                The following is a non-normative example
+                of a successful response using the Implicit Flow
+                (with line wraps for the display purposes only):
+                -->
               </preamble>
 
               <artwork><![CDATA[
@@ -4461,7 +4462,7 @@
       -->
       <t>
         クライアントはフレームバスティングや End-User をクリックジャッキングのような攻撃を
-        通じてこれらの知識なしに third party サイトによってロギングされることから 
+        通じてこれらの知識なしに third party サイトによってロギングされることから
         防ぐための他の技術を採用すべきである(SHOULD).
         詳細は <xref target="RFC6819"/> の Section 4.4.1.9 を参照.
       </t>
