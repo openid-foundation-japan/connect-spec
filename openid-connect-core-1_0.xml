@@ -998,20 +998,33 @@
 
     <section anchor="Authentication" title="Authentication">
       <t>
+          OpenID Connectではエンドユーザのログインもしくは既にログイン済みのエンドユーザを確定するために認証を行う。
+          OpenID Connectでは、クライアントが信頼できるように安全な方式でサーバからクライアントへ認証結果を返却する。
+          このような理由のため、この場合ではクライアントのことをRelying Party(RP)と呼ぶ。
+      </t>
+      <!--<t>
         OpenID Connect performs authentication to log in the End-User
         or to determine that the End-User is already logged in.
         OpenID Connect returns the result of the Authentication
         performed by the Server to the Client in a secure manner
         so that the Client can rely on it.
         For this reason, the Client is called Relying Party (RP) in this case.
-      </t>
+      </t>-->
       <t>
+          認証結果は<xref target="IDToken"/>で定義されているようにID Tokenに含まれて返却される。
+          ID Tokenには発行者、Subject識別子、認証の有効期限などを表すClaimが含まれる。
+      </t>
+      <!--<t>
         The Authentication result is returned in an
         ID Token, as defined in <xref target="IDToken"/>.
         It has Claims expressing such information as the Issuer,
         the Subject Identifier, when the authentication expires, etc.
-      </t>
+      </t>-->
       <t>
+          認証にはAuthorization Codeフロー（<spanx style="verb">response_type=code</spanx>）とImplicitフロー（<spanx style="verb">response_type=id_token&nbsp;token</spanx>か<spanx style="verb">response_type=id_token</spanx>）およびHybrid Flow（<xref target="OAuth.Responses">Oauth 2.0 Multiple Response Type Encoding Practices</xref>で定義される他のレスポンスタイプ値を利用）の３つのフローのうち１つを選ぶことができる。
+          フローによってID TokenとAccess Tokenがどのようにクライアントへ返却されるか決定される。
+      </t>
+      <!--<t>
         Authentication can follow one of three paths:
         the Authorization Code Flow (<spanx style="verb">response_type=code</spanx>),
         the Implicit Flow (<spanx style="verb">response_type=id_token&nbsp;token</spanx>
@@ -1020,13 +1033,17 @@
         <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>).
         The flows determine how the ID Token and Access Token
         are returned to the Client.
-      </t>
+      </t>-->
       <t>
+          ３つのフローの特徴を以下の参考表に記載する。
+          この表は特定のコンテキストにおいてどのフローを選択すればよいかの指針を示すことを意図している。
+      </t>
+      <!--<t>
         The characteristics of the three flows are summarized
         in the following non-normative table.
         The table is intended to provide some guidance on which flow to choose
         in particular contexts.
-      </t>
+      </t>-->
 
       <texttable title="OpenID Connect Authentication Flows">
 
@@ -1035,37 +1052,44 @@
         <ttcol>Implicit Flow</ttcol>
         <ttcol>Hybrid Flow</ttcol>
 
-        <c>All tokens returned from Authorization Endpoint</c>
+        <c>全てのトークンはAuthorizationエンドポイントから返却される</c>
+        <!--<c>All tokens returned from Authorization Endpoint</c>-->
         <c>no</c>
         <c>yes</c>
         <c>no</c>
 
-        <c>All tokens returned from Token Endpoint</c>
+        <c>全てのトークンはTokenエンドポイントから返却される</c>
+        <!--<c>All tokens returned from Token Endpoint</c>-->
         <c>yes</c>
         <c>no</c>
         <c>no</c>
 
-        <c>Tokens not revealed to User Agent</c>
+        <c>User Agentからトークンを取得できない</c>
+        <!--<c>Tokens not revealed to User Agent</c>-->
         <c>yes</c>
         <c>no</c>
         <c>no</c>
 
-        <c>Client can be authenticated</c>
+        <c>クライアントを認証することが可能である</c>
+        <!--<c>Client can be authenticated</c>-->
         <c>yes</c>
         <c>no</c>
         <c>yes</c>
 
-        <c>Refresh Token possible</c>
+        <c>Refresh Tokenを利用できる</c>
+        <!--<c>Refresh Token possible</c>-->
         <c>yes</c>
         <c>no</c>
         <c>yes</c>
 
-        <c>Communication in one round trip</c>
+        <c>通信が１往復だけである</c>
+        <!--<c>Communication in one round trip</c>-->
         <c>no</c>
         <c>yes</c>
         <c>no</c>
 
-        <c>Most communication server-to-server</c>
+        <c>ほぼサーバ間通信である</c>
+        <!--<c>Most communication server-to-server</c>-->
         <c>yes</c>
         <c>no</c>
         <c>varies</c>
@@ -1073,14 +1097,20 @@
       </texttable>
 
       <t>
+          利用しているフローはAuthorizationリクエストに含まれる<spanx style="verb">response_type</spanx>値によって決定される。
+          これらの<spanx style="verb">response_type</spanx>値は下記のフローを選択する。
+      </t>
+      <!--<t>
         The flow used is determined by the <spanx style="verb">response_type</spanx>
         value contained in the Authorization Request.
         These <spanx style="verb">response_type</spanx> values select
         these flows:
-      </t>
+      </t>-->
 
       <texttable title='OpenID Connect "response_type" Values'>
-        <ttcol>"response_type" value</ttcol>
+        <ttcol>"response_type"値</ttcol>
+        <!--<ttcol>"response_type" value</ttcol>-->
+        <ttcol>Flow</ttcol>
         <ttcol>Flow</ttcol>
 
         <c><spanx style="verb">code</spanx></c>
@@ -1103,6 +1133,10 @@
 
       </texttable>
       <t>
+          <xref target="RFC6749">OAuth 2.0</xref>で定義されている<spanx style="verb">code</spanx>以外のレスポンスタイプ値は<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>の仕様にて定義されている。
+          注意：OAuth 2.0ではImplicitフローでレスポンスタイプ値<spanx style="verb">token</spanx>を定義してはいるが、OpenID ConnectではID Tokenが返却されることがないためこのレスポンスタイプは利用していない。
+      </t>
+      <!--<t>
         All but the <spanx style="verb">code</spanx> Response Type value,
         which is defined by <xref target="RFC6749">OAuth 2.0</xref>,
         are defined in the
@@ -1112,16 +1146,26 @@
         <spanx style="verb">token</spanx> Response Type value
         for the Implicit Flow, OpenID Connect does not use this Response Type,
         since no ID Token would be returned.
-      </t>
+      </t>-->
 
       <section anchor="CodeFlowAuth" title="Authentication using the Authorization Code Flow">
         <t>
+            この章ではAuthorization Codeフローを使ってどのように認証を行うかを記載する。
+            Authorization Codeフローを利用する祭、全てのトークンはToken Endpointから返却される。
+        </t>
+        <!--<t>
           This section describes how to perform authentication using the Authorization Code Flow.
           When using the Authorization Code Flow,
           all tokens are returned from the Token Endpoint.
-        </t>
+        </t>-->
 
-        <t>The Authorization Code Flow returns an Authorization Code to the
+        <t>
+            Authorization Codeフローではクライアントに認可コードを返却し、クライアントはそれを直接ID TokenとAccess TOkenと交換できるようになる。
+            これによりUser AgentやUser Agentにアクセスできる悪意のあるアプリケーションにどのトークンも公開されることがない恩恵が得られる。
+            Authorizationサーバは認可コードをAccess Tokenと交換する前にクライアントの認証を行うこともできる。
+            Authorization CodeフローはClient SecretをクライアントとAuthorizationサーバ間で安全に保持できるクライアントに適している。
+        </t>
+        <!--<t>The Authorization Code Flow returns an Authorization Code to the
         Client, which can then exchange it for an ID Token and an Access Token directly.
         This provides the benefit of not exposing any tokens to the
         User Agent and possibly other malicious applications with access
@@ -1130,33 +1174,46 @@
         authenticate the Client before exchanging the Authorization Code for an
         Access Token. The Authorization Code flow is suitable for Clients that
         can securely maintain a Client Secret between themselves and the
-        Authorization Server.</t>
+        Authorization Server.</t>-->
 
         <section anchor="CodeFlowSteps" title="Authorization Code Flow Steps">
-          <t>The Authorization Code Flow goes through the following
-          steps.</t>
+          <t>
+              Authorization Codeフローは以下のステップを経る。
+          </t>
+          <!--<t>The Authorization Code Flow goes through the following
+          steps.</t>-->
           <t>
             <list style="numbers">
-              <t>Client prepares an Authentication Request containing the desired
-              request parameters.</t>
+              <t>
+                  クライアントは必要なパラメータを含むAuthorizationリクエストの準備をする。
+              </t>
+              <!--<t>Client prepares an Authentication Request containing the desired
+              request parameters.</t>-->
 
-              <t>Client sends the request to the Authorization Server.</t>
+              <t>クライアントはAuthorizationサーバへリクエストを送信する</t>
+              <!--<t>Client sends the request to the Authorization Server.</t>-->
 
-              <t>Authorization Server Authenticates the End-User.</t>
+              <t>Authorizationサーバはエンドユーザを認証する。</t>
+              <!--<t>Authorization Server Authenticates the End-User.</t>-->
 
-              <t>Authorization Server obtains End-User Consent/Authorization.</t>
+              <t>Authorizationサーバはエンドユーザの同意/認可を得る。</t>
+              <!--<t>Authorization Server obtains End-User Consent/Authorization.</t>-->
 
-              <t>Authorization Server sends the End-User back to the Client with
-              an Authorization Code.</t>
+              <t>Authorizationサーバはエンドユーザを認可コードをつけてクライアントへ送信する</t>
+              <!--<t>Authorization Server sends the End-User back to the Client with
+              an Authorization Code.</t>-->
 
-              <t>Client requests a response using the Authorization Code at the
-              Token Endpoint.</t>
+              <t>クライアントはToken Endpointへ認可コードを使ってリクエストを送信する。</t>
+              <!--<t>Client requests a response using the Authorization Code at the
+              Token Endpoint.</t>-->
 
-              <t>Client receives a response that contains an ID Token
-              and Access Token in the response body.</t>
+              <t>クライアントはID TokenとAccess Tokenをレスポンスボディに含むレスポンスを受け取る</t>
+              <!--<t>Client receives a response that contains an ID Token
+              and Access Token in the response body.</t>-->
 
-              <t>Client validates the ID token and retrieves the End-User's
-              Subject Identifier.</t>
+              <t>クライアントはID Tokenを検証し、エンドユーザのSubject識別子を取得する。</t>
+              <!--<t>Client validates the ID token and retrieves the End-User's
+              Subject Identifier.</t>-->
 
             </list>
           </t>
