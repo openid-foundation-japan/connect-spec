@@ -7844,6 +7844,26 @@
 
     <section anchor="SubjectIDTypes" title="Subject Identifier Types">
       <t>
+        Subject Identifier は,
+        Client によって利用されることを意図している,
+        Issuer 内で一意な再割り当てされない End-User の識別子である.
+        当仕様では, 2つの Subject Identifier タイプを定義している:
+
+        <list style="hanging">
+          <t hangText="public">
+            全ての Client に対し同一の <spanx style="verb">sub</spanx> (subject) 値を提供する.
+            これはプロバイダのディスカバリドキュメント内の
+            <spanx style="verb">subject_types_supported</spanx> 要素が
+            存在しない場合のデフォルトである.
+          </t>
+          <t hangText="pairwise">
+            各々の Client に対し異なる <spanx style="verb">sub</spanx> 値を提供する.
+            そのためClient は, 許可なくして End-User の行動を集約して関連づけることが不可能となる.
+          </t>
+        </list>
+      </t>
+      <!--
+      <t>
         A Subject Identifier is a locally unique and never
         reassigned identifier within the Issuer for the End-User,
         which is intended to be consumed by the Client.
@@ -7862,6 +7882,19 @@
           </t>
         </list>
       </t>
+      -->
+
+      <t>
+        OpenID Provider の Discovery ドキュメントには,
+        サポートしている Subject Identifier のタイプのリストが
+        <spanx style="verb">subject_types_supported</spanx>
+        要素に記載されているべきである (SHOULD).
+        一つ以上のタイプがリストされている場合,
+        Client は Registration 時に
+        <spanx style="verb">subject_type</spanx> パラメータを用いて,
+        任意のタイプを選択してもよい (MAY).
+      </t>
+      <!--
       <t>
         The OpenID Provider's Discovery document SHOULD list
         its supported Subject Identifier types in the
@@ -7870,9 +7903,18 @@
         provide its preferred identifier type using the
         <spanx style="verb">subject_type</spanx> parameter during Registration.
       </t>
+      -->
 
       <section anchor="PairwiseAlg" title="Pairwise Identifier Algorithm">
 
+        <t>
+          pairwise Subject Identifier を使用する際,
+          OpenID Provider は, 各々の Sector Identifier 毎に一意な
+          <spanx style="verb">sub</spanx> (subject) 値を計算しなければならない (MUST).
+          Subject Identifier 値は, OpenID Provider 以外の Party にとって,
+          可逆であってはならない (MUST NOT).
+        </t>
+        <!--
         <t>
           When pairwise Subject Identifiers are used,
           the OpenID Provider MUST calculate a unique
@@ -7880,7 +7922,20 @@
           Sector Identifier.  The Subject Identifier value MUST NOT be reversible
           by any party other than the OpenID Provider.
         </t>
+        -->
 
+        <t>
+          pairwise <spanx style="verb">sub</spanx> 値を使用し,
+          かつ <xref target="OpenID.Registration">Dynamic Client Registration</xref>
+          をサポートする Provider は,
+          <spanx style="verb">sector_identifier_uri</spanx> パラメータを使用すべきである (SHOULD).
+          これは, 共通の管理下にあるウェブサイト群に対し,
+          個々のドメイン名とは独立して pairwise <spanx style="verb">sub</spanx> 値の
+          一貫性を保持する手段を提供する.
+          また, Client に対し,
+          全ユーザを再登録させることなしに <spanx style="verb">redirect_uri</spanx> を変更する手段も提供する.
+        </t>
+        <!--
         <t>
           Providers that use pairwise <spanx style="verb">sub</spanx> values
           and support
@@ -7893,7 +7948,17 @@
           <spanx style="verb">redirect_uri</spanx> domains without having to
           reregister all of their users.
         </t>
+        -->
 
+        <t>
+          Client が <xref target="OpenID.Registration">Dynamic Client Registration</xref> で
+          <spanx style="verb">sector_identifier_uri</spanx> の値を提供しなかった場合,
+          pairwise identifier の計算に用いる Sector Identifier は,
+          登録された <spanx style="verb">redirect_uri</spanx> のホスト部である.
+          登録された <spanx style="verb">redirect_uris</spanx> に複数のホスト名が存在した場合,
+          Client は <spanx style="verb">sector_identifier_uri</spanx> を登録しなければならない (MUST).
+        </t>
+        <!--
         <t>If the Client has not provided a value for
         <spanx style="verb">sector_identifier_uri</spanx> in
         <xref target="OpenID.Registration">Dynamic Client Registration</xref>,
@@ -7903,7 +7968,18 @@
         If there are multiple hostnames in the registered
         <spanx style="verb">redirect_uris</spanx>, the Client MUST register a
         <spanx style="verb">sector_identifier_uri</spanx>.</t>
+        -->
 
+        <t>
+          <spanx style="verb">sector_identifier_uri</spanx> が提供された場合,
+          URL のホスト部が pairwise identifier の計算に用いる Sector Identifier として使用される.
+          <spanx style="verb">sector_identifier_uri</spanx> の値は,
+          <spanx style="verb">redirect_uri</spanx> 値の配列を含んだ
+          JSONファイルを示す <spanx style="verb">https</spanx> スキームの URL でなければならない (MUST).
+          登録された <spanx style="verb">redirect_uris</spanx> の値は,
+          配列の要素に含まれていなければならない (MUST).
+        </t>
+        <!--
         <t>When a <spanx style="verb">sector_identifier_uri</spanx>
         is provided, the host component of that URL is used as
         the Sector Identifier for the pairwise identifier calculation.
@@ -7914,7 +7990,27 @@
         The values of the registered <spanx style="verb">redirect_uris</spanx>
         MUST be included in the elements of the array.
         </t>
+        -->
 
+        <t>
+          OpenID Provider による pairwise Subject identifier の計算には,
+          以下の特性を持つ任意のアルゴリズムを用いることが出来る:
+
+          <list style="symbols">
+            <t>
+              Subject Identifier 値が, OpenID Provider 以外の Party にとって,
+              可逆であってはならない (MUST NOT).
+            </t>
+            <t>
+              異なる Sector Identifier 値は,
+              異なる Subject Identifier 値にならなければならない (MUST).
+            </t>
+            <t>
+              同じ入力に対して必ず同じ結果となる決定的アルゴリズムでなければならない (MUST).
+            </t>
+          </list>
+        </t>
+        <!--
         <t>
           Any algorithm with the following properties
           can be used by OpenID Providers to
@@ -7934,6 +8030,35 @@
             </t>
           </list>
         </t>
+        -->
+        <t>
+          3つの手法例を以下に示す:
+
+          <list style="numbers">
+
+            <t>
+              Sector Identifierを, ローカルアカウントIDおよび Provider によって秘密にされているソルト値と連結する.
+              そして連結した文字列を適切なアルゴリズムによってハッシュ化する.
+              <vspace blankLines="1"/>
+              <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier || local_account_id || salt ) を計算する.
+              <vspace blankLines="1"/>
+            </t>
+
+            <t>
+              Sector Identifierを, ローカルアカウントIDおよび Provider によって秘密にされているソルト値と連結する.
+              そして連結した文字列を適切なアルゴリズムによって暗号化する.
+              <vspace blankLines="1"/>
+              <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier || local_account_id || salt ) を計算する.
+              <vspace blankLines="1"/>
+            </t>
+
+            <t>
+              Issuer は, Sector Identifier とローカルアカウントIDのペアに対し, Globally Unique Identifier (GUID) を作成する.
+            </t>
+
+          </list>
+        </t>
+        <!--
         <t>
           Three example methods are:
 
@@ -7964,6 +8089,7 @@
 
           </list>
         </t>
+        -->
 
       </section>
     </section>
