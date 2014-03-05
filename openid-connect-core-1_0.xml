@@ -8267,6 +8267,12 @@
 
     <section anchor="SigEnc" title="Signatures and Encryption">
       <t>
+        メッセージ送信経路によって, メッセージの完全性は保証されないこともあり, メッセージ送信者の認証も行われないこともある.
+        これらのリスクを軽減するため, ID Token, UserInfo Response, Request Object および Client Authentication JWT は <xref target="JWS">JSON Web Signature (JWS)</xref> によってそのコンテンツに対して署名することができる.
+        メッセージ秘匿性を得るには, <xref target="JWE">JSON Web Encryption (JWE)</xref> を用いてコンテンツを暗号化する.
+      </t>
+      <!--
+      <t>
         Depending on the transport through which the messages are sent, the
         integrity of the message might not be guaranteed and the originator of the
         message might not be authenticated. To mitigate these risks,
@@ -8276,12 +8282,25 @@
         To achieve message confidentiality, these values can also use
         <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt their contents.
       </t>
+      -->
+      <t>
+        メッセージに署名と暗号化双方を適用する場合, <xref target="SigningOrder"/> に従い, まず先に署名を行いその後暗号化すること (MUST).
+        結果はネストした JWT になる (<xref target="JWT"/> 参照).
+        JWE の暗号手法は全て完全性チェックを含むことに注意すること.
+      </t>
+      <!--
       <t>
         When the message is both signed and encrypted, it MUST be
         signed first and then encrypted, per <xref target="SigningOrder"/>,
         with the result being a Nested JWT, as specified in <xref target="JWT"/>.
         Note that all JWE encryption methods perform integrity checking.
       </t>
+      -->
+      <t>
+        OP は自身がサポートする署名および暗号化アルゴリズムを Discovery ドキュメント中で示すか, その他の方法でそれらを告知しても良い.
+        RP は自身が要求する署名および暗号化アルゴリズムを Dynamic Registration リクエスト中に指定するか, その他の方法でそれらを告知しても良い.
+      </t>
+      <!--
       <t>
         The OP advertises its supported signing and encryption algorithms
         in its Discovery document,
@@ -8290,6 +8309,12 @@
         in its Dynamic Registration request,
         or may communicate this information by other means.
       </t>
+      -->
+      <t>
+        OP は自身の公開鍵を Discovery ドキュメント中で示すか, その他の方法でそれを告知しても良い.
+        RP は自身の公開鍵を Dynamic Registration リクエスト中に指定するか, その他の方法でそれを告知しても良い.
+      </t>
+      <!--
       <t>
         The OP advertises its public keys
         via its Discovery document,
@@ -8298,16 +8323,27 @@
         via its Dynamic Registration request,
         or may communicate this information by other means.
       </t>
+      -->
 
       <section anchor="Signing" title="Signing">
+        <t>
+          署名者は受信者がサポートするアルゴリズムを元に署名アルゴリズムを選択しなければならない (MUST).
+        </t>
+        <!--
         <t>
           The signing party MUST select a signature algorithm
           based on the algorithms supported by the recipient.
         </t>
+        -->
 
         <t>
           <list style="hanging">
             <t hangText="Asymmetric Signatures">
+              RSA および ECDSA 署名を利用する場合, JWS ヘッダーの <spanx style="verb">alg</spanx> パラメータ値には, <xref target="JWA">JSON Web Algorithms</xref> に従い適切な値を指定しなければならない (MUST).
+              署名に使われた秘密鍵は, 署名検証に用いられる公開鍵と関連づいている必要があり, その公開鍵は署名者が JWK Set ドキュメントとして公開すること (MUST).
+              JWK Set ドキュメントに複数の鍵が含まれる場合, JWS ヘッダーに <spanx style="verb">kid</spanx> 値を含まねばならない (MUST).
+              鍵は署名に使えるものでなければならない (MUST).
+              <!--
               When using RSA or ECDSA Signatures,
               the <spanx style="verb">alg</spanx> header parameter value
               of the JWS header MUST be set to an appropriate algorithm
@@ -8318,8 +8354,14 @@
               If there are multiple keys in the referenced JWK Set document, a
               <spanx style="verb">kid</spanx> value MUST be provided in the JWS header.
               The key usage of the respective keys MUST support signing.
+              -->
             </t>
             <t hangText="Symmetric Signatures">
+              MAC ベースの署名を利用する場合, JWS ヘッダーの <spanx style="verb">alg</spanx> パラメータ値には, <xref target="JWA">JSON Web Algorithms</xref> に従い MAC アルゴリズムを指定しなければならない (MUST).
+              MAC 鍵は <spanx style="verb">client_secret</spanx> の UTF-8 オクテットとする.
+              <spanx style="verb">client_secret</spanx> のエントロピー要件に関しては <xref target="SymmetricKeyEntropy"/> を参照すること.
+              共通鍵署名は Client Secret を持たない Public Client (Non-Confidential Client) には利用できない (MUST NOT).
+              <!--
               When using MAC-based signatures,
               the <spanx style="verb">alg</spanx> header parameter value
               of the JWS header MUST be set to a MAC algorithm,
@@ -8331,14 +8373,31 @@
               entropy requirements for <spanx style="verb">client_secret</spanx> values.
               Symmetric signatures MUST NOT be used by public (non-confidential) Clients
               because of their inability to keep secrets.
+              -->
             </t>
           </list>
         </t>
         <t>
+          署名付リクエストについての Security Considerations については <xref target="NeedForSignedRequests"/> を参照すること.
+        </t>
+        <!--
+        <t>
           See <xref target="NeedForSignedRequests"/> for Security Considerations
           about the need for signed requests.
         </t>
+        -->
         <section anchor="RotateSigKeys" title="Rotation of Asymmetric Signing Keys">
+          <t>
+            署名鍵のローテーションを行うには, 以下のアプローチに従うこと.
+            署名者は <spanx style="verb">jwks_uri</spanx> で指定した場所に JWK Set を公開し, 各メッセージの JWS ヘッダーに <spanx style="verb">kid</spanx> を含める.
+            <spanx style="verb">kid</spanx> によって, 検証者はどの鍵を署名検証に用いれば良いか知ることができる.
+            ここで <spanx style="verb">jwks_uri</spanx> で公開された JWK Set に定期的に新たな鍵を追加していくことで, 鍵をロールオーバーすることができる.
+            署名者は任意のタイミングで新しい鍵の利用を開始し, <spanx style="verb">kid</spanx> 値を用いて検証者に鍵が変わったことを知らせることができる.
+            検証者は未知の <spanx style="verb">kid</spanx> を検知した場合は <spanx style="verb">jwks_uri</spanx> にアクセスし, 再び鍵を取得する.
+            <spanx style="verb">jwks_uri</spanx> にある JWK Set ドキュメントは, 利用停止から適切な期間, 利用廃止された鍵を含んだままにすべきである (SHOULD).
+            それにより鍵の移行がスムーズになる.
+          </t>
+          <!--
           <t>Rotation of signing keys can be accomplished with the following approach. The signer publishes
           its keys in a JWK Set at its <spanx style="verb">jwks_uri</spanx> location
           and includes the <spanx style="verb">kid</spanx> of the
@@ -8353,6 +8412,7 @@
           SHOULD retain recently decommissioned signing keys for a reasonable period of time to facilitate a
           smooth transition.
           </t>
+          -->
         </section>
 
       </section>
