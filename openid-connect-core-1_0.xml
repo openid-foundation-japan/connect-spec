@@ -9497,6 +9497,16 @@
 
         <section anchor="CodeNotes" title="Authorization Code Implementation Notes">
           <t>
+            Authorization Code フローあるいは Hybrid フロー を用いる場合,
+            Authorization Code を用いた Token Request への応答として,
+            ID Token が Token Endpoint から返却される.
+            ある実装では, Authorization Code 値の中に,
+            返却する ID Token の状態を符号化して持たせることを選択するかもしれない.
+            別の実装では, 状態を格納しているデータベースに対するインデックスとして,
+            Authorization Code 値を使用するかもしれない.
+          </t>
+          <!--
+          <t>
             When using the Authorization Code or Hybrid flows,
             an ID Token is returned from the Token Endpoint
             in response to a Token Request using an Authorization Code.
@@ -9505,9 +9515,24 @@
             Others may use the Authorization Code value
             as an index into a database storing this state.
           </t>
+          -->
         </section>
 
         <section anchor="NonceNotes" title="Nonce Implementation Notes">
+          <t>
+            <spanx style="verb">nonce</spanx> パラメータ値は, 
+            セッション毎の状態を含むとともに, 攻撃者によって推測されないようにする必要がある.
+            Web Server Client がこの要件を満足する手法の一つは,
+            HttpOnly属性付きのセッションクッキーとして暗号論的乱数値を格納し,
+            その値の暗号学的ハッシュを <spanx style="verb">nonce</spanx> パラメータとして使用することである.
+            このケースでは, 第三者による ID Token リプレイを検出するために,
+            返却される ID Token 内の <spanx style="verb">nonce</spanx> と
+            セッションクッキーのハッシュを比較する.
+            JavaScript Client に対して適用可能な関連手法として,
+            HTML5 ローカルストレージに暗号論的乱数値を格納し,
+            その値の暗号学的ハッシュを用いる方法がある.
+          </t>
+          <!--
           <t>
             The <spanx style="verb">nonce</spanx> parameter value needs to include
             per-session state and be unguessable to attackers.
@@ -9520,10 +9545,20 @@
             A related method applicable to JavaScript Clients is to store the cryptographically random value
             in HTML5 local storage and use a cryptographic hash of this value.
           </t>
+          -->
         </section>
 
         <section anchor="FragmentNotes"
                  title="Redirect URI Fragment Handling Implementation Notes">
+          <t>
+            応答パラメータを Redirection URI のフラグメント値として返却する場合,
+            Client は User Agent に対し, そのフラグメント内の符号化された値をパースさせ,
+            Client の処理ロジックにその値を受け渡す必要がある.
+            暗号 API に直接アクセスする User Agent は,
+            例えば全ての Client コードを JavaScript で記述するなど,
+            処理に必要なロジック等を全て自己の中で完結させることが出来る.
+          </t>
+          <!--
           <t>
             When response parameters are returned in the Redirection URI fragment value,
             the Client needs to have the User Agent parse the fragment encoded values
@@ -9531,20 +9566,43 @@
             User Agents that have direct access to cryptographic APIs may be able to be
             self-contained, for instance, with all Client code being written in JavaScript.
           </t>
+          -->
+
+          <t>
+            しかし, Client を完全に User Agent 内だけで実行しない場合,
+            検証のために Web Server Client にデータを送信することで目的を実現する方法もある.
+          </t>
+          <!--
           <t>
             However, if the Client does not run entirely in the User Agent,
             one way to achieve this
             is to post them to a Web Server Client for validation.
           </t>
+          -->
 
+          <t>
+            Client が自身の <spanx style="verb">redirect_uri</spanx> 上でホストすることが考えられる
+            JavaScript ファイルの例を以下に示す.
+            これは Authorization Server からのリダイレクトによってロードされる.
+            フラグメント部はパースされた後, 受信した情報の検証と利用を行う URL に対し、
+            <spanx style="verb">POST</spanx> で送信される.
+          </t>
+          <!--
           <t>The following is an example of a JavaScript file that a Client might host at its
           <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
           the Authorization Server.  The fragment component is parsed and then sent by <spanx style="verb">POST</spanx> to a URI
           that will validate and use the information received.</t>
+          -->
 
           <figure>
+            <preamble>
+              Redirect URI 応答の一例を以下に示す:
+            </preamble>
+            <!--
             <preamble>Following is a non-normative example of a
             Redirect URI response:</preamble>
+            -->
+
             <artwork><![CDATA[
   GET /cb HTTP/1.1
   Host: client.example.org
