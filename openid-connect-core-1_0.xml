@@ -8419,13 +8419,23 @@
 
       <section anchor="Encryption" title="Encryption">
         <t>
+          暗号化を行う主体は, 受信者がサポートするアルゴリズムを元に, 暗号化アルゴリズムを選択しなければならない (MUST).
+        </t>
+        <!--
+        <t>
           The encrypting party MUST select an encryption algorithm
           based on the algorithms supported by the recipient.
         </t>
+        -->
         <t>
           <list style="hanging">
 
             <t hangText="Asymmetric Encryption: RSA">
+              公開鍵の暗号化に使う公開鍵は, 受信者が公開する JWK Set ドキュメント中に含まれている公開鍵でなくてはならない (MUST).
+              JWK Set ドキュメント中に複数の鍵がある場合は, JWE ヘッダー中に <spanx style="verb">kid</spanx> を含めなければならない (MUST).
+              ランダムな Content Encryption Key によって署名付 JWT を暗号化し, その鍵をサポートされている RSA 暗号化アルゴリズムを用いて暗号化すること.
+              鍵は暗号化に使えるものでなければならない (MUST).
+              <!--
               The public key to which the content was encrypted MUST be
               a public key used for encryption published by the recipient
               in its JWK Set document.
@@ -8435,8 +8445,15 @@
               Content Encryption Key to be used for encrypting
               the signed JWT.
               The key usage of the respective keys MUST include encryption.
+              -->
             </t>
             <t hangText="Asymmetric Encryption: Elliptic Curve">
+              JWE ヘッダーの <spanx style="verb">epk</spanx> に指定するには, 短命な Elliptic Curve 公開鍵を生成する.
+              鍵交換に利用するその他の鍵については, 受信者が JWK Set ドキュメント中に公開すること (MUST).
+              JWK Set に複数の鍵が含まれる場合は, JWE ヘッダーに <spanx style="verb">kid</spanx> を指定すること.
+              署名済 JWT の暗号化に用いる Content Encryption Key の鍵交換には, ECDH-ES アルゴリズムを用いる.
+              鍵は暗号化に使えるものでなければならない (MUST).
+              <!--
               Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
               element of the JWE header.
               The other public key used for the key agreement computation MUST be
@@ -8448,8 +8465,16 @@
               Content Encryption Key to be used for encrypting
               the signed JWT.
               The key usage of the respective keys MUST support encryption.
+              -->
             </t>
             <t hangText="Symmetric Encryption">
+              共通鍵暗号に用いる共通鍵は, <spanx style="verb">client_secret</spanx> UTF-8 オクテット SHA-2 ハッシュから左側を切り詰めたものとする.
+              256ビット以下の鍵には SHA-256, 257-384ビットの鍵には SHA-384, 385-512ビットの鍵には SHA-512 を用いること.
+              ハッシュ値は, 利用する AES 鍵ラップやその他の暗号化アルゴリズムによって適切な長さになるよう, 左側を切り詰めること.
+              例えば <spanx style="verb">A128KW</spanx> を用いる場合は, SHA-256 ハッシュを切り詰めて128ビットを取り出す.
+              512ビット以上の鍵が必要になった場合は, <spanx style="verb">client_secret</spanx> から鍵を導出する何らかの方法を, 拡張仕様として定義することになろう.
+              共通鍵暗号は Client Secret を持たない Public Client (Non-Confidential Client) には利用できない (MUST NOT).
+              <!--
               The symmetric encryption key is derived from the
               <spanx style="verb">client_secret</spanx> value by
               using a left truncated SHA-2 hash of
@@ -8467,15 +8492,28 @@
               would have to be defined by an extension.
               Symmetric encryption MUST NOT be used by public (non-confidential) Clients
               because of their inability to keep secrets.
+              -->
             </t>
           </list>
         </t>
         <t>
+          暗号化リクエストについての Security Considerations については <xref target="NeedForEncryptedRequests"/> を参照すること.
+        </t>
+        <!--
+        <t>
           See <xref target="NeedForEncryptedRequests"/> for Security Considerations
           about the need for encrypted requests.
         </t>
+        -->
 
         <section anchor="RotateEncKeys" title="Rotation of Asymmetric Encryption Keys">
+          <t>
+            暗号鍵のローテーションは, 署名鍵のローテーションとは異なるプロセスとなる.
+            これは暗号化の場合, 暗号化を行う主体からプロセスが開始され, <spanx style="verb">kid</spanx> の変更を鍵交換のサインとして利用できないからである.
+            暗号化を行う主体は, JWE ヘッダーに <spanx style="verb">kid</spanx> を指定して, どの鍵で復号すべきかを複合を行う主体に知らせることができる.
+            しかしながら暗号化を行う主体は受信者の <spanx style="verb">jwks_uri</spanx> にある JWK Set から, 適切な鍵を選ばねばならない.
+          </t>
+          <!--
           <t>
             Rotating encryption keys necessarily uses a different process than the one for signing keys because
             the encrypting party starts the process and thus cannot rely on
@@ -8486,6 +8524,15 @@
             needs to first select the most appropriate key from those provided in the JWK Set at
             the recipient's <spanx style="verb">jwks_uri</spanx> location.
           </t>
+          -->
+          <t>
+            鍵ローテーションを行うには, 復号を行う主体がまず新しい鍵を <spanx style="verb">jwks_uri</spanx> で公開し, 廃止された鍵を JWK Set から削除する.
+            <spanx style="verb">jwks_uri</spanx> は, <xref target="RFC2616">RFC 2616</xref> に従いレスポンス中の <spanx style="verb">Cache-Control</spanx> ヘッダーに <spanx style="verb">max-age</spanx> を含め, 暗号化を行う主体による JWK Set のキャッシュを適切にコントロールし, 暗号化を行うたびに毎回 JWK Set を取得する必要がないようにすべきである (SHOULD).
+            復号を行う主体は廃止された鍵を <spanx style="verb">jwks_uri</spanx> が参照する JWK Set から削除しつつも, 適切な期間その鍵を内部的に保持しておくべきである (SHOULD).
+            これにより暗号化を行う主体が新しい鍵を取得するまでにある程度の猶予を許し, スムースな移行が可能になる.
+            キャッシュ期間は, <xref target="RotateSigKeys"/> にある新しい署名鍵の発行とのバランスを取り, 適切に調整すること (SHOULD).
+          </t>
+          <!--
           <t>
             To rotate keys, the decrypting party can publish new keys
             at its <spanx style="verb">jwks_uri</spanx> location
@@ -8501,6 +8548,7 @@
             by allowing the encrypting party some time to obtain the new keys. The cache duration SHOULD also
             be coordinated with the issuance of new signing keys, as described in <xref target="RotateSigKeys"/>.
           </t>
+          -->
         </section>
 
       </section>
