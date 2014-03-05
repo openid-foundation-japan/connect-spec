@@ -7913,58 +7913,105 @@
     <section anchor="ClientAuthentication" title="Client Authentication">
 
       <t>
+        ここでは, Client が Token Endpoint にアクセスする際に, Authorization Server に対して自身を認証する Client Authentication 方法を定義する.
+        Client Registration で RP (Client) は Client Authentication 方法を登録できる (MAY).
+        もし認証方法が登録されていない場合, デフォルトで <spanx style="verb">client_secret_basic</spanx> を用いる.
+      </t>
+      <!--
+      <t>
         This section defines a set of Client Authentication methods
         that are used by Clients to authenticate to the Authorization Server
         when using the Token Endpoint.
         During Client Registration, the RP (Client) MAY register a Client Authentication method.
         If no method is registered, the default method is <spanx style="verb">client_secret_basic</spanx>.
       </t>
+      -->
+      <t>
+        Client Authentication 方法は以下の通りである.
+      </t>
+      <!--
       <t>These Client Authentication methods are:</t>
+      -->
 
       <t>
         <list style="hanging">
 
           <t hangText="client_secret_basic">
+            Authorization Server から <spanx style='verb'>client_secret</spanx> 値を受け取った Client は, <xref target="RFC6749">OAuth 2.0</xref> Section 3.2.1 に従い, HTTP Basic 認証スキーマを利用して Authorization Server に対して自身を認証する.
+            <!--
             Clients that have received a <spanx style='verb'>client_secret</spanx> value
             from the Authorization Server authenticate with the Authorization Server
             in accordance with Section 3.2.1 of <xref
             target="RFC6749">OAuth 2.0</xref> using the HTTP Basic authentication scheme.
+            -->
           </t>
 
           <t hangText="client_secret_post">
+            Authorization Server から <spanx style='verb'>client_secret</spanx> 値を受け取った Client は, <xref target="RFC6749">OAuth 2.0</xref> Section 3.2.1 に従い, Client Credential をリクエストボディに含めて Authorization Server に対して自身を認証する.
+            <!--
             Clients that have received a <spanx style='verb'>client_secret</spanx> value
             from the Authorization Server, authenticate with the Authorization Server
             in accordance with Section 3.2.1 of <xref
             target="RFC6749">OAuth 2.0</xref> by including the Client Credentials in the request body.
+            -->
           </t>
 
           <t hangText="client_secret_jwt">
+            Authorization Server から <spanx style='verb'>client_secret</spanx> 値を受け取った Client は, HMAC SHA-256 等の HMAC SHA アルゴリズムを利用して JWT を生成する.
+            HMAC (Hash-based Message Authentication Code) は, <spanx style='verb'>client_secret</spanx> の UTF-8 オクテットを共通鍵として利用して計算される.
+            <!--
             Clients that have received a <spanx style='verb'>client_secret</spanx> value
             from the Authorization Server create a JWT using an
             HMAC SHA algorithm, such as HMAC SHA-256.
             The HMAC (Hash-based Message Authentication Code) is calculated using
             the octets of the UTF-8 representation of
             the <spanx style='verb'>client_secret</spanx> as the shared key.
+            -->
           </t>
           <t>
-            The Client authenticates in accordance with <!-- Section 2.2 of --> <xref
+            Client は <xref target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref> および <xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</xref> に従い認証を行う.
+            JWT は以下の必須 (REQUIRED) の Claim Value を含まねばならず (MUST), 任意 (OPTIONAL) な Claim Value を含んでもよい (MAY).
+            <!--
+            The Client authenticates in accordance with <xref
             target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref> and
             <xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</xref>.
             The JWT MUST contain the following REQUIRED Claim Values and
             MAY contain the following OPTIONAL Claim Values:
+            -->
           </t>
 
           <t>
             <list style="hanging">
-              <t hangText="iss">REQUIRED.
-              Issuer.
-              This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
+              <t hangText="iss">
+                必須 (REQUIRED).
+                Issuer.
+                OAuth Client の <spanx style="verb">client_id</spanx> を含まねばならない (MUST).
+                <!--
+                REQUIRED.
+                Issuer.
+                This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.
+                -->
+              </t>
 
-              <t hangText="sub">REQUIRED.
-              Subject.
-              This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
+              <t hangText="sub">
+                必須 (REQUIRED).
+                Subject.
+                OAuth Client の <spanx style="verb">client_id</spanx> を含まねばならない (MUST).
+                <!--
+                REQUIRED.
+                Subject.
+                This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.
+                -->
+              </t>
 
               <t hangText="aud">
+                必須 (REQUIRED).
+                Audience.
+                <spanx style="verb">aud</spanx> (audience) Claim.
+                Authorization Serve をオーディエンスとして指定する.
+                Authorization Server は自身がオーディエンスに含まれることを検証しなければならない (MUST).
+                Audience は Authorization Server の Token Endpoint URL にすべきである (SHOULD).
+                <!--
                 REQUIRED.
                 Audience.
                 The <spanx style="verb">aud</spanx> (audience) Claim.
@@ -7973,9 +8020,17 @@
                 for the token.
                 The Audience SHOULD be the URL of the
                 Authorization Server's Token Endpoint.
+                -->
               </t>
 
               <t hangText="jti">
+                必須 (REQUIRED).
+                JWT ID.
+                トークンごとにユニークな識別子.
+                トークンの再利用を防ぐために利用される.
+                これらのトークンは, 再利用条件について関係者での合意を得られていない限り, 2度以上利用しないようにしなければならない (MUST).
+                そのような合意の詳細については本仕様の定めるところではない.
+                <!--
                 REQUIRED.
                 JWT ID.
                 A unique identifier for the token,
@@ -7983,53 +8038,109 @@
                 These tokens MUST only be used once,
                 unless conditions for reuse were negotiated between the parties;
                 any such negotiation is beyond the scope of this specification.
+                -->
               </t>
 
-              <t hangText="exp">REQUIRED.
-              Expiration time on or after which the ID Token MUST NOT be
-              accepted for processing.</t>
+              <t hangText="exp">
+                必須 (REQUIRED).
+                ID Token の有効期限.
+                この時刻を超えて当該 ID Token を受理してはならない (MUST NOT).
+                <!--
+                REQUIRED.
+                Expiration time on or after which the ID Token MUST NOT be
+                accepted for processing.
+                -->
+              </t>
 
-              <t hangText="iat">OPTIONAL.
-              Time at which the JWT was issued.
+              <t hangText="iat">
+                任意 (OPTIONAL).
+                JWT 発行時刻.
+                <!--
+                OPTIONAL.
+                Time at which the JWT was issued.
+                -->
               </t>
             </list>
           </t>
 
           <t>
+            この JWT には, 他の Claim を含めても良い (MAY).
+            理解できない Claim は無視すること (MUST).
+          </t>
+          <!--
+          <t>
             The JWT MAY contain other Claims.
             Any Claims used that are not understood MUST be ignored.
           </t>
+          -->
 
+          <t>
+            認証トークンは <xref target="OAuth.Assertions"/> の <spanx style='verb'>client_assertion</spanx> パラメータとして送信すること (MUST).
+          </t>
+          <!--
           <t>The authentication token MUST be sent as the value of the
           <xref target="OAuth.Assertions"/>
           <spanx style='verb'>client_assertion</spanx> parameter.</t>
+          -->
 
+          <t>
+            <xref target="OAuth.Assertions"/> の <spanx style='verb'>client_assertion_type</spanx> パラメータには, <xref target="OAuth.JWT"/> の通りに "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" とすること.
+          </t>
+          <!--
           <t>The value of the
           <xref target="OAuth.Assertions"/>
           <spanx style='verb'>client_assertion_type</spanx> parameter
           MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
           per <xref target="OAuth.JWT"/>.</t>
+          -->
 
           <t hangText="private_key_jwt">
+            公開鍵を登録済の Client は, そのペアとなる秘密鍵で JWT に署名を行っても良い.
+            Client は <xref target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref> および <xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</xref> に従い認証すること.
+            JWT は以下の必須 (REQUIRED) の Claim Value を含まねばならず (MUST), 任意 (OPTIONAL) な Claim Value を含んでもよい (MAY).
+            <!--
             Clients that have registered a public key sign a JWT using
             that key.
-            The Client authenticates in accordance with <!-- Section 2.2 of --> <xref
+            The Client authenticates in accordance with <xref
             target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref> and
             <xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</xref>.
             The JWT MUST contain the following REQUIRED Claim Values and
-          MAY contain the following OPTIONAL Claim Values:</t>
+            MAY contain the following OPTIONAL Claim Values:
+            -->
+          </t>
 
           <t>
             <list style="hanging">
-              <t hangText="iss">REQUIRED.
-              Issuer.
-              This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
+              <t hangText="iss">
+                必須 (REQUIRED).
+                Issuer.
+                OAuth Client の <spanx style="verb">client_id</spanx> を含まねばならない (MUST).
+                <!--
+                REQUIRED.
+                Issuer.
+                This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.
+                -->
+              </t>
 
-              <t hangText="sub">REQUIRED.
-              Subject.
-              This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
+              <t hangText="sub">
+                必須 (REQUIRED).
+                Subject.
+                OAuth Client の <spanx style="verb">client_id</spanx> を含まねばならない (MUST).
+                <!--
+                REQUIRED.
+                Subject.
+                This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.
+                -->
+              </t>
 
               <t hangText="aud">
+                必須 (REQUIRED).
+                Audience.
+                <spanx style="verb">aud</spanx> (audience) Claim.
+                Authorization Serve をオーディエンスとして指定する.
+                Authorization Server は自身がオーディエンスに含まれることを検証しなければならない (MUST).
+                Audience は Authorization Server の Token Endpoint URL にすべきである (SHOULD).
+                <!--
                 REQUIRED.
                 Audience.
                 The <spanx style="verb">aud</spanx> (audience) Claim.
@@ -8038,9 +8149,17 @@
                 for the token.
                 The Audience SHOULD be the URL of the
                 Authorization Server's Token Endpoint.
+                -->
               </t>
 
               <t hangText="jti">
+                必須 (REQUIRED).
+                JWT ID.
+                トークンごとにユニークな識別子.
+                トークンの再利用を防ぐために利用される.
+                これらのトークンは, 再利用条件について関係者での合意を得られていない限り, 2度以上利用しないようにしなければならない (MUST).
+                そのような合意の詳細については本仕様の定めるところではない.
+                <!--
                 REQUIRED.
                 JWT ID.
                 A unique identifier for the token,
@@ -8048,39 +8167,75 @@
                 These tokens MUST only be used once,
                 unless conditions for reuse were negotiated between the parties;
                 any such negotiation is beyond the scope of this specification.
+                -->
               </t>
 
-              <t hangText="exp">REQUIRED.
-              Expiration time on or after which the ID Token MUST NOT be
-              accepted for processing.</t>
 
-              <t hangText="iat">OPTIONAL.
-              Time at which the JWT was issued.
+              <t hangText="exp">
+                必須 (REQUIRED).
+                ID Token の有効期限.
+                この時刻を超えて当該 ID Token を受理してはならない (MUST NOT).
+                <!--
+                REQUIRED.
+                Expiration time on or after which the ID Token MUST NOT be
+                accepted for processing.
+                -->
+              </t>
+
+              <t hangText="iat">
+                任意 (OPTIONAL).
+                JWT 発行時刻.
+                <!--
+                OPTIONAL.
+                Time at which the JWT was issued.
+                -->
               </t>
             </list>
           </t>
 
           <t>
+            この JWT には, 他の Claim を含めても良い (MAY).
+            理解できない Claim は無視すること (MUST).
+          </t>
+          <!--
+          <t>
             The JWT MAY contain other Claims.
             Any Claims used that are not understood MUST be ignored.
           </t>
+          -->
 
+          <t>
+            認証トークンは <xref target="OAuth.Assertions"/> の <spanx style='verb'>client_assertion</spanx> パラメータとして送信すること (MUST).
+          </t>
+          <!--
           <t>The authentication token MUST be sent as the value of the
           <xref target="OAuth.Assertions"/>
           <spanx style='verb'>client_assertion</spanx> parameter.</t>
+          -->
 
+          <t>
+            <xref target="OAuth.Assertions"/> の <spanx style='verb'>client_assertion_type</spanx> パラメータには, <xref target="OAuth.JWT"/> の通りに "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" とすること.
+          </t>
+          <!--
           <t>The value of the
           <xref target="OAuth.Assertions"/>
           <spanx style='verb'>client_assertion_type</spanx> parameter
           MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
           per <xref target="OAuth.JWT"/>.</t>
+          -->
 
           <t>
             <figure>
               <preamble>
+                以下に例を示す.
+                (改行は掲載上の都合による)
+              </preamble>
+              <!--
+              <preamble>
                 For example
                 (with line wraps within values for display purposes only):
               </preamble>
+              -->
               <artwork><![CDATA[
   POST /token HTTP/1.1
   Host: server.example.com
@@ -8097,9 +8252,13 @@
           </t>
 
           <t hangText="none">
+            Client は Token Endpoint での認証を行わない.
+            これには, Implicit Flow を使う (よって Token Endpoint 自体を利用しない) 場合と, Token Endpoint は利用するが Client Secret を持たない Public Client である場合, およびその他の何らかの認証手段を用いる場合がある.
+            <!--
             The Client does not authenticate itself at the Token Endpoint,
             either because it uses only the Implicit Flow (and so does not use the Token Endpoint)
             or because it is a Public Client with no Client Secret or other authentication mechanism.
+            -->
           </t>
         </list>
       </t>
