@@ -8557,16 +8557,32 @@
     <section anchor="OfflineAccess" title="Offline Access">
 
       <t>
+        OpenID Connect では, offline access を要求するため以下の <spanx style="verb">scope</spanx> 値を定義している.
+        <!--
         OpenID Connect defines the following <spanx style="verb">scope</spanx> value
         to request offline access:
+        -->
 
         <list style="hanging">
-          <t hangText="offline_access">OPTIONAL. This scope value requests
-          that an OAuth 2.0 Refresh Token be issued that can be used to
-          obtain an Access Token that grants access to the End-User's
-          UserInfo Endpoint even when the End-User is not present (not logged in).</t>
+          <t hangText="offline_access">
+            任意 (OPTIONAL).
+            OAuth 2.0 Refresh Token の発行を要求する.
+            Request Token は End-User の関与を必要とせずに End-User の UserInfo Endpoint にアクセスするための Access Token を取得するために利用される.
+            <!--
+            OPTIONAL. This scope value requests
+            that an OAuth 2.0 Refresh Token be issued that can be used to
+            obtain an Access Token that grants access to the End-User's
+            UserInfo Endpoint even when the End-User is not present (not logged in).
+            -->
+          </t>
         </list>
       </t>
+      <t>
+        offline access を要求する際には, リクエストするリソースに対する offline access の許可に必要な何らかの他の条件を満たさない限り, <spanx style="verb">prompt</spanx> パラメータに <spanx style="verb">consent</spanx> を指定しなければならない (MUST).
+        OP は Refresh Token を発行する際は必ず明示的な同意を得なければならない (MUST).
+        ユーザーの事前同意は offline access の許可には常に十分とはならない.
+      </t>
+      <!--
       <t>
         When offline access is requested, a <spanx style="verb">prompt</spanx>
         parameter value of <spanx style="verb">consent</spanx> MUST be used
@@ -8576,11 +8592,21 @@
         that enables offline access to the requested resources.
         A previously saved user consent is not always sufficient to grant offline access.
       </t>
+      -->
       <t>
+        <spanx style="verb">offline_access</spanx> scope を受け取った Authorization Server は, 以下に従う.
+        <!--
         Upon receipt of a scope parameter containing the
         <spanx style="verb">offline_access</spanx> value, the Authorization Server:
+        -->
 
         <list style="symbols">
+          <t>
+            prompt パラメータが <spanx style="verb">consent</spanx> を含むことを確認する.
+            offline access 要求処理における何らかの他の条件を満たす場合はその限りではない.
+            上記の条件のどちらをも満たさない場合, <spanx style="verb">offline_access</spanx> リクエストを無視しなければならない (MUST).
+          </t>
+          <!--
           <t>
             MUST ensure that the prompt parameter contains
             <spanx style="verb">consent</spanx>
@@ -8589,31 +8615,57 @@
             unless one or both of these conditions are fulfilled, then
             it MUST ignore the <spanx style="verb">offline_access</spanx> request,
           </t>
+          -->
+          <t>
+            Client が Authorization Code を返すような <spanx style="verb">response_type</spanx> を指定しない場合, その <spanx style="verb">offline_access</spanx> を無視しなければならない (MUST).
+          </t>
+          <!--
           <t>
             MUST ignore the <spanx style="verb">offline_access</spanx> request
             unless the Client is using a <spanx style="verb">response_type</spanx>
             value that would result in an Authorization Code being returned,
           </t>
+          -->
+          <t>
+            Client の登録した <spanx style="verb">application_type</spanx> が <spanx style="verb">web</spanx> の場合は, 明示的に同意を得なければならない (MUST).
+          </t>
+          <!--
           <t>
             MUST explicitly receive or have consent for all Clients when
             the registered <spanx style="verb">application_type</spanx>
             is <spanx style="verb">web</spanx>,
           </t>
+          -->
+          <t>
+            Client の登録した <spanx style="verb">application_type</spanx> が <spanx style="verb">native</spanx> の場合でも, 明示的な同意を得るべきである (SHOULD).
+          </t>
+          <!--
           <t>
             SHOULD explicitly receive or have consent for all Clients when
             the registered <spanx style="verb">application_type</spanx>
             is <spanx style="verb">native</spanx>.
           </t>
+          -->
         </list>
 
+        Refresh Token の利用は, <spanx style="verb">offline_access</spanx> がもたらすユースケースのみに限らない.
+        Authorization Server は異なるコンテキストにおいて Refresh Token を発行しても良い (MAY).
+        なおそのようなコンテキストについては, 本仕様の定めるところではない.
+        <!--
         The use of Refresh Tokens is not exclusive to the
         <spanx style="verb">offline_access</spanx> use case.
         The Authorization Server MAY grant Refresh Tokens
         in other contexts that are beyond the scope of this specification.
+        -->
       </t>
     </section>
 
     <section anchor="RefreshTokens" title="Using Refresh Tokens">
+      <t>
+        Refresh Token を利用するには, <xref target="RFC6749">OAuth 2.0</xref> Section 6 に従い, Token Endpoint に <spanx style="verb">grant_type</spanx> を <spanx style="verb">refresh_token</spanx> としたリクエストを送る.
+        ここでは OpenID Connect Authorization Server が Refresh Token を受け取った際の挙動について定義する.
+      </t>
+      <!--
       <t>
         A request to the Token Endpoint can also use a Refresh Token
         by using the <spanx style="verb">grant_type</spanx> value
@@ -8623,8 +8675,15 @@
         This section defines the behaviors for OpenID Connect
         Authorization Servers when Refresh Tokens are used.
       </t>
+      -->
 
       <section anchor="RefreshingAccessToken" title="Refresh Request">
+        <t>
+          Access Token 再発行のため, Client は自身の <spanx style="verb">client_id</spanx> に紐づいて登録された認証方法で, Token Endpoint に対して自身を認証しなければならない (MUST).
+          詳細は <xref target="ClientAuthentication"/> 参照.
+          Client は <xref target="FormSerialization"/> で述べた Form Serialization を用いて, Token Endpoint に HTTP <spanx style="verb">POST</spanx> リクエストを送る.
+        </t>
+        <!--
         <t>
           To refresh an Access Token, the Client MUST
           authenticate to the Token Endpoint using the authentication method registered
@@ -8634,13 +8693,20 @@
           to the Token Endpoint using
           Form Serialization, per <xref target="FormSerialization"/>.
         </t>
+        -->
 
         <figure>
+          <preamble>
+            以下は Refresh Request の例である.
+            (改行は掲載上の都合による)
+          </preamble>
+          <!--
           <preamble>
             The following is a non-normative example of a
             Refresh Request
             (with line wraps within values for display purposes only):
           </preamble>
+          -->
 
           <artwork><![CDATA[
   POST /token HTTP/1.1
@@ -8656,63 +8722,118 @@
         </figure>
 
         <t>
+          Authorization Server は Refresh Token を検証し, それが Client に対して発行されたものであることを確認し, Client 認証がその Client の Client Authentication 方法によって成功したことを確認しなければならない (MUST).
+        </t>
+        <!--
+        <t>
           The Authorization Server MUST validate the Refresh Token,
           MUST verify that it was issued to the Client,
           and must verify that the Client successfully authenticated
           it has a Client Authentication method.
         </t>
+        -->
       </section>
 
       <section anchor="RefreshTokenResponse" title="Successful Refresh Response">
+        <t>
+          Refresh Token の検証が成功すると, レスポンスボディに <xref target="TokenResponse"/> で述べた Token Response を含める.
+          ただしこのレスポンスは <spanx style="verb">id_token</spanx> を含まない場合もある.
+        </t>
+        <!--
         <t>
           Upon successful validation of the Refresh Token,
           the response body is the Token Response of <xref target="TokenResponse"/>
           except that it might not contain an <spanx style="verb">id_token</spanx>.
         </t>
+        -->
 
         <t>
+          トークン再発行の際に ID Token を発行する場合は, 以下に従う.
+          <!--
           If an ID Token is returned as a result of a token refresh request,
           the following requirements apply:
+          -->
           <list style="symbols">
+            <t>
+              <spanx style="verb">iss</spanx> Claim Value は, 最初の認可発生時に発行された ID Token と同じ値にすること (MUST).
+            </t>
+            <!--
             <t>
               its <spanx style="verb">iss</spanx> Claim Value MUST be the same as
               in the ID Token issued when the original authentication occurred,
             </t>
+            -->
+            <t>
+              <spanx style="verb">sub</spanx> Claim Value も同様に, 最初の認可発生時に発行された ID Token と同じ値にすること (MUST).
+            </t>
+            <!--
             <t>
               its <spanx style="verb">sub</spanx> Claim Value MUST be the same as
               in the ID Token issued when the original authentication occurred,
             </t>
+            -->
+            <t>
+              <spanx style="verb">iat</spanx> Claim は新しい ID Token の発行時刻にすること (MUST).
+            </t>
+            <!--
             <t>
               its <spanx style="verb">iat</spanx> Claim MUST represent
               the time that the new ID Token is issued,
             </t>
+            -->
+            <t>
+              <spanx style="verb">aud</spanx> Claim Value は, 最初の認可発生時に発行された ID Token と同じ値にすること (MUST).
+            </t>
+            <!--
             <t>
               its <spanx style="verb">aud</spanx> Claim Value MUST be the same as
               in the ID Token issued when the original authentication occurred,
             </t>
+            -->
+            <t>
+              ID Token に <spanx style="verb">auth_time</spanx> Claim を含める場合は, 新しい ID Token の発行時刻ではなく, 最初の認証を行った時刻とすること (MUST).
+            </t>
+            <!--
             <t>
               if the ID Token contains an <spanx style="verb">auth_time</spanx> Claim,
               its value MUST represent the time of the original authentication - not
               the time that the new ID token is issued,
             </t>
+            -->
+            <t>
+              <spanx style="verb">azp</spanx> Claim Value は, 最初の認可発生時に発行された ID Token と同じ値にすること (MUST).
+              <spanx style="verb">azp</spanx> が最初に発行された ID Token に含まれない場合は, 新しい ID Token にもそれを含めてはならない (MUST NOT).
+            </t>
+            <!--
             <t>
               its <spanx style="verb">azp</spanx> Claim Value MUST be the same as
               in the ID Token issued when the original authentication occurred;
               if no <spanx style="verb">azp</spanx> Claim was present in the original
               ID Token, one MUST NOT be present in the new ID Token, and
             </t>
+            -->
+            <t>
+              それ以外に関しては, 最初の認証時に発行された ID Token と同じルールを適用する.
+            </t>
+            <!--
             <t>
               otherwise, the same rules apply as apply when issuing an ID Token
               at the time of the original authentication.
             </t>
+            -->
           </list>
         </t>
 
         <figure>
           <preamble>
+            以下は Refresh Response の例である.
+          </preamble>
+          <!--
+          <preamble>
             The following is a non-normative example of a
             Refresh Response:
           </preamble>
+          -->
 
           <artwork><![CDATA[
   HTTP/1.1 200 OK
@@ -8731,10 +8852,15 @@
       </section>
 
       <section anchor="RefreshErrorResponse" title="Refresh Error Response">
+        <t>
+          Refresh Request が不正もしくは認証できなかった場合, Authorization Server は <xref target="RFC6749">OAuth 2.0</xref> Section 5.2 に従い Token Error Response を返す.
+        </t>
+        <!--
         <t>If the Refresh Request is invalid or unauthorized, the
         Authorization Server returns the
         Token Error Response as defined in Section 5.2 of <xref
         target="RFC6749">OAuth 2.0</xref>.</t>
+        -->
       </section>
 
     </section>
