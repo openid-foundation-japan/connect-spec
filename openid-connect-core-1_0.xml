@@ -3988,7 +3988,7 @@
           </section>
 
           <section anchor="HybridCallback" title="Redirect URI Fragment Handling">
-			  
+
 			 <t>
 			  ハイブリッドフローを使用する場合, URI フラグメントパラメータのリダイレクト処理のための同じ要件が, <xref target="ImplicitCallback"/>で定義されたように, Implicit Flowのため行われるように適用される.
 			  また, URIフラグメント処理に関する実装上の注意のため, <xref target="FragmentNotes"/>を参照すること.
@@ -4005,7 +4005,7 @@
           </section>
 
           <section anchor="HybridAuthResponseValidation" title="Authentication Response Validation">
-			 
+
 			<t>
 			  ハイブリッドフローを使用する場合, Clientは次の通りレスポンスを検証しなければならない(MUST):
 			<!--
@@ -4014,7 +4014,7 @@
               the Client MUST validate the response as follows:
 			 -->
               <list style="numbers">
-                
+
 				<t>
 				  レスポンスが<xref target="OAuth.Responses"/>のSection 5 に準拠していることを検証する.
 				</t>
@@ -4026,7 +4026,7 @@
 				<t>
 				  検証ルールは, RFC 6949の特にSection 4.2.2と10.12. に従うこと.
 				</t>
-				<!-- 
+				<!--
                 <t>
                   Follow the validation rules in RFC 6749,
                   especially those in Sections 4.2.2 and 10.12.
@@ -4054,11 +4054,11 @@
                   <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
                 </t>
 				-->
-				
+
 				<t>
 				  使用される<spanx style="verb">response_type</spanx>の値が, <spanx style="verb">code&nbsp;id_token</spanx>, <spanx style="verb">code&nbsp;token</spanx>, または<spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>の場合, Authorization Codeの検証ルールは, <xref target="CodeValidation"/>に従うこと.
 				</t>
-				<!-- 
+				<!--
                 <t>
                   Follow the Authorization Code validation rules in <xref target="CodeValidation"/>
                   when the <spanx style="verb">response_type</spanx> value used is
@@ -4075,7 +4075,7 @@
 			<t>
 			  ハイブリッドフローを使用する場合, 認可エンドポイントから返却されるAccess Tokenは, <xref target="ImplicitTokenValidation"/>で定義されたようにImplicit Flowと同じルールで検証される.
 			</t>
-			<!-- 
+			<!--
             <t>
               When using the Hybrid Flow, Access Tokens
               returned from the Authorization Endpoint are validated
@@ -4090,7 +4090,7 @@
 			<t>
 			 認可エンドポイントでID Tokenと一緒に発行されたAuthorization codeを検証するために, Clientは以下を行うべきである(SHOULD):
 			</t>
-			<!-- 
+			<!--
             <t>To validate an Authorization Code issued from the Authorization Endpoint with an ID Token,
             the Client SHOULD do the following:</t>
 			-->
@@ -4116,11 +4116,11 @@
 				<!--
                 <t>Take the left-most half of the hash and base64url encode it.</t>
 				-->
-				
+
 				<t>
 				<spanx style="verb">c_hash</spanx>がID Tokenの中に存在する場合, 前のステップで生成された値とID Token中の<spanx style="verb">c_hash</spanx>の値が一致しなければならない.(MUST)
 				</t>
-				<!-- 
+				<!--
 				<t>The value of <spanx style="verb">c_hash</spanx> in the ID Token MUST
                 match the value produced in the previous step if <spanx style="verb">c_hash</spanx>
                 is present in the ID Token.</t>
@@ -9520,7 +9520,7 @@
 
         <section anchor="NonceNotes" title="Nonce Implementation Notes">
           <t>
-            <spanx style="verb">nonce</spanx> パラメータ値は, 
+            <spanx style="verb">nonce</spanx> パラメータ値は,
             セッション毎の状態を含むとともに, 攻撃者によって推測されないようにする必要がある.
             Web Server Client がこの要件を満足する手法の一つは,
             HttpOnly属性付きのセッションクッキーとして暗号論的乱数値を格納し,
@@ -9911,6 +9911,11 @@
 
       <section anchor="AuthCodeCapture"
                title=" Eavesdropping or Leaking Authorization Codes (Secondary Authenticator Capture)">
+        <t>
+          User Agent がマルウェアに感染している場合は, <xref target="RFC6819"/> Section 4.4.1.1 にある攻撃パターンに加え, Authorization Code が TLS セッションの終端となる User Agent 上でも盗聴される可能性がある.
+          Client Authentication やレスポンス暗号化を用いると, この盗聴パターンは無効化できる.
+        </t>
+        <!--
         <t>In addition to the attack patterns described in
         Section 4.4.1.1 of <xref target="RFC6819"/>,
         an Authorization Code can be captured in the User Agent where the TLS
@@ -9918,6 +9923,7 @@
         However, capturing it is not useful as long as either
         Client Authentication or an encrypted response is used.
         </t>
+        -->
       </section>
 
       <section anchor="TokenSubstitution" title="Token Substitution">
