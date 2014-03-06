@@ -10217,6 +10217,14 @@
 
       <section anchor="SigningOrder" title="Signing and Encryption Order">
         <t>
+          暗号文に対する署名は, 多くの法域 (jurisdiction: 法律用語, ある法律が適用される地域のこと) で有効と認められない.
+          従って本仕様では, 完全性と非否認性を確保するため署名を利用する際には, 平文の JSON Claim に対して署名をすることを要求する.
+          署名と暗号化がともに必要となる場合, 署名対象の Claim を含んだ JWS に対して暗号化を行うこと.
+          これにより <xref target="JWT"/> で述べられている Nexted JWT が導出される.
+          なお, 全ての JWE 暗号化アルゴリズムは完全性保護を提供しており, 暗号文に別途署名を行う必要はないことに注意すること.
+        </t>
+        <!--
+        <t>
           Signatures over encrypted text are not considered valid
           in many jurisdictions.
           Therefore, for integrity and non-repudiation,
@@ -10228,13 +10236,25 @@
           Note that since all JWE encryption algorithms provide integrity protection,
           there is no need to separately sign the encrypted content.
         </t>
+        -->
       </section>
 
       <section anchor="IssuerIdentifier" title="Issuer Identifier">
+        <t>
+          OpenID Connect では, 1つの Host と Port のペアに対して複数の Issuer を配置することができる.
+          従って, ディスカバリーで返される issuer は, ID Token に含まれる <spanx style="verb">iss</spanx> と完全一致しなければならない (MUST).
+        </t>
+        <!--
         <t>OpenID Connect supports multiple Issuers per Host and Port combination.
         The issuer returned by discovery MUST exactly match the value of
         <spanx style="verb">iss</spanx> in the ID Token.</t>
+        -->
 
+        <t>
+          OpenID Connect は Issuer URI のパスコンポーネントを Issuer Identifier の一部として扱う.
+          よって例えば subject が同じ "1234" であったとしても, Issuer Identifier が "https://example.com" なものと "https://example.com/sales" なものとでは, 異なる subject となる.
+        </t>
+        <!--
         <t>
           OpenID Connect treats the path component of any Issuer URI as
           being part of the Issuer Identifier.  For instance, the subject
@@ -10242,20 +10262,34 @@
           equivalent to the subject "1234" with an Issuer Identifier of
           "https://example.com/sales".
         </t>
+        -->
+        <t>
+          ホストごとに単一の Issuer にとどめることを推奨する (RECOMMENDED).
+          しかしながらマルチテナントなホストでは, 単一ホストに対して複数の Issuer が必要になるケースもあるであろう.
+        </t>
+        <!--
         <t>
           It is RECOMMENDED that only a single Issuer per host be used.
           However, if a host supports multiple tenants,
           multiple Issuers for that host may be needed.
         </t>
+        -->
       </section>
 
       <section anchor="ImplicitFlowThreats" title="Implicit Flow Threats">
+        <t>
+          Implicit Flow では, Access Token は Client の <spanx style="verb">redirect_uri</spanx> のフラグメントを介して HTTPS で返される.
+          従って OP と User Agent の間, User Agent と RP の間の通信は, 保護されている.
+          しかしながら User Agent がマルウェアに感染していたり不正な操作者のコントロール下にある場合は, TLS セッションの終端となる User Agent 上で Access Token を読み取られることもありうる.
+        </t>
+        <!--
         <t>In the Implicit Flow, the Access Token is returned in the
         fragment component of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
         protected between the OP and the User Agent, and between the User Agent and the
         RP. The only place it can be captured is the User Agent where the
         TLS session is terminated, which is possible if the User Agent is
         infected by malware or under the control of a malicious party.</t>
+        -->
       </section>
 
       <section anchor="TLSRequirements" title="TLS Requirements">
