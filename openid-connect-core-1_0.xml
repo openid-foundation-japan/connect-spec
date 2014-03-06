@@ -9755,7 +9755,7 @@
     <section anchor="Security" title="Security Considerations">
       <t>
         本仕様は, <xref target="RFC6749">OAuth 2.0</xref> の Section 10, <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> の Section 5 に定義されている security considerations を引用する.
-        さらに, <xref target="RFC6819">OAuth 2.0 Threat Model and Security Considerations</xref> は, この仕様にもよくあてはまる OAuth 2.0 をベースとした脅威と制御の広範囲なリストを提供する. 
+        さらに, <xref target="RFC6819">OAuth 2.0 Threat Model and Security Considerations</xref> は, この仕様にもよくあてはまる OAuth 2.0 をベースとした脅威と制御の広範囲なリストを提供する.
         <xref target="ISO29115">ISO/IEC 29115</xref> もまた, 実装者が考慮する必要がある脅威と制御を提供する.
         実装者には, これらの引用の詳細を読み, それらに記載されている対抗策を適用することを勧める.
       </t>
@@ -9923,7 +9923,7 @@
           <list style="numbers">
             <t>
               Response Type に <spanx style="verb">code</spanx> を利用する.
-              レスポンスは TLS で保護されたチャンネル上で送られ, Client は <spanx style="verb">client_id</spanx> と <spanx style="verb">client_secret</spanx> によって認証される. 
+              レスポンスは TLS で保護されたチャンネル上で送られ, Client は <spanx style="verb">client_id</spanx> と <spanx style="verb">client_secret</spanx> によって認証される.
             </t>
             <!--
             <t>Using the <spanx style="verb">code</spanx> Response Type.
@@ -10176,18 +10176,34 @@
       </section>
 
       <section anchor="TimingAttack" title="Timing Attack">
+        <t>
+          タイミングアタックにより, 攻撃者は復号処理や署名検証の成功/失敗にかかる処理時間の違いを通じて, 必定以上に多くの情報を得ることができる.
+          この攻撃は, 暗号文の有効な鍵長を限定する為に利用できる.
+        </t>
+        <!--
         <t>A timing attack enables the attacker to
         obtain an unnecessary large amount of information through the elapsed time
         differences in the code paths taken by successful and unsuccessful decryption operations or
         successful and unsuccessful signature validation of a message.
         It can be used to reduce the effective key length of the
         cipher used.</t>
+        -->
+        <t>
+          実装者はエラーを検知した際すぐに検証プロセスを終了するのではなく, 他のオクテットに対する処理を終えるまで処理を継続し, この攻撃を防ぐべきである (SHOULD).
+        </t>
+        <!--
         <t>Implementations SHOULD NOT terminate the validation process
         at the instant of the finding an error but SHOULD continue
         running until all the octets have been processed to avoid this attack.</t>
+        -->
       </section>
 
       <section anchor="OtherCryptoAttacks" title="Other Crypto Related Attacks">
+        <t>
+          暗号, 署名, 完全性検証の手法に応じて, 暗号関連の様々な攻撃が考えられる.
+          実装者は <xref target="JWT">JWT</xref> の Security Considerations, および JWT が参照する, 各脆弱性を防ぐための仕様群に従うこと.
+        </t>
+        <!--
         <t>There are various crypto related attacks possible depending on the
         method used for encryption and signature / integrity checking.
         Implementers need to consult the Security Considerations
@@ -10196,6 +10212,7 @@
         to avoid the vulnerabilities
         identified in these specifications.
         </t>
+        -->
       </section>
 
       <section anchor="SigningOrder" title="Signing and Encryption Order">
