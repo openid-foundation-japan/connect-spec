@@ -10294,6 +10294,14 @@
 
       <section anchor="TLSRequirements" title="TLS Requirements">
         <t>
+          各実装は TLS をサポートしなければならない (MUST).
+          どのバージョンを実装するかは, 時間の経過や広く利用されている実装, 既知のセキュリティ上の脆弱性などによって, その時々で変化しうる.
+          本仕様執筆時点では, TLS version 1.2 <xref target='RFC5246' /> が最新のバージョンであるが, 実装は限定される.
+          そのため実装時に使うツールキットではすぐには利用できないかもしれない.
+          TLS version 1.0 <xref target='RFC2246' /> は最も広く利用されているバージョンであり, 最も広い相互運用性を提供するであろう.
+        </t>
+        <!--
+        <t>
           Implementations MUST support TLS.
           Which version(s) ought to be implemented will vary over
           time, and depend on the widespread deployment and known
@@ -10307,35 +10315,66 @@
           is the most widely deployed version, and will give the
           broadest interoperability.
         </t>
+        -->
+        <t>
+          情報漏洩や改竄に対しては, TLS を用いた秘匿性保護が必須である (MUST).
+          TLS の秘匿性および完全性保護を提供する暗号スイートを利用すること.
+        </t>
+        <!--
         <t>
           To protect against information disclosure and tampering,
           confidentiality protection MUST be applied using TLS
           with a ciphersuite that provides confidentiality and
           integrity protection.
         </t>
+        -->
+        <t>
+          TLS を利用する際は, 常に TLS サーバ証明書を検証しなければならない (MUST).
+          詳細は <xref target="RFC6125">RFC 6125</xref> を参照のこと.
+        </t>
+        <!--
         <t>
           Whenever TLS is used, a TLS server certificate check
           MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
         </t>
+        -->
       </section>
       <section anchor="TokenLifetime" title="Lifetimes of Access Tokens and Refresh Tokens">
+        <t>
+          Authorization Server は Access Token を無効化できないかもしれない.
+          従って, Access Token の有効期間は一度の利用に十分な期間, もしくは非常に短い期間に限定するべきである (SHOULD).
+        </t>
+        <!--
         <t>Access Tokens might not be revocable by the Authorization Server.
         Access Token lifetimes SHOULD therefore be kept to single use or
         very short lifetimes.</t>
+        -->
 
+        <t>
+          UserInfo Endpoint や他の Protected Resource に対する継続したアクセスが必要な場合は, Refresh Token を利用できる.
+          Client は Token Endpoint に Refresh Token を送ることで, 新規の有効期間の短い Access Token を取得し, リソースアクセスに利用できる.
+        </t>
+        <!--
         <t>
           If ongoing access to the UserInfo Endpoint or other Protected Resources is required,
           a Refresh Token can be used. The Client can then exchange the Refresh Token at
           the Token Endpoint for a fresh short-lived Access Token that can be used to
           access the resource.
         </t>
+        -->
 
+        <t>
+          Authorization Server は Authorization 中に User に対して長期間の認可を与えようとしていることを明示すべきである (SHOULD).
+          Authorization Server は End-User に対して, 特定の Client に発行された Access Token および Refresh Token を無効化する手段を提供すべきである (SHOULD).
+        </t>
+        <!--
         <t>
           The Authorization Server SHOULD clearly identify long-term grants to the User
           during Authorization.
           The Authorization Server SHOULD provide a mechanism for the End-User to revoke
           Access Tokens and Refresh Tokens granted to a Client.
         </t>
+        -->
       </section>
 
       <section anchor="SymmetricKeyEntropy" title="Symmetric Key Entropy">
