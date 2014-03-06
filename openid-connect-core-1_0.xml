@@ -10379,6 +10379,14 @@
 
       <section anchor="SymmetricKeyEntropy" title="Symmetric Key Entropy">
         <t>
+          <xref target="Signing"/> と <xref target="Encryption"/> では, 鍵は <spanx style="verb">client_secret</spanx> 値から導出される.
+          従って共通鍵暗号による署名および暗号化を行うためには, <spanx style="verb">client_secret</spanx> が十分なエントロピーを持った暗号論的に強固な鍵とする必要がある (MUST).
+          また <spanx style="verb">client_secret</spanx> は利用するアルゴリズムが利用する MAC 鍵に必要な最低限のオクテット長を持つ必要がある (MUST).
+          例えば <spanx style="verb">HS256</spanx> を利用する際は, <spanx style="verb">client_secret</spanx> は最低でも32オクテットが必要である (MUST).
+          (なお, 多くのの場合 <spanx style="verb">client_secret</spanx> はアルファベットに限定されるため, 明らかにそれ以上のオクテットが必要となるであろう (SHOULD))
+        </t>
+        <!--
+        <t>
           In <xref target="Signing"/> and <xref target="Encryption"/>, keys are derived
           from the <spanx style="verb">client_secret</spanx> value.
           Thus, when used with symmetric signing or encryption operations,
@@ -10393,9 +10401,15 @@
           since <spanx style="verb">client_secret</spanx> values are
           likely to use a restricted alphabet).
         </t>
+        -->
       </section>
 
       <section anchor="NeedForSignedRequests" title="Need for Signed Requests">
+        <t>
+          場合によっては, Client はリクエストパラメータの改竄を防止するため, リクエストに署名を行う必要があるかもしれない.
+          例えば <spanx style="verb">max_age</spanx> と <spanx style="verb">acr_values</spanx> などは, 署名付きリクエストを用いた方がより正確に認証処理についての保証として有用になるであろう.
+        </t>
+        <!--
         <t>
           In some situations, Clients might need to use signed requests to ensure that
           the desired request parameters are delivered to the OP without having
@@ -10403,9 +10417,16 @@
           and <spanx style="verb">acr_values</spanx> provide more assurance about
           the nature of the authentication performed when delivered in signed requests.
         </t>
+        -->
       </section>
 
       <section anchor="NeedForEncryptedRequests" title="Need for Encrypted Requests">
+        <t>
+          場合によっては, OpenID Connect リクエストを除き見ることで, End-User に関するセンシティブな情報を漏洩させることもある.
+          例えば Client が特定の Claim を要求したことや特定の認証方法を要求したことを知ることで, End-User に関するセンシティブな情報を漏洩させることもある.
+          OpenID Connect は OpenID Provider へのリクエストを暗号化可能とすることで, センシティブ情報の漏洩を防止可能にする.
+        </t>
+        <!--
         <t>
           In some situations, knowing the contents of an OpenID Connect request can,
           in and of itself, reveal sensitive information about the End-User.
@@ -10415,6 +10436,7 @@
           OpenID Connect enables requests to be encrypted to the OpenID Provider
           to prevent such potentially sensitive information from being revealed.
         </t>
+        -->
       </section>
     </section>
     <section anchor="Privacy" title="Privacy Considerations">
