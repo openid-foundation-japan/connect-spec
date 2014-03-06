@@ -9754,6 +9754,13 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>
+        本仕様は, <xref target="RFC6749">OAuth 2.0</xref> の Section 10, <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> の Section 5 に定義されている security considerations を引用する.
+        さらに, <xref target="RFC6819">OAuth 2.0 Threat Model and Security Considerations</xref> は, この仕様にもよくあてはまる OAuth 2.0 をベースとした脅威と制御の広範囲なリストを提供する. 
+        <xref target="ISO29115">ISO/IEC 29115</xref> もまた, 実装者が考慮する必要がある脅威と制御を提供する.
+        実装者には, これらの引用の詳細を読み, それらに記載されている対抗策を適用することを勧める.
+      </t>
+      <!--
+      <t>
         This specification references the security considerations defined in
         Section 10 of <xref target="RFC6749">OAuth 2.0</xref>, and
         Section 5 of <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
@@ -9767,15 +9774,31 @@
         Implementers are highly advised to
         read these references in detail and apply the countermeasures described therein.
       </t>
+      -->
 
+      <t>
+        加えて, 以下の攻撃ベクトルと救済策のリストもまた, 考慮される.
+      </t>
+      <!--
       <t>
         In addition, the following list of attack vectors and remedies are
         also considered.
       </t>
+      -->
 
       <section anchor="RequestDisclosure" title="Request Disclosure">
+        <t>
+          適切な処置が講じられないとき, リクエストは攻撃者に漏洩され, セキュリティとプライバシーの脅威をもたらすかもしれない.
+        </t>
+        <!--
         <t>If appropriate measures are not taken, a request might be disclosed to
         an attacker, posing security and privacy threats.</t>
+        -->
+        <t>
+          <xref target="RFC6819" /> の Section 5.1.1 にあることに加え, この仕様は <spanx style="verb">request</spanx> パラメータ ( <spanx style="verb">request</spanx> の内容は適切な鍵と暗号により暗号化されたJWT) もしくは <spanx style="verb">request_uri</spanx> パラメータを利用することによりエンドツーエンドでリクエストの機密性を提供する方法を提供する.
+          これは, 間接的なリクエストの場合に改ざんされた User Agent からも保護する.
+        </t>
+        <!--
         <t>In addition to what is stated in Section 5.1.1 of <xref target="RFC6819" />,
         this standard provides a way to provide the confidentiality of the request
         end to end through the
@@ -9784,20 +9807,37 @@
         is an encrypted JWT with the appropriate key and cipher.
         This protects even against a compromised User Agent
         in the case of indirect request.</t>
+        -->
       </section>
 
       <section anchor="ServerMasquerading" title="Server Masquerading">
+        <t>
+          悪意のある Server は, 様々な方法を用いて正規の Server に成りすますかもしれない.
+          そのような攻撃を検知するため, Client は Server を認証する必要がある.
+        </t>
+        <!--
         <t>A malicious Server might masquerade as the legitimate server
         using various means. To detect such an attack, the Client needs to authenticate
         the server.</t>
+        -->
+        <t>
+          <xref target="RFC6819" /> の Section 5.1.2 にあることに加え, この仕様は適切な鍵と暗号を用いた Signed JWT と Encrypted JWT の両方で Server を認証する方法を提供する.
+        </t>
+        <!--
         <t>In addition to what is stated in Section 5.1.2 of <xref target="RFC6819" />,
         this standard provides a way to authenticate the Server through either the
         use of Signed or Encrypted JWTs
         with an appropriate key and cipher.</t>
+        -->
       </section>
 
       <section anchor="TokenManufacture"
                title="Token Manufacture/Modification">
+        <t>
+          攻撃者は偽のトークンを生成もしくは既存の解析可能なトークンの内容( Claim や署名など) を修正し, RP に Client への不適切なアクセスを引き起こすかもしれない.
+          例えば, 攻撃者は解析可能なトークンの有効期限を延長するかもしれない : Client は彼らが閲覧できない情報にアクセスするために解析可能なトークンを修正するかもしれない.
+        </t>
+        <!--
         <t>
           An Attacker might generate a bogus token or modify the token contents
           (such as Claims values or the signature)
@@ -9806,24 +9846,50 @@
           the parseable token to extend the validity period; a Client might modify the
           parseable token to have access to information that they should not be able to view.
         </t>
+        -->
+
+        <t>
+          この攻撃を軽減するための2つの方法がある:
+        </t>
+        <!--
         <t>There are two ways to mitigate this attack:</t>
+        -->
 
         <t>
           <list style="numbers">
+            <t>
+              トークンはOPによりデジタル署名をつけることができる.
+              Relying Party はそれが正規の OP から発行されたことを確認するためにデジタル署名を検証すべき (SHOULD).
+            </t>
+            <!--
             <t>The token can be digitally signed by the OP. The Relying
             Party SHOULD validate the digital signature to verify that it was
             issued by a legitimate OP.</t>
+            -->
 
+            <t>
+              トークンは TLS のような, 保護されたチャンネル上で送られることができる.
+              TLS の利用についての情報は <xref target="TLSRequirements"/> を参照すること.
+              この仕様では, トークンは常に TLS で保護されたチャンネル上で送られる.
+              しかし, この手段は第3者の攻撃に対する防御のみであり, Client が攻撃者になるケースには適用できない点に注意すること.
+            </t>
+            <!--
             <t>The token can be sent over a protected channel such as TLS.
             See <xref target="TLSRequirements"/> for more information on using TLS.
             In this specification, the token is always sent over a TLS protected channel.
             Note however, that this measure is only a defense against third party attackers
             and is not applicable to the case where the Client is the attacker.</t>
+            -->
           </list>
         </t>
       </section>
 
       <section anchor="AccessTokenDisclosure" title="Access Token Disclosure">
+        <t>
+          <xref target="RFC6749">OAuth 2.0</xref> の Section 1.4 で定義されているように, Access Token は Protected Resources にアクセスするために用いられるクレデンシャルである.
+          Access Token は End-User の認可を表すものであり, 認可されていない対象にさらされることはあってはならない (MUST NOT).
+        </t>
+        <!--
         <t>
           Access Tokens are credentials used to access Protected
           Resources, as defined in Section 1.4 of
@@ -9831,72 +9897,136 @@
           an End-User's authorization and MUST NOT be exposed to
           unauthorized parties.
         </t>
+        -->
       </section>
 
       <section anchor="ResponseDisclosure" title="Server Response Disclosure">
+        <t>
+          サーバーのレスポンスは, 認証データとセンシティブな Client 情報を含む Claim を含む可能性がある.
+          レスポンス内容の暴露は, Client を他の種類の攻撃に対して脆弱にすることができる.
+        </t>
+        <!--
         <t>
           The server response might contain authentication data and Claims
           that include sensitive Client information. Disclosure of the
           response contents can make the Client vulnerable to other types of
           attacks.
         </t>
+        -->
 
         <t>
+          サーバーレスポンスの公開は, 次の2つの方法により軽減されることができる:
+          <!--
           The server response disclosure can be mitigated in the following two
           ways:
+          -->
           <list style="numbers">
+            <t>
+              Response Type に <spanx style="verb">code</spanx> を利用する.
+              レスポンスは TLS で保護されたチャンネル上で送られ, Client は <spanx style="verb">client_id</spanx> と <spanx style="verb">client_secret</spanx> によって認証される. 
+            </t>
+            <!--
             <t>Using the <spanx style="verb">code</spanx> Response Type.
             The response is sent over a TLS protected
             channel, where the Client is authenticated by the
             <spanx style="verb">client_id</spanx> and
             <spanx style="verb">client_secret</spanx>.</t>
+            -->
 
+            <t>
+              その他の Response Type については, 適切な鍵と暗号により暗号化された JWT として Client の公開鍵もしくは共有秘密鍵を暗号化されることができる.
+            </t>
+            <!--
             <t>For other Response Types,
             the signed response can be encrypted with the Client's
             public key or a shared secret as an encrypted JWT
             with an appropriate key and cipher.</t>
+            -->
           </list>
         </t>
       </section>
 
       <section anchor="ServerResponseRepudiation" title="Server Response Repudiation">
+        <t>
+          適切なメカニズムが実施されていないならば, レスポンスは Serverにより拒否されるかもしれない.
+          例えば, Server が デジタル署名をレスポンスに施さなかった場合, Server はそれが自身のサービスを通して生成されていないと主張することができる.
+        </t>
+        <!--
         <t>A response might be repudiated by the server if the proper mechanisms are not in place.
         For example, if a Server does not digitally sign a response, the Server can claim that it was not
         generated through the services of the Server.</t>
+        -->
 
+        <t>
+          この脅威を軽減するため, レスポンスは否認防止のための鍵を用いて Server により署名されてもよい (MAY).
+          Client はそれが正規の Server から発行されたものであり, 完全であることを確認するためにデジタル署名を検証すべき (SHOULD).
+        </t>
+        <!--
         <t>To mitigate this threat, the response MAY be digitally signed by
         the Server using a key that supports non-repudiation. The Client SHOULD validate
         the digital signature to verify that it was issued by a legitimate
         Server and its integrity is intact.</t>
+        -->
       </section>
 
       <section anchor="RequestRepudation" title="Request Repudiation">
+        <t>
+          脆弱または悪意のある Client がリクエストを誤った対象に送ることがありえるため, bearer token のみを利用して認証された Client はいかなるトランザクションでも拒否されることができる.
+        </t>
+        <!--
         <t>Since it is possible for a
         compromised or malicious Client to send a request to the wrong party,
         a Client that was authenticated
         using only a bearer token can repudiate any transaction.
         </t>
+        -->
+
+        <t>
+          この脅威を軽減するため, Server は Client により否認防止のための鍵を用いてデジタル署名されたリクエストを要求してもよい (MAY).
+          Server はそれが正規の Client から発行されたものであり, 完全であることを確認するためにデジタル署名を検証すべき (SHOULD).
+        </t>
+        <!--
         <t>To mitigate this threat, the Server MAY require that the
         request be digitally signed by
         the Client using a key that supports non-repudiation.
         The Server SHOULD validate
         the digital signature to verify that it was issued by a legitimate
         Client and the integrity is intact.</t>
+        -->
       </section>
 
       <section anchor="AccessTokenRedirect" title="Access Token Redirect">
+        <t>
+          攻撃者は, あるリソースのために生成された Access Token を別のリソースへのアクセスするために利用する.
+        </t>
+        <!--
         <t>An Attacker uses the Access Token generated for one resource to
         obtain access to a second resource.
         </t>
+        -->
+
+        <t>
+          この脅威を軽減するため, Access Token は audience と scope に対して制限をかけるべき (SHOULD).
+          それを実装するひとつの方法として, audience として生成されたリソースの識別子を含むことがある.
+          リソースは, 受け取ったトークンが audience として自身の識別子を含むことを確認する.
+        </t>
+        <!--
         <t>To mitigate this threat, the Access Token SHOULD be audience
         and scope restricted. One way of implementing it is to include
         the identifier of the resource for whom it was generated as audience.
         The resource verifies that
         incoming tokens include its identifier as the audience of the
         token.</t>
+        -->
       </section>
 
       <section anchor="TokenReuse" title="Token Reuse">
+        <t>
+          攻撃者は, 対象の Resource のために既に一度利用された Authorization Code のようなワンタイムなトークンの再利用を試みる.
+          この脅威を軽減するため, トークンはタイムスタンプを含み, 有効期限を短くすべき (SHOULD).
+          Relying Party は, トークンが現時点で有効であることを確実にするため, タイムスタンプと有効期限の値をチェックする.
+        </t>
+        <!--
         <t>An Attacker attempts to use a one-time use token such as
         an Authorization Code that has already
         been used once with the intended Resource.
@@ -9904,9 +10034,15 @@
         and a short validity lifetime.
         The Relying Party then checks the timestamp and lifetime values
         to ensure that the token is currently valid.</t>
+        -->
 
+        <t>
+          あるいは, サーバーはトークンの利用状況を記録し, リクエスト毎にその状態を確認してもよい (MAY).
+        </t>
+        <!--
         <t>Alternatively, the server MAY record the state of the use of
         the token and check the status for each request.</t>
+        -->
       </section>
 
       <section anchor="AuthCodeCapture"
