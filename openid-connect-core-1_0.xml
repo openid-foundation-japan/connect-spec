@@ -10064,6 +10064,13 @@
 
       <section anchor="TokenSubstitution" title="Token Substitution">
         <t>
+          Token Substitution は, 不正なユーザがトークンを置換するタイプの攻撃である.
+          交換されるトークンには Authorization Code も含まれる.
+          アタッカーがあるセッション中からトークンを取り出し, 別のセッション中でそれを利用するなどすることで, この攻撃が可能となる.
+          トークンがブラウザに渡される場合, これは非常に簡単な作業であり, 別名 "cut and paste" 攻撃とも呼ばれる.
+        </t>
+        <!--
+        <t>
           Token Substitution is a class of attacks in which a malicious user
           swaps various tokens, including swapping an Authorization Code for
           a legitimate user with another token that the attacker has.
@@ -10072,6 +10079,12 @@
           a different session, which is easy to do when the token is
           available to the browser; this is known as the "cut and paste" attack.
         </t>
+        -->
+        <t>
+          <xref target="RFC6749">OAuth 2.0</xref> Implicit Flow は, このリスクを考慮した設計になってはいない.
+          <xref target="RFC6749">OAuth 2.0</xref> Section 10.16 においては, End-User 認証の為に OAuth 2.0 を利用する場合, Client が ID Token や Access Token が認証目的で利用可能かどうか判断できる追加のセキュリティメカニズムがない場合には Implicit Flow を利用しないよう Client に要求している (MUST NOT).
+        </t>
+        <!--
         <t>
           The Implicit Flow of <xref target="RFC6749">OAuth 2.0</xref>
           is not designed to mitigate this risk.  In Section 10.16,
@@ -10081,6 +10094,18 @@
           additional security mechanisms that enable the Client to
           determine whether the ID Token and Access Token were issued for its use.
         </t>
+        -->
+        <t>
+          OpenID Connect では, ID Token を利用することでこのリスクを回避できる.
+          ID Token は署名付きのセキュリティトークンであり, <spanx style="verb">iss</spanx> (issuer),
+          <spanx style="verb">sub</spanx> (subject),
+          <spanx style="verb">aud</spanx> (audience),
+          <spanx style="verb">azp</spanx> (authorized party),
+          <spanx style="verb">at_hash</spanx> (access token hash), および
+          <spanx style="verb">c_hash</spanx> (code hash) を Claim として提供する.
+          ID Token を利用することで, Client は Token Substitution Attack を検知可能になる.
+        </t>
+        <!--
         <t>
           In OpenID Connect, this is mitigated through mechanisms
           provided through the ID Token.  The ID Token is a signed
@@ -10093,12 +10118,24 @@
           <spanx style="verb">c_hash</spanx> (code hash).  Using the ID Token,
           the Client is capable of detecting the Token Substitution Attack.
         </t>
+        -->
+        <t>
+          ID Token 内の <spanx style="verb">c_hash</spanx> は, Authorization Code 置換を防ぐために利用できる.
+          同様に <spanx style="verb">at_hash</spanx> は Access Token 置換を防ぐために利用できる.
+        </t>
+        <!--
         <t>
           The <spanx style="verb">c_hash</spanx> in the ID Token enables
           Clients to prevent Authorization Code substitution.
           The <spanx style="verb">at_hash</spanx> in the ID Token enables
           Clients to prevent Access Token substitution.
         </t>
+        -->
+        <t>
+          また不正なユーザが, Authorization Endpoint と Client の間, もしくは Token Endpoint と Client の間の通信に介入し, Authorization Code を置換したりメッセージの順序を入れ替えたりすることで, 特権ユーザになりすます可能性もある.
+          この攻撃により, Token Endpoint が攻撃者の提示した認可グラントが, より権限の強い特権ユーザのそれとして受け入れてしまうかもしれない.
+        </t>
+        <!--
         <t>
           Also, a malicious user may attempt to impersonate a more
           privileged user by subverting the communication channel
@@ -10108,6 +10145,12 @@
           that the attacker's authorization grant corresponds to a grant
           sent on behalf of a more privileged user.
         </t>
+        -->
+        <t>
+          本仕様で定義された HTTP バインディングでは, Token Request に対するレスポンスは HTTP メッセージ順に対応するリクエストと紐づけられる.
+          トークンを含んだレスポンスとリクエストが TLS で保護されている限り, パケットの順序入れ替えは検知および防御可能であろう.
+        </t>
+        <!--
         <t>
           For the HTTP binding defined by this specification, the
           responses to Token Requests are bound to the corresponding
@@ -10115,6 +10158,12 @@
           containing the token and requests are protected by TLS, which
           will detect and prevent packet reordering.
         </t>
+        -->
+        <t>
+          Token Endpoint へのリクエストとレスポンスを強固に紐づけることができない何らかの他のプロトコルをバインディングとして本仕様を適用する場合, この問題に対する何らかの追加の対策が必要となる (MUST).
+          <spanx style="verb">c_hash</spanx> Claim を含んだ ID Token をトークンリクエストおよびレスポンスに含むことなどが, 例として挙げられる.
+        </t>
+        <!--
         <t>
           When designing another binding of this specification to a
           protocol incapable of strongly binding Token Endpoint
@@ -10123,6 +10172,7 @@
           be to include an ID Token with a <spanx style="verb">c_hash</spanx>
           Claim in the token request and response.
         </t>
+        -->
       </section>
 
       <section anchor="TimingAttack" title="Timing Attack">
