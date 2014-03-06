@@ -9327,6 +9327,11 @@
 
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
+          この仕様はRelying PartyとOpenIDプロバイダの両者により利用される機能について定義している。
+          多くのOpenIDプロバイダはRPとの事前登録不要で動的に利用されることを保証している一方で、OpenIDプロバイダによっては固有で定義外の設定をRPに利用することを必須化することも想定される。
+          このため、OP向けの実装必須の機能を以下の２グループに分類しておく。１つ目は全てのOP向け、２つ目は動的なOpenIDプロバイダ向けである。
+      </t>
+      <!--<t>
         This specification defines features used by both Relying Parties and
         OpenID Providers.
         It is expected that some OpenID Providers will require
@@ -9336,20 +9341,29 @@
         For that reason, the mandatory-to-implement features for OPs
         are listed below in two groups:
         the first for all OPs and the second for "Dynamic" OpenID Providers.
-      </t>
+      </t>-->
 
       <section anchor="ServerMTI"
-               title="Mandatory to Implement Features for All OpenID Providers">
+               title="全てのOpenIDプロバイダが実装必須な機能について">
+      <!--<section anchor="ServerMTI"
+               title="Mandatory to Implement Features for All OpenID Providers">-->
         <t>
+            全てのOpenIDプロバイダは本仕様にて定義される下記機能を実装しなければならない(MUST)。
+            このリストは別の場所でREQUIREDもしくはMUSTで既に記載されている機能セットを拡張するものであり、もしそうでなければ、必然的にOP向けの広範的な実装要求のセットである。
+        </t>
+        <!--<t>
           All OpenID Providers MUST implement the following features defined in this specification.
           This list augments the set of features that are already listed elsewhere
           as being "REQUIRED" or are described with a "MUST",
           and so is not, by itself, a comprehensive set of implementation requirements for OPs.
-        </t>
+        </t>-->
         <t>
           <list style="hanging">
 
-            <t hangText="Signing ID Tokens with RSA SHA-256">
+            <t hangText="ID Tokens をRSA SHA-256で署名できるようにする">
+                OPがToken EndpointからのID Token返却(Authorization Codeフローの場合のように)をサポートし、クライアントに<spanx style="verb">none</spanx>をID Tokenの署名アルゴリズムとして指定することしか許可しないということでなければ、OPはID TokenをRSA SHA-256 アルゴリズム(<spanx style="verb">alg</spanx>値に<spanx style="verb">RS256</spanx>)での署名をサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Signing ID Tokens with RSA SHA-256">
               OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
               (an <spanx style="verb">alg</spanx> value of
               <spanx style="verb">RS256</spanx>),
@@ -9357,20 +9371,31 @@
               (as is the case for the Authorization Code Flow)
               and only allows Clients to register specifying
               <spanx style="verb">none</spanx> as the requested ID Token signing algorithm.
-            </t>
+            </t>-->
             <t hangText="Prompt Parameter">
+                OPは<xref target="AuthorizationEndpoint"/>で定義されている、<spanx style="verb">none</spanx>と<spanx style="verb">login</spanx>などの規定のユーザインターフェースの挙動を採り入れる<spanx style="verb">prompt</spanx>パラメータをサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Prompt Parameter">
               OPs MUST support the <spanx style="verb">prompt</spanx> parameter,
               as defined in <xref target="AuthorizationEndpoint"/>, including the specified
               user interface behaviors such as <spanx style="verb">none</spanx>
               and <spanx style="verb">login</spanx>.
-            </t>
+            </t>-->
             <t hangText="Display Parameter">
+                OPは<xref target="AuthorizationEndpoint"/>で定義されている<spanx style="verb">display</spanx>パラメータをサポートしなければならない(MUST)。
+                (このパラメータで要求される最低限度のサポートは、単にこれを使うことでエラーにならないことであることに注意してほしい)
+            </t>
+            <!--<t hangText="Display Parameter">
               OPs MUST support the <spanx style="verb">display</spanx> parameter,
               as defined in <xref target="AuthorizationEndpoint"/>.
               (Note that the minimum level of support required for this parameter is
               simply that its use must not result in an error.)
-            </t>
+            </t>-->
             <t hangText="Preferred Locales">
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように<spanx style="verb">ui_locales</spanx>と<spanx style="verb">claims_locales</spanx>パラメータによってユーザインターフェースとクレーム用の推奨の言語や書き言葉のリクエストをサポートしなければならない(MUST)。
+                (これらのパラメータで要求される最低限度のサポートは、単にこれをつかうことでエラーにならないことであることに注意してほしい)
+            </t>
+            <!--<t hangText="Preferred Locales">
               OPs MUST support requests for preferred languages and scripts
               for the user interface and for Claims via the
               <spanx style="verb">ui_locales</spanx> and
@@ -9378,25 +9403,35 @@
               as defined in <xref target="AuthorizationEndpoint"/>.
               (Note that the minimum level of support required for these parameters is
               simply to have their use not result in errors.)
-            </t>
+            </t>-->
             <t hangText="Authentication Time">
+                OPは<xref target="IDToken"/>で定義されているように、<spanx style="verb">auth_time</spanx> クレームによってエンドユーザがどの時間で認証したかをリクエストがあった時に返却しなければならない(MUST)。
+            </t>
+            <!--<t hangText="Authentication Time">
               OPs MUST support returning the time at which the End-User authenticated
               via the <spanx style="verb">auth_time</spanx> Claim, when requested,
               as defined in <xref target="IDToken"/>.
-            </t>
+            </t>-->
             <t hangText="Maximum Authentication Age">
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように、<spanx style="verb">max_age</spanx>パラメータで最大認証期間を強制することをサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Maximum Authentication Age">
               OPs MUST support enforcing a maximum authentication age
               via the <spanx style="verb">max_age</spanx> parameter,
               as defined in <xref target="AuthorizationEndpoint"/>.
-            </t>
+            </t>-->
             <t hangText="Authentication Context Class Reference">
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように、<spanx style="verb">acr_values</spanx>パラメータを用いて特定の認証コンテキストクラスリファレンスの値のリクエストをサポートしなければならない(MUST)。
+                (このパラメータで要求される最低限度のサポートは、単にこれを使うことでエラーにならないことであることに注意してほしい)
+            </t>
+            <!--<t hangText="Authentication Context Class Reference">
               OPs MUST support requests for specific
               Authentication Context Class Reference values
               via the <spanx style="verb">acr_values</spanx> parameter,
               as defined in <xref target="AuthorizationEndpoint"/>.
               (Note that the minimum level of support required for this parameter is
               simply to have its use not result in an error.)
-            </t>
+            </t>-->
 
           </list>
         </t>
@@ -9405,47 +9440,69 @@
       <section anchor="DynamicMTI"
                title="Mandatory to Implement Features for Dynamic OpenID Providers">
         <t>
+            上記の機能に加えて、事前設定をしていないRPと動的に連携を行うことをサポートしているOpenIDプロバイダは本仕様や関連仕様にて定義されている下記の機能も実装しなくてはならない(MUST)。
+        </t>
+        <!--<t>
           In addition to the features listed above,
           OpenID Providers supporting dynamic establishment of relationships with RPs
           that they do not have a pre-configured relationship with
           MUST also implement the following features defined in this and related specifications.
-        </t>
+        </t>-->
         <t>
           <list style="hanging">
 
             <t hangText="Response Types">
+                OpenIDプロバイダはレスポンスタイプ<spanx style="verb">id_token</spanx>、またSelf-Issued OPではないOPは<spanx style="verb">code</spanx>と<spanx style="verb">id_token&nbsp;token</spanx>もサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Response Types">
               These OpenID Providers MUST support the
               <spanx style="verb">id_token</spanx> Response Type and
               all that are not Self-Issued OPs MUST also support the
               <spanx style="verb">code</spanx> and
               <spanx style="verb">id_token&nbsp;token</spanx> Response Types.
-            </t>
+            </t>-->
 
             <t hangText="Discovery">
+                OPは<xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>で定義されているようにDiscovery機能をサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Discovery">
               These OPs MUST support Discovery,
               as defined in
               <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.
-            </t>
+            </t>-->
             <t hangText="Dynamic Registration">
+              OPは<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>で定義されているように、Dynamic Client Registrationをサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Dynamic Registration">
               These OPs MUST support Dynamic Client Registration,
               as defined in
               <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
-            </t>
+            </t>-->
             <t hangText="UserInfo Endpoint">
+                アクセストークンを発行する全て動的なOPは<xref target="UserInfo"/>で定義されているように、UserInfoエンドポイントをサポートしなければならない(MUST)。
+            </t>
+            <!--<t hangText="UserInfo Endpoint">
               All dynamic OPs that issue Access Tokens MUST support the UserInfo Endpoint,
               as defined in <xref target="UserInfo"/>.
               (Self-Issued OPs do not issue Access Tokens.)
-            </t>
+            </t>-->
             <t hangText="Public Keys Published as Bare Keys">
+                OPは自身の公開鍵を素のJWKキーとして公開しなければならない(MUST)。
+                (JWKキーはその鍵のX.509形式の表現にあわせてもよい(MAY))
+            </t>
+            <!--<t hangText="Public Keys Published as Bare Keys">
               These OPs MUST publish their public keys as bare JWK keys
               (which MAY also be accompanied by X.509 representations of those keys).
-            </t>
+            </t>-->
             <t hangText="Request URI">
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように、<spanx style="verb">request_uri</spanx>パラメータで提供されたリクエストURIから取得するリクエストオブジェクト値を使ってリクエストを送信できるようにしなければならない(MUST)。
+            </t>
+            <!--<t hangText="Request URI">
               These OPs MUST support requests made using a Request Object value
               that is retrieved from a Request URI that is provided
               with the <spanx style="verb">request_uri</spanx> parameter,
               as defined in <xref target="AuthorizationEndpoint"/>.
-            </t>
+            </t>-->
 
           </list>
         </t>
@@ -9453,22 +9510,35 @@
 
       <section anchor="DiscoReg" title="Discovery and Registration">
 
-        <t>Some OpenID Connect installations can use a pre-configured set of
+        <t>
+            OpenID Connect導入にあたって事前に設定されたOpenIDプロバイダとRelying Partyのセットが使われることがある。
+            その場合において、identityやサービス、クライアントの動的登録の情報について動的にディスカバリをサポートする必要はないかもしれない。
+        </t>
+        <!--<t>Some OpenID Connect installations can use a pre-configured set of
         OpenID Providers and/or Relying Parties. In those cases, it might not be
         necessary to support dynamic discovery of information about identities
-        or services or dynamic registration of Clients.</t>
+        or services or dynamic registration of Clients.</t>-->
 
-        <t>However, if installations choose to support unanticipated
+        <t>
+            しかし、事前登録のないRelying PartyとOpenID Provider間の予期しないやりとりをサポートすることを選択したならば、<xref target="OpenID.Discovery">OpenID Discovery 1.0</xref>と<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>の仕様で定義されているファシリティを実装することでこれを遂行するべきである(SHOULD)。
+        </t>
+        <!--<t>However, if installations choose to support unanticipated
         interactions between Relying Parties and OpenID Providers that do not
         have pre-configured relationships, they SHOULD accomplish this by
         implementing the facilities defined in the <xref
         target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
         target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-        specifications.</t>
+        specifications.</t>-->
       </section>
 
       <section anchor="RPMTI" title="Mandatory to Implement Features for Relying Parties">
         <t>
+            一般的に、OpenIDプロバイダと通信する祭にどの機能を利用するかはRelying Partyに依存する。
+            しかし、必然的に利用するOAuthクライアントによって決定されてしまうこともある。
+            コンフィデンシャルなクライアントかどうかは、シークレットを安全に保持できるかで決まる。この場合Authorization Codeフローが適しているかもしれない。
+            また、パブリックなクライアントかどうかは、例えばUser Agentベースのアプリケーションや静的に登録済みのネイティブアプリケーションがある。この場合Implicitフローが適しているかもしれない。
+        </t>
+        <!--<t>
           In general, it is up to Relying Parties which features they use
           when interacting with OpenID Providers.
           However, some choices are dictated by the nature of their OAuth Client,
@@ -9477,8 +9547,13 @@
           or whether it is a Public Client, for instance, a
           User Agent Based Application or a statically registered Native Application,
           in which case the Implicit Flow may be appropriate.
-        </t>
+        </t>-->
         <t>
+            OpenID Connectの機能を利用する際に、それらが"REQUIRED"や"MUST"として記載されていればRPに利用されるときに実装必須の機能となる。
+            同様に"OPTIONAL"と記載されている機能は、特定のアプリケーション状況下にてやる価値がないならば、利用されたりサポートされたりする必要性はない。
+            つまりは、DiscoveryをサポートするOpenIDプロバイダとやりとりをするときは、OPのDiscovery文書がどの機能をRPが利用できるのかを動的に決定することが可能である。
+      </t>
+        <!--<t>
           When using OpenID Connect features, those listed as being
           "REQUIRED" or are described with a "MUST" are
           mandatory to implement, when used by a Relying Party.
@@ -9488,7 +9563,7 @@
           Finally, when interacting with OpenID Providers that support Discovery,
           the OP's Discovery document can be used to dynamically determine
           which OP features are available for use by the RP.
-      </t>
+      </t>-->
       <t>
         </t>
       </section>
