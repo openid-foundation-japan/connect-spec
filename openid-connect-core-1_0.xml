@@ -9654,10 +9654,14 @@
 
         <section anchor="PreFinalIETFSpecs" title="Pre-Final IETF Specifications">
 
-          <t>
+        <t>
+		    実装者は, この仕様がまだ最終仕様でない複数のIETF仕様を利用していることに注意すべきである.
+			それらの仕様は以下のとおり:  
+		<!-- <t>
             Implementers should be aware that
             this specification uses several IETF specifications that are
-            not yet final specifications.  Those specifications are:
+			not yet final specifications.  Those specifications are: -->
+			
             <list style="symbols">
               <t><xref target="JWT">JSON Web Token (JWT) draft -13</xref></t>
               <t><xref target="JWS">JSON Web Signature (JWS) draft -18</xref></t>
@@ -9669,7 +9673,11 @@
 
             </list>
           </t>
-          <t>
+		  <t>
+		    これらの仕様に重要な変更を防ぐためにあらゆる努力を行うとしても, それらは発生するかもしれず, 
+			OpenID Connectの実装はこれらの参考文献の一部ないしはすべてを更新し, 将来のOpenID ConectのProfileか仕様を使用していない限り,  前述の最終版よりも優先して具体的に参照されているドラフトバージョンを使用し続けるべきである(SHOULD).
+		  </t>
+          <!-- <t>
             While every effort will be made to prevent breaking
             changes to these specifications, should they occur,
             OpenID Connect implementations should continue to use the
@@ -9677,11 +9685,17 @@
             to the final versions, unless using a possible future
             OpenID Connect profile or specification that
             updates some or all of these references.
-          </t>
+		  </t> -->
         </section>
 
         <section anchor="GoogleIss" title='Google "iss" Value'>
 
+		  <t>
+		   実装者はこの文書を執筆している時点では, GoogleのOpenID Connectの実装は, <spanx style="verb">iss</spanx>(発行者)クレーム値から要求された<spanx style="verb">https://</spanx>スキームのプレフィックスを省略したID Token を発行することに注意する必要があるだろう.
+		   Googleと連携を希望するRelying Partyは, そのため, それらの実装が更新されるようなときまで, これに対処するためのコードを持っている必要がある.
+		   このような問題を回避するためのコードは, Googleが発行者の値に不足しているプレフィックスを追加し, このような点で中断されないような方法で書かれるべきである.
+		  </t>
+		  <!-- 
           <t>
             Implementers may want to be aware that,
             as of the time of this writing,
@@ -9696,55 +9710,72 @@
             that will not break at such point Google adds the
             missing prefix to their issuer values.
           </t>
+		  -->
         </section>
       </section>
 
       <section anchor="RelatedSpecs" title="Related Specifications and Implementer's Guides">
-
+		
+		<t>
+		  関連するオプション仕様は, 追加機能を提供するために本仕様と組み合わせて利用されるかもしれない(MAY).
+		<!-- 
         <t>
           These related OPTIONAL specifications MAY be used in
           combination with this specification to provide additional functionality:
-
+		-->
           <list style="symbols">
 
             <t>
               <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> -
-              Defines how Relying Parties dynamically discover information about OpenID Providers
+			  Relying PartyがOpenID Providerについての情報を動的に発見する方法を定義する.
+			  <!--Defines how Relying Parties dynamically discover information about OpenID Providers -->
             </t>
             <t>
               <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> -
-              Defines how Relying Parties dynamically register with OpenID Providers
+			  Relying PartyがOpenID Providerに動的に登録する方法を定義する.
+			  <!-- Defines how Relying Parties dynamically register with OpenID Providers -->
             </t>
             <t>
               <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
-              Defines how to manage OpenID Connect sessions, including logout functionality
+			  ログアウト機能を含む, OpenID Connectのセッション管理の方法を定義する.
+			  <!-- Defines how to manage OpenID Connect sessions, including logout functionality -->
             </t>
             <t>
               <xref target="OAuth.Post">OAuth 2.0 Form Post Response Mode</xref> -
-              Defines how to return OAuth 2.0 Authorization Response parameters
+              HTTP <spanx style="verb">POST</spanx>を使用するユーザエージェントによって, 自動送信されたHTMLフォーム値を使用して, OAuth2.0のAuthorization Responseパラメータ(OpenID Connect Autentication Responseパラメータを含む)を返却する方法を定義する.
+			  <!-- Defines how to return OAuth 2.0 Authorization Response parameters
               (including OpenID Connect Authentication Response parameters)
               using HTML form values that are auto-submitted by the User Agent
-              using HTTP <spanx style="verb">POST</spanx>
+			  using HTTP <spanx style="verb">POST</spanx> -->
             </t>
 
           </list>
         </t>
-        <t>
+		<t>
+		  これらの実装者ガイドは, 基本的なWebベースのRelaying Partyの実装者のための自己完結型の基準となることを意図している.
+		<!--<t>
           These implementer's guides are intended to serve as self-contained references
           for implementers of basic Web-based Relying Parties:
-
+		-->
           <list style="symbols">
             <t><xref target="OpenID.Basic">OpenID Connect Basic Client Implementer's Guide 1.0</xref> -
+			実装者ガイドは, OAuth Authorization Code Flowを使用するベーシックなWebベースのRelyingPartyで利用することを目的とした, この仕様のサブセットを含んでいる.
+			
+			<!-- 
             Implementer's guide containing a subset of this specification
             that is intended for use by basic
             Web-based Relying Parties using the
-            OAuth Authorization Code Flow</t>
+            OAuth Authorization Code Flow
+			-->
+			</t>
 
             <t><xref target="OpenID.Implicit">OpenID Connect Implicit Client Implementer's Guide 1.0</xref> -
+			実装者ガイドは, OAuth Implicit Flowを使用するベーシックなWebベースのRelyingPartyで利用することを目的とした, この仕様のサブセットを含んでいる.
+			<!--
             Implementer's guide containing a subset of this specification
             that is intended for use by basic
             Web-based Relying Parties using the
-            OAuth Implicit Flow</t>
+			OAuth Implicit Flow --></t>
 
           </list>
         </t>
