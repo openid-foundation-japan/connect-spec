@@ -5830,13 +5830,31 @@
 
         <section anchor="IndividualClaimsRequests" title="Individual Claims Requests">
           <t>
+            <spanx style="verb">claims</spanx> request の <spanx style="verb">userinfo</spanx> メンバーと <spanx style="verb">id_token</spanx> メンバーは, 要求される個別のクレームの名前をメンバー名とする JSON オブジェクトである.
+            メンバーの値は以下のいずれかの値でなければならない (MUST).
+<!--
             The <spanx style="verb">userinfo</spanx> and
             <spanx style="verb">id_token</spanx> members of the
             <spanx style="verb">claims</spanx> request both are JSON objects
             with the names of the individual Claims being requested as the member names.
             The member values MUST be one of the following:
+-->
 
             <list style="hanging">
+              <t hangText="null">
+                このクレームはデフォルトの形式で要求されていることを示す.
+                具体的に言うと, Voluntary Claim である.
+                例えば, Claim request:
+
+                <figure>
+                  <artwork><![CDATA[
+  "given_name": null
+]]></artwork>
+                </figure>
+
+                は <spanx style="verb">given_name</spanx> クレームをデフォルトの形式で要求する.
+              </t>
+<!--
               <t hangText="null">
                 Indicates that this Claim is being requested in the default manner.
                 In particular, this is a Voluntary Claim.
@@ -5851,11 +5869,31 @@
                 requests the <spanx style="verb">given_name</spanx> Claim
                 in the default manner.
               </t>
+-->
               <t hangText="JSON Object">
+                要求されているクレームの追加情報を提供するために使用する.
+                本仕様は下記のメンバーを定義する:
+<!--
                 Used to provide additional information about the Claim being
                 requested. This specification defines the following members:
+-->
 
                 <list style="hanging">
+                  <t hangText="essential">
+                    OPTIONAL.
+                    要求されているクレームが Essential Claim であるかどうかを示す.
+                    値が <spanx style="verb">true</spanx> である場合, クレームが Essential Claim であることを示す.
+                    例えば, Claim request:
+
+                    <figure>
+                      <artwork><![CDATA[
+  "auth_time": {"essential": true}
+]]></artwork>
+                    </figure>
+
+                    は <spanx style="verb">auth_time</spanx> クレームの値を返すために Essential であることを指定するために使われる.
+                  </t>
+<!--
                   <t hangText="essential">
                     OPTIONAL.
                     Indicates whether the Claim being requested is an Essential Claim.
@@ -5872,11 +5910,23 @@
                     can be used to specify that it is Essential to return an
                     <spanx style="verb">auth_time</spanx> Claim Value.
                   </t>
+-->
+                  <t>
+                    <spanx style="verb">false</spanx> である場合, Voluntary Claim であることを示す.
+                    デフォルトは <spanx style="verb">false</spanx> である.
+                  </t>
+<!--
                   <t>
                     If the value is <spanx style="verb">false</spanx>,
                     it indicates that it is a Voluntary Claim.
                     The default is <spanx style="verb">false</spanx>.
                   </t>
+-->
+                  <t>
+                    Essential Claim としてクレームを要求することで, RP はこれらのクレームの開示は End-User が要求するあるタスクに対して円滑な認可処理を確保するためであることを End-User に示す.
+                    End-User がこれらの開示を認可しなかったり, これらが存在しないためにクレームが利用できない場合であっても, 特定のクレームの記述で特別に指定されない限り, クレームが Essential か Voluntary であるかどうか返されない時は Authorization Server はエラーを生成してはならない (MUST NOT) ことに注意.
+                  </t>
+<!--
                   <t>
                     By requesting Claims as Essential Claims,
                     the RP indicates to the End-User
@@ -5888,7 +5938,22 @@
                     Claims are not returned, whether they are Essential or Voluntary,
                     unless otherwise specified in the description of the specific claim.
                   </t>
+-->
 
+                  <t hangText="value">
+                    OPTIONAL.
+                    特定の値とともに返されるクレームを要求する.
+                    例えば Claim request:
+
+                    <figure>
+                      <artwork><![CDATA[
+  "sub": {"value": "248289761001"}
+]]></artwork>
+                    </figure>
+
+                    は要求が Subject Identifier <spanx style="verb">248289761001</spanx> を持つ End-User に適用されることを指定するために使われる.
+                  </t>
+<!--
                   <t hangText="value">
                     OPTIONAL.
                     Requests that the Claim be returned with a particular value.
@@ -5903,6 +5968,12 @@
                     can be used to specify that the request apply to the End-User
                     with Subject Identifier <spanx style="verb">248289761001</spanx>.
                   </t>
+-->
+                  <t>
+                    <spanx style="verb">value</spanx> メンバーの値は要求されているクレームに対して有効な値でなければならない (MUST).
+                    individual claims の定義は <spanx style="verb">value</spanx> 修飾子がクレームを要求する際に使うかどうか, どのように使うかという要件を含めることが出来る.
+                  </t>
+<!--
                   <t>
                     The value of the <spanx style="verb">value</spanx> member
                     MUST be a valid value for the Claim being requested.
@@ -5910,6 +5981,23 @@
                     how and whether the <spanx style="verb">value</spanx>
                     qualifier is to be used when requesting that Claim.
                   </t>
+-->
+                  <t hangText="values">
+                    OPTIONAL.
+                    優先順になっている値の集合の内のいずれかで返されるクレームを要求する.
+                    例えば, Claim request:
+
+                    <figure>
+                      <artwork><![CDATA[
+  "acr": {"essential": true,
+          "values": ["urn:mace:incommon:iap:silver",
+                     "urn:mace:incommon:iap:bronze"]}
+]]></artwork>
+                    </figure>
+
+                    は <spanx style="verb">urn:mace:incommon:iap:silver</spanx> か <spanx style="verb">urn:mace:incommon:iap:bronze</spanx> のいずれかで返される <spanx style="verb">acr</spanx> クレームが Essential であることを指定する.
+                  </t>
+<!--
                   <t hangText="values">
                     OPTIONAL.
                     Requests that the Claim be returned with one of a set of values,
@@ -5929,6 +6017,12 @@
                     <spanx style="verb">urn:mace:incommon:iap:silver</spanx> or
                     <spanx style="verb">urn:mace:incommon:iap:bronze</spanx>.
                   </t>
+-->
+                  <t>
+                    <spanx style="verb">values</spanx> メンバー配列の値は要求されているクレームに対して有効な値でなければならない (MUST).
+                    individual claims の定義は <spanx style="verb">values</spanx> 修飾子がクレームを要求する際に使うかどうか, どのように使うかという要件を含めることが出来る.
+                  </t>
+<!--
                   <t>
                     The values in the <spanx style="verb">values</spanx> member array
                     MUST be valid values for the Claim being requested.
@@ -5936,14 +6030,39 @@
                     how and whether the <spanx style="verb">values</spanx>
                     qualifier is to be used when requesting that Claim.
                   </t>
+-->
                 </list>
 
+                要求されるクレームの追加情報を提供するために他のメンバーを定義してもよい (MAY).
+                解釈不可能なメンバーは全て無視すること (MUST).
+<!--
                 Other members MAY be defined to provide additional
                 information about the requested Claims.
                 Any members used that are not understood MUST be ignored.
+-->
               </t>
             </list>
           </t>
+          <t>
+            <spanx style="verb">claims</spanx> request パラメータがサポートされている場合, クレームを要求するscopeの値は <xref target="ScopeClaims"/> で述べられているように, 効果的に簡略化された, individual Claims の集合を要求するための方法であることに注意.
+            例えば, <spanx style="verb">openid email</spanx> scope 値と Access Token を返す <spanx style="verb">response_type</spanx> を使用することは <spanx style="verb">openid</spanx> scope 値と individual Claims に対する下記のリクエストを使用することと同じである.
+            <figure>
+              <preamble>
+                下記のリクエストは <spanx style="verb">email</spanx> scope 値を使用した場合と同じ結果となる:
+              </preamble>
+
+              <artwork><![CDATA[
+  {
+   "userinfo":
+    {
+     "email": null,
+     "email_verified": null
+    }
+  }
+]]></artwork>
+            </figure>
+          </t>
+<!--
           <t>
             Note that when the <spanx style="verb">claims</spanx> request parameter
             is supported, the scope values that request Claims, as defined in
@@ -5970,9 +6089,16 @@
 ]]></artwork>
             </figure>
           </t>
+-->
 
           <section anchor="acrSemantics" title='Requesting the "acr" Claim'>
 
+            <t>
+              <spanx style="verb">acr</spanx> クレームが特定の Authentication Context Class Reference 値と <spanx style="verb">claims</spanx> パラメータをサポートする実装を要求する <spanx style="verb">values</spanx> パラメータとともに ID Token の Essential Claim として要求される場合, Authorization Server は要求された値のいずれかに一致する <spanx style="verb">acr</spanx> クレームを返さなければいけない (MUST).
+              Authorization Server は要求を満たす追加の要素を再認証するために End-User にたずねてもよい (MAY).
+              このクレームが Essential Claim であり要求を満たすことが出来ない場合, Authorization Server は認証の試行に失敗したものとして扱わなければいけない (MUST).
+            </t>
+<!--
             <t>
               If the <spanx style="verb">acr</spanx> Claim is requested
               as an Essential Claim for the ID Token
@@ -5987,6 +6113,13 @@
               requirement cannot be met, then the Authorization Server MUST
               treat that outcome as a failed authentication attempt.
             </t>
+-->
+            <t>
+              RP は <spanx style="verb">acr_values</spanx> request パラメータを使用して, もしくは個別の <spanx style="verb">acr</spanx> Claim request で "essential": true を含まないことにより Voluntary Claim として <spanx style="verb">acr</spanx> クレームを要求してもよい (MAY).
+              クレームが Essential でなく要求された値が提供できない場合, Authorization Server は <spanx style="verb">acr</spanx> クレームの値としてセッションの現在の <spanx style="verb">acr</spanx> を返すべきである (SHOULD).
+              クレームが Essential でない場合, Authorization Server はレスポンスにおいてこのクレームを提供する必要はない.
+            </t>
+<!--
             <t>
               Note that the RP MAY request the <spanx style="verb">acr</spanx>
               Claim as a Voluntary Claim
@@ -6000,6 +6133,11 @@
               If the Claim is not Essential, the Authorization Server is not required to
               provide this Claim in its response.
             </t>
+-->
+            <t>
+              クライアントが <spanx style="verb">acr_values</spanx> request パラメータと ID Token のために要求する特定の値をリストにした個別の <spanx style="verb">acr</spanx> Claim request の両方を用いて <spanx style="verb">acr</spanx> クレームを要求する場合, その結果の振る舞いは規定されていない.
+            </t>
+<!--
             <t>
               If the client requests the <spanx style="verb">acr</spanx> Claim using
               both the <spanx style="verb">acr_values</spanx> request parameter and
@@ -6007,11 +6145,19 @@
               listing specific requested values,
               the resulting behavior is unspecified.
             </t>
+-->
           </section>
 
         </section>
 
         <section anchor="IndividualClaimsLanguages" title="Languages and Scripts for Individual Claims">
+          <t>
+            <xref target="ClaimsLanguagesAndScripts"/> で述べられているように, Human-readable な Claim Value およびそれらへの参照は, 複数言語および複数文字種で表現することができる (MAY).
+            個別のクレームの要求の内, 特定のクレームに対して要求された言語および文字種は <xref target="ClaimsLanguagesAndScripts"/> で指定されたクレーム名の構文を用いて, クレーム要求に <spanx style="verb">#</spanx> で区切られた <xref target="RFC5646">BCP47</xref> 言語タグで構成されたクレーム名を含んだ要求をしてもよい (MAY).
+            例えば, 日本語のカタカナでの姓名はクレーム名 <spanx style="verb">family_name#ja-Kana-JP</spanx> を用いて要求することができ, 日本語の漢字表記の姓名はクレーム名 <spanx style="verb">family_name#ja-Hani-JP</spanx> を用いて要求することができる.
+            ドイツ語のWebサイトはクレーム名 <spanx style="verb">website#de</spanx> で要求することができる.
+          </t>
+<!--
           <t>
             As described in <xref target="ClaimsLanguagesAndScripts"/>,
             human-readable Claim Values and Claim Values that reference human-readable values
@@ -6031,11 +6177,17 @@
             A German-language Web site can be requested with the Claim Name
             <spanx style="verb">website#de</spanx>.
           </t>
+-->
+          <t>
+            OP が保持していない言語および文字種での Human-readable なクレームの要求を受け取った場合, 返されるクレームのいずれかのバージョンはクレーム名に要求された言語および文字種を使わず言語タグを使用するべきである (SHOULD).
+          </t>
+<!--
           <t>
             If an OP receives a request for human-readable Claims in a language and script
             that it doesn't have, any versions of those Claims returned that don't use
             the requested language and script SHOULD use a language tag in the Claim Name.
           </t>
+-->
         </section>
 
       </section>
