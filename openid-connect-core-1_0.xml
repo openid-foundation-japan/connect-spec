@@ -4630,52 +4630,93 @@
 
           <c>sub</c>
           <c>string</c>
+          <!--
           <c>Subject - Identifier for the End-User at the Issuer.</c>
+          -->
+          <c>Subject - Issuer における End-User の識別子</c>
 
           <c>name</c>
           <c>string</c>
+          <!--
           <c>
             End-User's full name in displayable form including all name parts,
             possibly including titles and suffixes,
             ordered according to the End-User's locale and preferences.
           </c>
+          -->
+          <c>
+            End-User の表示用フルネーム.
+            肩書きや称号 (suffix) 等が含まれることもある.
+            氏名等の表示順は End-User の locale や選好に従う.
+          </c>
 
           <c>given_name</c>
           <c>string</c>
+          <!--
           <c>
             Given name(s) or first name(s) of the End-User.
             Note that in some cultures, people can have multiple given names;
             all can be present, with the names being separated by space characters.
           </c>
+          -->
+          <c>
+            End-User の名 (given name / first name).
+            複数の given name を持つ文化圏もあることに注意.
+            全ての given name が含まれる可能性があり, その場合はスペース区切りで表記される.
+          </c>
 
           <c>family_name</c>
           <c>string</c>
+          <!--
           <c>
             Surname(s) or last name(s) of the End-User.
             Note that in some cultures, people can have multiple family names
             or no family name;
             all can be present, with the names being separated by space characters.
           </c>
+          -->
+          <c>
+            End-User の姓 (surname / last name).
+            複数の family name を持つ文化圏や family name を持たない文化圏もあることに注意.
+            全ての family name が含まれる可能性があり, その場合はスペース区切りで表記される.
+          </c>
 
           <c>middle_name</c>
           <c>string</c>
+          <!--
           <c>
             Middle name(s) of the End-User.
             Note that in some cultures, people can have multiple middle names;
             all can be present, with the names being separated by space characters.
             Also note that in some cultures, middle names are not used.
           </c>
+          -->
+          <c>
+            End-User の middle name. 複数の middle name を持つ文化圏もあることに注意.
+            全ての middle name が含まれる可能性があり, その場合はスペース区切りで表記される.
+            また middle name を使用しない文化圏もある.
+          </c>
 
           <c>nickname</c>
           <c>string</c>
+          <!--
           <c>Casual name of the End-User that may or may not be the same as the
           <spanx style="verb">given_name</spanx>. For instance, a <spanx
           style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
           might be returned alongside a <spanx style="verb">given_name</spanx>
           value of <spanx style="verb">Michael</spanx>.</c>
+          -->
+          <c>
+            End-User のニックネーム. これは <spanx style="verb">given_name</spanx> と同じこともあれば
+            異なることもある.
+            例えば, <spanx style="verb">nickname</spanx> が <spanx style="verb">Mike</spanx>,
+            <spanx style="verb">given_name</spanx> が <spanx style="verb">Michael</spanx> として
+            返されることがある.
+          </c>
 
           <c>preferred_username</c>
           <c>string</c>
+          <!--
           <c>Shorthand name by which the End-User wishes to be referred to at the RP, such as
           <spanx style="verb">janedoe</spanx> or <spanx style="verb">j.doe</spanx>.
           This value MAY be any valid JSON string including
@@ -4684,16 +4725,32 @@
           The RP MUST NOT rely upon this value being unique,
           as discussed in <xref target="ClaimStability"></xref>.
           </c>
+          -->
+          <c>
+            <spanx style="verb">janedoe</spanx> や <spanx style="verb">j.doe</spanx> といった,
+            End-User の選好する簡略名.
+            これは <spanx style="verb">@</spanx> や <spanx style="verb">/</spanx> や
+            空白文字といった特殊文字を含むあらゆる valid な JSON 文字列でありうる (MAY).
+            <xref target="ClaimStability"></xref> にあるように, RP はこの値がユニークであるという
+            前提で扱ってはならない (MUST NOT).
+          </c>
 
           <c>profile</c>
           <c>string</c>
+          <!--
           <c>
             URL of the End-User's profile page.
             The contents of this Web page SHOULD be about the End-User.
           </c>
+          -->
+          <c>
+            End-User のプロフィールページの URL.
+            この Web ページに掲載されるコンテンツはこの End-User に関するものであろう (SHOULD).
+          </c>
 
           <c>picture</c>
           <c>string</c>
+          <!--
           <c>
             URL of the End-User's profile picture.
             This URL MUST refer to an image file
@@ -4704,17 +4761,31 @@
             suitable for displaying when describing the End-User,
             rather than an arbitrary photo taken by the End-User.
           </c>
+          -->
+          <c>
+            End-User のプロフィール画像の URL.
+            この URL は画像ファイル (PNG, JPEG, GIF 画像ファイル等) を参照すること (MUST).
+            またこの画像は End-User が撮影した任意の写真ではなく, End-User に言及する際に
+            適切な画像とするべきである (SHOULD).
+          </c>
 
           <c>website</c>
           <c>string</c>
+          <!--
           <c>
             URL of the End-User's Web page or blog.
             This Web page SHOULD contain information published by the End-User
             or an organization that the End-User is affiliated with.
           </c>
+          -->
+          <c>
+            End-User の Web ページやブログの URL.
+            この Web ページは End-User 自身や End-User が所属する組織が発信する情報を含むべきである (SHOULD).
+          </c>
 
           <c>email</c>
           <c>string</c>
+          <!--
           <c>
             End-User's preferred e-mail address.
             Its value MUST conform to the <xref target="RFC5322">RFC 5322</xref>
@@ -4722,9 +4793,17 @@
             The RP MUST NOT rely upon this value being unique,
             as discussed in <xref target="ClaimStability"></xref>.
           </c>
+          -->
+          <c>
+            End-User の選好する Email アドレス.
+            <xref target="RFC5322">RFC 5322</xref> の addr-spec シンタックスに従うこと.
+            <xref target="ClaimStability"></xref> にあるように, RP はこの値が
+            ユニークであるという前提で扱ってはならない (MUST NOT).
+          </c>
 
           <c>email_verified</c>
           <c>boolean</c>
+          <!--
           <c>
             True if the End-User's e-mail address has been verified; otherwise false.
             When this Claim Value is <spanx style="verb">true</spanx>,
@@ -4735,16 +4814,32 @@
             and dependent upon the trust framework or contractual agreements
             within which the parties are operating.
           </c>
+          -->
+          <c>
+            End-User の Email アドレスが検証済であれば true, さもなければ false.
+            Claim Value が <spanx style="verb">true</spanx> の場合, これは OP が検証を行った
+            時点において該当 Email アドレスが End-User のコントロール下にあるという確認処理を行ったことを示す.
+            Email アドレスの検証の詳細についてはコンテキストに依存し, 関係者間での
+            トラストフレームワークや契約上の同意事項等などによって異なる.
+          </c>
 
           <c>gender</c>
           <c>string</c>
+          <!--
           <c> End-User's gender.  Values defined by this
           specification are <spanx style="verb">female</spanx> and
           <spanx style="verb">male</spanx>.  Other values MAY be used
           when neither of the defined values are applicable.</c>
+          -->
+          <c>
+            End-User の性別.
+            本仕様では <spanx style="verb">female</spanx>, <spanx style="verb">male</spanx> を定義する.
+            定義済の値に適切なものがない場合, その他の値を利用してもよい (MAY).
+          </c>
 
           <c>birthdate</c>
           <c>string</c>
+          <!--
           <c>End-User's birthday, represented as an
           <xref target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx>
           format. The year MAY be <spanx style="verb">0000</spanx>, indicating that it is omitted.
@@ -4752,16 +4847,32 @@
           depending on the underlying platform's date related function, providing just year can
           result in varying month and day, so the implementers need to take this factor into account
           to correctly process the dates. </c>
+          -->
+          <c>
+            End-User の誕生日.
+            <xref target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> 形式で表現される.
+            生年を <spanx style="verb">0000</spanx> とすることで生年を省略することもできる (MAY).
+            生年のみを提示する場合は <spanx style="verb">YYYY</spanx> 形式としても良い.
+            プラットフォームの日付関連の関数の実装によって, 生年のみを提供した場合の月日の扱いは
+            様々であるため, 実装者はこの点を考慮にいれて日付を処理すべきである.
+          </c>
 
           <c>zoneinfo</c>
           <c>string</c>
+          <!--
           <c>String from zoneinfo <xref target="zoneinfo"/> time zone
           database representing the End-User's time zone.
           For example, <spanx style="verb">Europe/Paris</spanx> or
           <spanx style="verb">America/Los_Angeles</spanx>.</c>
+          -->
+          <c>
+            End-User のタイムゾーンを示す zoneinfo <xref target="zoneinfo"/> に登録された文字列.
+            例えば, <spanx style="verb">Europe/Paris</spanx> や <spanx style="verb">America/Los_Angeles</spanx>.
+          </c>
 
           <c>locale</c>
           <c>string</c>
+          <!--
           <c>End-User's locale, represented as a
           <xref target="RFC5646">BCP47</xref> language tag.
           This is typically an <xref target="ISO639-1">ISO 639-1 Alpha-2</xref>
@@ -4773,9 +4884,22 @@
           as the separator rather than a dash, for example,
           <spanx style="verb">en_US</spanx>; Relying Parties MAY choose to
           accept this locale syntax as well.</c>
+          -->
+          <c>
+            End-User の locale.
+            <xref target="RFC5646">BCP47</xref> 言語タグ表現.
+            これは通常 <xref target="ISO639-1">ISO 639-1 Alpha-2</xref> 言語コードを小文字表記,
+            <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref> 国コードを大文字表記し,
+            ダッシュでつなげたものである.
+            (<spanx style="verb">en-US</spanx>, <spanx style="verb">fr-CA</spanx> 等)
+            実装によってはダッシュの代わりにアンダースコアを区切り文字に用いる場合もあるため,
+            互換性の観点からは注意すること. (<spanx style="verb">en_US</spanx> 等) 
+            Relying Party はダッシュ区切りに加えてアンダースコア区切りのシンタックスを受け入れてもよい (MAY).
+          </c>
 
           <c>phone_number</c>
           <c>string</c>
+          <!--
           <c>
             End-User's preferred telephone number. <xref target="E.164">E.164</xref>
             is RECOMMENDED as the format of this Claim,
@@ -4786,9 +4910,18 @@
             <xref target="RFC3966">RFC 3966</xref> extension syntax,
             for example, <spanx style="verb">+1 (604) 555-1234;ext=5678</spanx>.
           </c>
+          -->
+          <c>
+            End-User の選好する電話番号.
+            この Claim のフォーマットとしては <xref target="E.164">E.164</xref> を推奨する (RECOMMENDED).
+            (<spanx style="verb">+1 (425) 555-1212</spanx>, <spanx style="verb">+56 (2) 687 2400</spanx> 等)
+            電話番号が拡張を含む場合, その拡張は <xref target="RFC3966">RFC 3966</xref> 拡張シンタックスで
+            表記することを推奨する (RECOMMENDED). (<spanx style="verb">+1 (604) 555-1234;ext=5678</spanx> 等)
+          </c>
 
           <c>phone_number_verified</c>
           <c>boolean</c>
+          <!--
           <c>
             True if the End-User's phone number has been verified; otherwise false.
             When this Claim Value is <spanx style="verb">true</spanx>,
@@ -4802,22 +4935,46 @@
             Claim MUST be in E.164 format
             and any extensions MUST be represented in RFC 3966 format.
           </c>
+          -->
+          <c>
+            End-User の電話番号が検証済であれば ture, さもなければ false.
+            Claim Value が <spanx style="verb">true</spanx> の場合,
+            これは OP が検証を行った時点において該当電話番号が End-User のコントロール下に
+            あるという確認処理を行ったことを示す.
+            電話番号の検証の詳細についてはコンテキストに依存し,
+            関係者間でのトラストフレームワークや契約上の同意事項等などによって異なる.
+            また true の場合, <spanx style="verb">phone_number</spanx> Claim は E.164 形式で
+            なければならず (MUST), すべての拡張は RFC 3966 形式でなければならない (MUST).
+          </c>
 
           <c>address</c>
           <c>JSON object</c>
+          <!--
           <c>
             End-User's preferred postal address.
             The value of the <spanx style="verb">address</spanx> member is
             a JSON <xref target="RFC4627"/> structure containing some or all of
             the members defined in <xref target="AddressClaim"/>.
           </c>
+          -->
+          <c>
+            End-User の選好する郵送先住所.
+            <spanx style="verb">address</spanx> メンバーは <xref target="AddressClaim"/> に定義された
+            メンバーを含む JSON <xref target="RFC4627"/> 構造である.
+          </c>
 
           <c>updated_at</c>
           <c>number</c>
+          <!--
           <c>
             Time the End-User's information was last updated.
             Its value is a JSON number representing the number of seconds from
             1970-01-01T0:0:0Z as measured in UTC until the date/time.
+          </c>
+          -->
+          <c>
+            End-User に関する情報の最終更新日時.
+            この値は UTC 1970-01-01T0:0:0Z から該当時刻までの秒数を示す JSON 数値である.
           </c>
         </texttable>
 
