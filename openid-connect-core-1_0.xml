@@ -4893,7 +4893,7 @@
             ダッシュでつなげたものである.
             (<spanx style="verb">en-US</spanx>, <spanx style="verb">fr-CA</spanx> 等)
             実装によってはダッシュの代わりにアンダースコアを区切り文字に用いる場合もあるため,
-            互換性の観点からは注意すること. (<spanx style="verb">en_US</spanx> 等) 
+            互換性の観点からは注意すること. (<spanx style="verb">en_US</spanx> 等)
             Relying Party はダッシュ区切りに加えてアンダースコア区切りのシンタックスを受け入れてもよい (MAY).
           </c>
 
@@ -6721,10 +6721,12 @@
             </t>
             <t>
               <figure>
+                <!--
                 <preamble>
                   In this example, these Claims about Jane Doe are held by
                   Claims Provider B (Jane Doe's bank):
                 </preamble>
+                -->
                 <preamble>
                   この例では, Jane Doe についてのクレームは
                   クレームプロバイダー B (Jane Doe's bank) によって保持されている:
@@ -10246,12 +10248,12 @@
 
         <t>
 		    実装者は, この仕様がまだ最終仕様でない複数のIETF仕様を利用していることに注意すべきである.
-			それらの仕様は以下のとおり:  
+			それらの仕様は以下のとおり:
 		<!-- <t>
             Implementers should be aware that
             this specification uses several IETF specifications that are
 			not yet final specifications.  Those specifications are: -->
-			
+
             <list style="symbols">
               <t><xref target="JWT">JSON Web Token (JWT) draft -13</xref></t>
               <t><xref target="JWS">JSON Web Signature (JWS) draft -18</xref></t>
@@ -10264,7 +10266,7 @@
             </list>
           </t>
 		  <t>
-		    これらの仕様に重要な変更を防ぐためにあらゆる努力を行うとしても, それらは発生するかもしれず, 
+		    これらの仕様に重要な変更を防ぐためにあらゆる努力を行うとしても, それらは発生するかもしれず,
 			OpenID Connectの実装はこれらの参考文献の一部ないしはすべてを更新し, 将来のOpenID ConectのProfileか仕様を使用していない限り,  前述の最終版よりも優先して具体的に参照されているドラフトバージョンを使用し続けるべきである(SHOULD).
 		  </t>
           <!-- <t>
@@ -10285,7 +10287,7 @@
 		   Googleと連携を希望するRelying Partyは, そのため, それらの実装が更新されるようなときまで, これに対処するためのコードを持っている必要がある.
 		   このような問題を回避するためのコードは, Googleが発行者の値に不足しているプレフィックスを追加し, このような点で中断されないような方法で書かれるべきである.
 		  </t>
-		  <!-- 
+		  <!--
           <t>
             Implementers may want to be aware that,
             as of the time of this writing,
@@ -10305,10 +10307,10 @@
       </section>
 
       <section anchor="RelatedSpecs" title="Related Specifications and Implementer's Guides">
-		
+
 		<t>
 		  関連するオプション仕様は, 追加機能を提供するために本仕様と組み合わせて利用されるかもしれない(MAY).
-		<!-- 
+		<!--
         <t>
           These related OPTIONAL specifications MAY be used in
           combination with this specification to provide additional functionality:
@@ -10350,8 +10352,8 @@
           <list style="symbols">
             <t><xref target="OpenID.Basic">OpenID Connect Basic Client Implementer's Guide 1.0</xref> -
 			実装者ガイドは, OAuth Authorization Code Flowを使用するベーシックなWebベースのRelyingPartyで利用することを目的とした, この仕様のサブセットを含んでいる.
-			
-			<!-- 
+
+			<!--
             Implementer's guide containing a subset of this specification
             that is intended for use by basic
             Web-based Relying Parties using the
