@@ -998,9 +998,9 @@
 
     <section anchor="Authentication" title="Authentication">
       <t>
-          OpenID Connectではエンドユーザのログインもしくは既にログイン済みのエンドユーザを確定するために認証を行う。
-          OpenID Connectでは、クライアントが信頼できるように安全な方式でサーバからクライアントへ認証結果を返却する。
-          このような理由のため、この場合ではクライアントのことをRelying Party(RP)と呼ぶ。
+        OpenID Connectではエンドユーザのログインもしくは既にログイン済みのエンドユーザを確定するために認証を行う.
+        OpenID Connectでは, クライアントが信頼できるように安全な方式でサーバからクライアントへ認証結果を返却する.
+        このような理由のため, この場合ではクライアントのことをRelying Party(RP)と呼ぶ.
       </t>
       <!--<t>
         OpenID Connect performs authentication to log in the End-User
@@ -1011,8 +1011,8 @@
         For this reason, the Client is called Relying Party (RP) in this case.
       </t>-->
       <t>
-          認証結果は<xref target="IDToken"/>で定義されているようにID Tokenに含まれて返却される。
-          ID Tokenには発行者、Subject識別子、認証の有効期限などを表すClaimが含まれる。
+        認証結果は<xref target="IDToken"/>で定義されているようにID Tokenに含まれて返却される.
+        ID Tokenには発行者, Subject識別子, 認証の有効期限などを表すClaimが含まれる.
       </t>
       <!--<t>
         The Authentication result is returned in an
@@ -1021,8 +1021,8 @@
         the Subject Identifier, when the authentication expires, etc.
       </t>-->
       <t>
-          認証にはAuthorization Codeフロー（<spanx style="verb">response_type=code</spanx>）とImplicitフロー（<spanx style="verb">response_type=id_token&nbsp;token</spanx>か<spanx style="verb">response_type=id_token</spanx>）およびHybrid Flow（<xref target="OAuth.Responses">Oauth 2.0 Multiple Response Type Encoding Practices</xref>で定義される他のレスポンスタイプ値を利用）の３つのフローのうち１つを選ぶことができる。
-          フローによってID TokenとAccess Tokenがどのようにクライアントへ返却されるか決定される。
+        認証にはAuthorization Codeフロー（<spanx style="verb">response_type=code</spanx>）とImplicitフロー（<spanx style="verb">response_type=id_token&nbsp;token</spanx>か<spanx style="verb">response_type=id_token</spanx>）およびHybrid Flow（<xref target="OAuth.Responses">Oauth 2.0 Multiple Response Type Encoding Practices</xref>で定義される他のレスポンスタイプ値を利用）の３つのフローのうち１つを選ぶことができる.
+        フローによってID TokenとAccess Tokenがどのようにクライアントへ返却されるか決定される.
       </t>
       <!--<t>
         Authentication can follow one of three paths:
@@ -1035,8 +1035,8 @@
         are returned to the Client.
       </t>-->
       <t>
-          ３つのフローの特徴を以下の参考表に記載する。
-          この表は特定のコンテキストにおいてどのフローを選択すればよいかの指針を示すことを意図している。
+        ３つのフローの特徴を以下の参考表に記載する.
+        この表は特定のコンテキストにおいてどのフローを選択すればよいかの指針を示すことを意図している.
       </t>
       <!--<t>
         The characteristics of the three flows are summarized
@@ -1097,8 +1097,8 @@
       </texttable>
 
       <t>
-          利用しているフローはAuthorizationリクエストに含まれる<spanx style="verb">response_type</spanx>値によって決定される。
-          これらの<spanx style="verb">response_type</spanx>値は下記のフローを選択する。
+          利用しているフローはAuthorizationリクエストに含まれる<spanx style="verb">response_type</spanx>値によって決定される.
+          これらの<spanx style="verb">response_type</spanx>値は下記のフローを選択する.
       </t>
       <!--<t>
         The flow used is determined by the <spanx style="verb">response_type</spanx>
@@ -1133,8 +1133,8 @@
 
       </texttable>
       <t>
-          <xref target="RFC6749">OAuth 2.0</xref>で定義されている<spanx style="verb">code</spanx>以外のレスポンスタイプ値は<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>の仕様にて定義されている。
-          注意：OAuth 2.0ではImplicitフローでレスポンスタイプ値<spanx style="verb">token</spanx>を定義してはいるが、OpenID ConnectではID Tokenが返却されることがないためこのレスポンスタイプは利用していない。
+          <xref target="RFC6749">OAuth 2.0</xref>で定義されている<spanx style="verb">code</spanx>以外のレスポンスタイプ値は<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>の仕様にて定義されている.
+          注意：OAuth 2.0ではImplicitフローでレスポンスタイプ値<spanx style="verb">token</spanx>を定義してはいるが, OpenID ConnectではID Tokenが返却されることがないためこのレスポンスタイプは利用していない.
       </t>
       <!--<t>
         All but the <spanx style="verb">code</spanx> Response Type value,
@@ -1150,8 +1150,8 @@
 
       <section anchor="CodeFlowAuth" title="Authentication using the Authorization Code Flow">
         <t>
-            この章ではAuthorization Codeフローを使ってどのように認証を行うかを記載する。
-            Authorization Codeフローを利用する祭、全てのトークンはToken Endpointから返却される。
+            この章ではAuthorization Codeフローを使ってどのように認証を行うかを記載する.
+            Authorization Codeフローを利用する祭, 全てのトークンはToken Endpointから返却される.
         </t>
         <!--<t>
           This section describes how to perform authentication using the Authorization Code Flow.
@@ -1160,10 +1160,10 @@
         </t>-->
 
         <t>
-            Authorization Codeフローではクライアントに認可コードを返却し、クライアントはそれを直接ID TokenとAccess TOkenと交換できるようになる。
-            これによりUser AgentやUser Agentにアクセスできる悪意のあるアプリケーションにどのトークンも公開されることがない恩恵が得られる。
-            Authorizationサーバは認可コードをAccess Tokenと交換する前にクライアントの認証を行うこともできる。
-            Authorization CodeフローはClient SecretをクライアントとAuthorizationサーバ間で安全に保持できるクライアントに適している。
+            Authorization Codeフローではクライアントに認可コードを返却し, クライアントはそれを直接ID TokenとAccess TOkenと交換できるようになる.
+            これによりUser AgentやUser Agentにアクセスできる悪意のあるアプリケーションにどのトークンも公開されることがない恩恵が得られる.
+            Authorizationサーバは認可コードをAccess Tokenと交換する前にクライアントの認証を行うこともできる.
+            Authorization CodeフローはClient SecretをクライアントとAuthorizationサーバ間で安全に保持できるクライアントに適している.
         </t>
         <!--<t>The Authorization Code Flow returns an Authorization Code to the
         Client, which can then exchange it for an ID Token and an Access Token directly.
@@ -1178,14 +1178,14 @@
 
         <section anchor="CodeFlowSteps" title="Authorization Code Flow Steps">
           <t>
-              Authorization Codeフローは以下のステップを経る。
+              Authorization Codeフローは以下のステップを経る.
           </t>
           <!--<t>The Authorization Code Flow goes through the following
           steps.</t>-->
           <t>
             <list style="numbers">
               <t>
-                  クライアントは必要なパラメータを含むAuthorizationリクエストの準備をする。
+                  クライアントは必要なパラメータを含むAuthorizationリクエストの準備をする.
               </t>
               <!--<t>Client prepares an Authentication Request containing the desired
               request parameters.</t>-->
@@ -1193,17 +1193,17 @@
               <t>クライアントはAuthorizationサーバへリクエストを送信する</t>
               <!--<t>Client sends the request to the Authorization Server.</t>-->
 
-              <t>Authorizationサーバはエンドユーザを認証する。</t>
+              <t>Authorizationサーバはエンドユーザを認証する. </t>
               <!--<t>Authorization Server Authenticates the End-User.</t>-->
 
-              <t>Authorizationサーバはエンドユーザの同意/認可を得る。</t>
+              <t>Authorizationサーバはエンドユーザの同意/認可を得る. </t>
               <!--<t>Authorization Server obtains End-User Consent/Authorization.</t>-->
 
               <t>Authorizationサーバはエンドユーザを認可コードをつけてクライアントへ送信する</t>
               <!--<t>Authorization Server sends the End-User back to the Client with
               an Authorization Code.</t>-->
 
-              <t>クライアントはToken Endpointへ認可コードを使ってリクエストを送信する。</t>
+              <t>クライアントはToken Endpointへ認可コードを使ってリクエストを送信する. </t>
               <!--<t>Client requests a response using the Authorization Code at the
               Token Endpoint.</t>-->
 
@@ -1211,7 +1211,7 @@
               <!--<t>Client receives a response that contains an ID Token
               and Access Token in the response body.</t>-->
 
-              <t>クライアントはID Tokenを検証し、エンドユーザのSubject識別子を取得する。</t>
+              <t>クライアントはID Tokenを検証し, エンドユーザのSubject識別子を取得する. </t>
               <!--<t>Client validates the ID token and retrieves the End-User's
               Subject Identifier.</t>-->
 
@@ -1222,7 +1222,7 @@
         <section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
           <t>
             Authorization Endpoint は End-User の認証を実行する.
-            この処理は, OAuth 2.0 で定義された要求パラメータ及び OpenID Connect で定義された追加されたパラメータとパラメータ値を使用して、認証及び認可のためにユーザーエージェントを Authorization Server の Authorization Endpoint に送ることで行われる.
+            この処理は, OAuth 2.0 で定義された要求パラメータ及び OpenID Connect で定義された追加されたパラメータとパラメータ値を使用して, 認証及び認可のためにユーザーエージェントを Authorization Server の Authorization Endpoint に送ることで行われる.
           </t>
           <!--
           <t>
@@ -1529,7 +1529,7 @@
                       End-User が認証済でない場合, Client が要求する Claim 取得に十分な事前同意を取得済でない場合, またはリクエストを処理するために必要な何らかの条件を満たさない場合には, エラーが返される.
                       典型的なエラーコードは <spanx style="verb">login_required</spanx>, <spanx style="verb">interaction_required</spanx> であり,
                       その他のコードは <xref target="AuthError"/> で定義されている.
-                      これは既存の認証と同意の両方, またはいずれかを確認する方法として使用できる。
+                      これは既存の認証と同意の両方, またはいずれかを確認する方法として使用できる.
                     </t>
 
                     <t hangText="login">
@@ -3194,7 +3194,7 @@
                 -->
                 <t hangText="nonce">
                   必須(REQUIRED).
-                  ID トークンでクライアントセッションを関連づけ、リプレイアタックを
+                  ID トークンでクライアントセッションを関連づけ, リプレイアタックを
                   軽減するために用いられる文字列の値である.
                   この値は認証リクエストから ID トークンに修正されずに受け渡される.
                   値を推測する攻撃者を防ぐために <spanx style="verb">nonce</spanx> の
@@ -9844,9 +9844,9 @@
 
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
-          この仕様はRelying PartyとOpenIDプロバイダの両者により利用される機能について定義している。
-          多くのOpenIDプロバイダはRPとの事前登録不要で動的に利用されることを保証している一方で、OpenIDプロバイダによっては固有で定義外の設定をRPに利用することを必須化することも想定される。
-          このため、OP向けの実装必須の機能を以下の２グループに分類しておく。１つ目は全てのOP向け、２つ目は動的なOpenIDプロバイダ向けである。
+          この仕様はRelying PartyとOpenIDプロバイダの両者により利用される機能について定義している.
+          多くのOpenIDプロバイダはRPとの事前登録不要で動的に利用されることを保証している一方で, OpenIDプロバイダによっては固有で定義外の設定をRPに利用することを必須化することも想定される.
+          このため, OP向けの実装必須の機能を以下の２グループに分類しておく. １つ目は全てのOP向け, ２つ目は動的なOpenIDプロバイダ向けである.
       </t>
       <!--<t>
         This specification defines features used by both Relying Parties and
@@ -9865,8 +9865,8 @@
       <!--<section anchor="ServerMTI"
                title="Mandatory to Implement Features for All OpenID Providers">-->
         <t>
-            全てのOpenIDプロバイダは本仕様にて定義される下記機能を実装しなければならない(MUST)。
-            このリストは別の場所でREQUIREDもしくはMUSTで既に記載されている機能セットを拡張するものであり、もしそうでなければ、必然的にOP向けの広範的な実装要求のセットである。
+            全てのOpenIDプロバイダは本仕様にて定義される下記機能を実装しなければならない(MUST).
+            このリストは別の場所でREQUIREDもしくはMUSTで既に記載されている機能セットを拡張するものであり, もしそうでなければ, 必然的にOP向けの広範的な実装要求のセットである.
         </t>
         <!--<t>
           All OpenID Providers MUST implement the following features defined in this specification.
@@ -9878,7 +9878,7 @@
           <list style="hanging">
 
             <t hangText="ID Tokens をRSA SHA-256で署名できるようにする">
-                OPがToken EndpointからのID Token返却(Authorization Codeフローの場合のように)をサポートし、クライアントに<spanx style="verb">none</spanx>をID Tokenの署名アルゴリズムとして指定することしか許可しないということでなければ、OPはID TokenをRSA SHA-256 アルゴリズム(<spanx style="verb">alg</spanx>値に<spanx style="verb">RS256</spanx>)での署名をサポートしなければならない(MUST)。
+                OPがToken EndpointからのID Token返却(Authorization Codeフローの場合のように)をサポートし, クライアントに<spanx style="verb">none</spanx>をID Tokenの署名アルゴリズムとして指定することしか許可しないということでなければ, OPはID TokenをRSA SHA-256 アルゴリズム(<spanx style="verb">alg</spanx>値に<spanx style="verb">RS256</spanx>)での署名をサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Signing ID Tokens with RSA SHA-256">
               OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
@@ -9890,7 +9890,7 @@
               <spanx style="verb">none</spanx> as the requested ID Token signing algorithm.
             </t>-->
             <t hangText="Prompt Parameter">
-                OPは<xref target="AuthorizationEndpoint"/>で定義されている、<spanx style="verb">none</spanx>と<spanx style="verb">login</spanx>などの規定のユーザインターフェースの挙動を採り入れる<spanx style="verb">prompt</spanx>パラメータをサポートしなければならない(MUST)。
+                OPは<xref target="AuthorizationEndpoint"/>で定義されている, <spanx style="verb">none</spanx>と<spanx style="verb">login</spanx>などの規定のユーザインターフェースの挙動を採り入れる<spanx style="verb">prompt</spanx>パラメータをサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Prompt Parameter">
               OPs MUST support the <spanx style="verb">prompt</spanx> parameter,
@@ -9899,8 +9899,8 @@
               and <spanx style="verb">login</spanx>.
             </t>-->
             <t hangText="Display Parameter">
-                OPは<xref target="AuthorizationEndpoint"/>で定義されている<spanx style="verb">display</spanx>パラメータをサポートしなければならない(MUST)。
-                (このパラメータで要求される最低限度のサポートは、単にこれを使うことでエラーにならないことであることに注意してほしい)
+                OPは<xref target="AuthorizationEndpoint"/>で定義されている<spanx style="verb">display</spanx>パラメータをサポートしなければならない(MUST).
+                (このパラメータで要求される最低限度のサポートは, 単にこれを使うことでエラーにならないことであることに注意してほしい)
             </t>
             <!--<t hangText="Display Parameter">
               OPs MUST support the <spanx style="verb">display</spanx> parameter,
@@ -9909,8 +9909,8 @@
               simply that its use must not result in an error.)
             </t>-->
             <t hangText="Preferred Locales">
-                OPは<xref target="AuthorizationEndpoint"/>で定義されているように<spanx style="verb">ui_locales</spanx>と<spanx style="verb">claims_locales</spanx>パラメータによってユーザインターフェースとクレーム用の推奨の言語や書き言葉のリクエストをサポートしなければならない(MUST)。
-                (これらのパラメータで要求される最低限度のサポートは、単にこれをつかうことでエラーにならないことであることに注意してほしい)
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように<spanx style="verb">ui_locales</spanx>と<spanx style="verb">claims_locales</spanx>パラメータによってユーザインターフェースとクレーム用の推奨の言語や書き言葉のリクエストをサポートしなければならない(MUST).
+                (これらのパラメータで要求される最低限度のサポートは, 単にこれをつかうことでエラーにならないことであることに注意してほしい)
             </t>
             <!--<t hangText="Preferred Locales">
               OPs MUST support requests for preferred languages and scripts
@@ -9922,7 +9922,7 @@
               simply to have their use not result in errors.)
             </t>-->
             <t hangText="Authentication Time">
-                OPは<xref target="IDToken"/>で定義されているように、<spanx style="verb">auth_time</spanx> クレームによってエンドユーザがどの時間で認証したかをリクエストがあった時に返却しなければならない(MUST)。
+                OPは<xref target="IDToken"/>で定義されているように, <spanx style="verb">auth_time</spanx> クレームによってエンドユーザがどの時間で認証したかをリクエストがあった時に返却しなければならない(MUST).
             </t>
             <!--<t hangText="Authentication Time">
               OPs MUST support returning the time at which the End-User authenticated
@@ -9930,7 +9930,7 @@
               as defined in <xref target="IDToken"/>.
             </t>-->
             <t hangText="Maximum Authentication Age">
-                OPは<xref target="AuthorizationEndpoint"/>で定義されているように、<spanx style="verb">max_age</spanx>パラメータで最大認証期間を強制することをサポートしなければならない(MUST)。
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように, <spanx style="verb">max_age</spanx>パラメータで最大認証期間を強制することをサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Maximum Authentication Age">
               OPs MUST support enforcing a maximum authentication age
@@ -9938,8 +9938,8 @@
               as defined in <xref target="AuthorizationEndpoint"/>.
             </t>-->
             <t hangText="Authentication Context Class Reference">
-                OPは<xref target="AuthorizationEndpoint"/>で定義されているように、<spanx style="verb">acr_values</spanx>パラメータを用いて特定の認証コンテキストクラスリファレンスの値のリクエストをサポートしなければならない(MUST)。
-                (このパラメータで要求される最低限度のサポートは、単にこれを使うことでエラーにならないことであることに注意してほしい)
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように, <spanx style="verb">acr_values</spanx>パラメータを用いて特定の認証コンテキストクラスリファレンスの値のリクエストをサポートしなければならない(MUST).
+                (このパラメータで要求される最低限度のサポートは, 単にこれを使うことでエラーにならないことであることに注意してほしい)
             </t>
             <!--<t hangText="Authentication Context Class Reference">
               OPs MUST support requests for specific
@@ -9957,7 +9957,7 @@
       <section anchor="DynamicMTI"
                title="Mandatory to Implement Features for Dynamic OpenID Providers">
         <t>
-            上記の機能に加えて、事前設定をしていないRPと動的に連携を行うことをサポートしているOpenIDプロバイダは本仕様や関連仕様にて定義されている下記の機能も実装しなくてはならない(MUST)。
+            上記の機能に加えて, 事前設定をしていないRPと動的に連携を行うことをサポートしているOpenIDプロバイダは本仕様や関連仕様にて定義されている下記の機能も実装しなくてはならない(MUST).
         </t>
         <!--<t>
           In addition to the features listed above,
@@ -9969,7 +9969,7 @@
           <list style="hanging">
 
             <t hangText="Response Types">
-                OpenIDプロバイダはレスポンスタイプ<spanx style="verb">id_token</spanx>、またSelf-Issued OPではないOPは<spanx style="verb">code</spanx>と<spanx style="verb">id_token&nbsp;token</spanx>もサポートしなければならない(MUST)。
+                OpenIDプロバイダはレスポンスタイプ<spanx style="verb">id_token</spanx>, またSelf-Issued OPではないOPは<spanx style="verb">code</spanx>と<spanx style="verb">id_token&nbsp;token</spanx>もサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Response Types">
               These OpenID Providers MUST support the
@@ -9980,7 +9980,7 @@
             </t>-->
 
             <t hangText="Discovery">
-                OPは<xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>で定義されているようにDiscovery機能をサポートしなければならない(MUST)。
+                OPは<xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>で定義されているようにDiscovery機能をサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Discovery">
               These OPs MUST support Discovery,
@@ -9988,7 +9988,7 @@
               <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.
             </t>-->
             <t hangText="Dynamic Registration">
-              OPは<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>で定義されているように、Dynamic Client Registrationをサポートしなければならない(MUST)。
+              OPは<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>で定義されているように, Dynamic Client Registrationをサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Dynamic Registration">
               These OPs MUST support Dynamic Client Registration,
@@ -9996,7 +9996,7 @@
               <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
             </t>-->
             <t hangText="UserInfo Endpoint">
-                アクセストークンを発行する全て動的なOPは<xref target="UserInfo"/>で定義されているように、UserInfoエンドポイントをサポートしなければならない(MUST)。
+                アクセストークンを発行する全て動的なOPは<xref target="UserInfo"/>で定義されているように, UserInfoエンドポイントをサポートしなければならない(MUST).
             </t>
             <!--<t hangText="UserInfo Endpoint">
               All dynamic OPs that issue Access Tokens MUST support the UserInfo Endpoint,
@@ -10004,7 +10004,7 @@
               (Self-Issued OPs do not issue Access Tokens.)
             </t>-->
             <t hangText="Public Keys Published as Bare Keys">
-                OPは自身の公開鍵を素のJWKキーとして公開しなければならない(MUST)。
+                OPは自身の公開鍵を素のJWKキーとして公開しなければならない(MUST).
                 (JWKキーはその鍵のX.509形式の表現にあわせてもよい(MAY))
             </t>
             <!--<t hangText="Public Keys Published as Bare Keys">
@@ -10012,7 +10012,7 @@
               (which MAY also be accompanied by X.509 representations of those keys).
             </t>-->
             <t hangText="Request URI">
-                OPは<xref target="AuthorizationEndpoint"/>で定義されているように、<spanx style="verb">request_uri</spanx>パラメータで提供されたリクエストURIから取得するリクエストオブジェクト値を使ってリクエストを送信できるようにしなければならない(MUST)。
+                OPは<xref target="AuthorizationEndpoint"/>で定義されているように, <spanx style="verb">request_uri</spanx>パラメータで提供されたリクエストURIから取得するリクエストオブジェクト値を使ってリクエストを送信できるようにしなければならない(MUST).
             </t>
             <!--<t hangText="Request URI">
               These OPs MUST support requests made using a Request Object value
@@ -10028,8 +10028,8 @@
       <section anchor="DiscoReg" title="Discovery and Registration">
 
         <t>
-            OpenID Connect導入にあたって事前に設定されたOpenIDプロバイダとRelying Partyのセットが使われることがある。
-            その場合において、identityやサービス、クライアントの動的登録の情報について動的にディスカバリをサポートする必要はないかもしれない。
+            OpenID Connect導入にあたって事前に設定されたOpenIDプロバイダとRelying Partyのセットが使われることがある.
+            その場合において, identityやサービス, クライアントの動的登録の情報について動的にディスカバリをサポートする必要はないかもしれない.
         </t>
         <!--<t>Some OpenID Connect installations can use a pre-configured set of
         OpenID Providers and/or Relying Parties. In those cases, it might not be
@@ -10037,7 +10037,7 @@
         or services or dynamic registration of Clients.</t>-->
 
         <t>
-            しかし、事前登録のないRelying PartyとOpenID Provider間の予期しないやりとりをサポートすることを選択したならば、<xref target="OpenID.Discovery">OpenID Discovery 1.0</xref>と<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>の仕様で定義されているファシリティを実装することでこれを遂行するべきである(SHOULD)。
+            しかし, 事前登録のないRelying PartyとOpenID Provider間の予期しないやりとりをサポートすることを選択したならば, <xref target="OpenID.Discovery">OpenID Discovery 1.0</xref>と<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>の仕様で定義されているファシリティを実装することでこれを遂行するべきである(SHOULD).
         </t>
         <!--<t>However, if installations choose to support unanticipated
         interactions between Relying Parties and OpenID Providers that do not
@@ -10050,10 +10050,10 @@
 
       <section anchor="RPMTI" title="Mandatory to Implement Features for Relying Parties">
         <t>
-            一般的に、OpenIDプロバイダと通信する祭にどの機能を利用するかはRelying Partyに依存する。
-            しかし、必然的に利用するOAuthクライアントによって決定されてしまうこともある。
-            コンフィデンシャルなクライアントかどうかは、シークレットを安全に保持できるかで決まる。この場合Authorization Codeフローが適しているかもしれない。
-            また、パブリックなクライアントかどうかは、例えばUser Agentベースのアプリケーションや静的に登録済みのネイティブアプリケーションがある。この場合Implicitフローが適しているかもしれない。
+            一般的に, OpenIDプロバイダと通信する祭にどの機能を利用するかはRelying Partyに依存する.
+            しかし, 必然的に利用するOAuthクライアントによって決定されてしまうこともある.
+            コンフィデンシャルなクライアントかどうかは, シークレットを安全に保持できるかで決まる. この場合Authorization Codeフローが適しているかもしれない.
+            また, パブリックなクライアントかどうかは, 例えばUser Agentベースのアプリケーションや静的に登録済みのネイティブアプリケーションがある. この場合Implicitフローが適しているかもしれない.
         </t>
         <!--<t>
           In general, it is up to Relying Parties which features they use
@@ -10066,9 +10066,9 @@
           in which case the Implicit Flow may be appropriate.
         </t>-->
         <t>
-            OpenID Connectの機能を利用する際に、それらが"REQUIRED"や"MUST"として記載されていればRPに利用されるときに実装必須の機能となる。
-            同様に"OPTIONAL"と記載されている機能は、特定のアプリケーション状況下にてやる価値がないならば、利用されたりサポートされたりする必要性はない。
-            つまりは、DiscoveryをサポートするOpenIDプロバイダとやりとりをするときは、OPのDiscovery文書がどの機能をRPが利用できるのかを動的に決定することが可能である。
+            OpenID Connectの機能を利用する際に, それらが"REQUIRED"や"MUST"として記載されていればRPに利用されるときに実装必須の機能となる.
+            同様に"OPTIONAL"と記載されている機能は, 特定のアプリケーション状況下にてやる価値がないならば, 利用されたりサポートされたりする必要性はない.
+            つまりは, DiscoveryをサポートするOpenIDプロバイダとやりとりをするときは, OPのDiscovery文書がどの機能をRPが利用できるのかを動的に決定することが可能である.
       </t>
         <!--<t>
           When using OpenID Connect features, those listed as being
@@ -10176,7 +10176,7 @@
             Client が自身の <spanx style="verb">redirect_uri</spanx> 上でホストすることが考えられる
             JavaScript ファイルの例を以下に示す.
             これは Authorization Server からのリダイレクトによってロードされる.
-            フラグメント部はパースされた後, 受信した情報の検証と利用を行う URL に対し、
+            フラグメント部はパースされた後, 受信した情報の検証と利用を行う URL に対し,
             <spanx style="verb">POST</spanx> で送信される.
           </t>
           <!--
