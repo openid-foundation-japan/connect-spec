@@ -4487,10 +4487,15 @@
       </t>
       -->
       <t>
-        いくつかの場合, Relying Party よりもむしろ OpenID Provider あるいは他の Party によってログインフローは開始される.
-        この場合, RP が 指定された OP にAuthentication Request を要求する開始プログラムは, 自身のログイン初期化エンドポイントで RP にリダイレクトする.
-        このログイン初期化エンドポイントは, デフォルトのランディングページよりも, RP で深いリンクにすることができる.
-        <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> をサポートする RPs は<spanx style="verb">initiate_login_uri</spanx> レジストレーションパラメーターを用いてこのエンドポイントの値を登録する.
+        ある場合においては, Relying Party よりもむしろ OpenID Provider あるいは
+        他の Party によってログインフローは開始される.
+        この場合, RP が 指定された OP に Authentication Request を要求する開始プログラムは,
+        自身のログイン初期化エンドポイントで RP にリダイレクトする.
+        このログイン初期化エンドポイントは, デフォルトのランディングページよりも,
+        RP で深いリンクにすることができる.
+        <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> を
+        サポートする RPs は <spanx style="verb">initiate_login_uri</spanx> Registration パラメーター
+        を用いてこのエンドポイントの値を登録する.
       </t>
       <!--
       <t>
@@ -4499,7 +4504,8 @@
       </t>
       -->
       <t>
-        ログインリクエストを初期化する Party は, 以下のパラメーターを渡して RP でログイン初期化エンドポイントにリダイレクトすることによってそれを行う:
+        ログインリクエストを初期化する party は, 以下のパラメーターを渡し,
+        RP でログイン初期化エンドポイントにリダイレクトすることによってそれを行う:
       </t>
       <t>
         <list style="hanging">
@@ -4512,7 +4518,7 @@
           -->
           <t hangText="iss">
             必須(REQUIRED).
-            RP がAuthentication Request を送信する OP のための Issuer Identifier.
+            RP が Authentication Request を送信する OP のための Issuer Identifier.
             その値は <spanx style="verb">https</spanx> スキームを用いた URL でなければならない(MUST).
           </t>
           <!--
@@ -4527,9 +4533,9 @@
           <t hangText="login_hint">
             任意(OPTIONAL).
             End-User が　ログインするために使用されるかもしれないログイン識別子について
-            のAuthorization Serverへのヒント.
-            Clientがこの文字列値パラメーターのために値を受け付ける場合,
-            <spanx style="verb">login_hint</spanx> パラメーター値としてAuthentication Request の中に
+            の Authorization Server へのヒント.
+            Client がこの文字列値パラメーターのために値を受け付ける場合,
+            <spanx style="verb">login_hint</spanx> パラメーター値として Authentication Request の中に
             含めなければならない(MUST).
           </t>
           <!--
@@ -4559,7 +4565,7 @@
       -->
       <t>
         パラメーターは HTTP <spanx style="verb">GET</spanx> メソッドを用いた
-        クエリストリングとして渡すか, User Agent で自動送信される HTML フォーム値として
+        クエリパラメーターとして渡す, もしくは User Agent で自動送信される HTML フォーム値として
         渡すことができ, HTTP <spanx style="verb">POST</spanx> メソッド経由で転送される.
       </t>
 
@@ -4571,7 +4577,7 @@
       -->
       <t>
         拡張によって他のパラメーターが定義される場合, 送られてもよい(MAY).
-        解釈されず使用されたいくつかのパラメーターはClientによって無視されなければならない(MUST).
+        解釈されず使用されたいくつかのパラメーターは Client によって無視されなければならない(MUST).
       </t>
 
       <!--
@@ -4583,7 +4589,7 @@
       </t>
       -->
       <t>
-        Clientはフレームバスティングや End-User をクリックジャッキングのような攻撃を
+        Clients はフレームバスティングや End-User を Clickjacking のような攻撃を
         通じてこれらの知識なしに third party サイトによってロギングされることから
         防ぐための他の技術を採用すべきである(SHOULD).
         詳細は <xref target="RFC6819"/> の Section 4.4.1.9 を参照.
@@ -4605,13 +4611,13 @@
       </t>
       -->
       <t>
-        この章はClientが End-User と認証イベントについてのクレームをどのように
-        付与することができるかということについて示す.
-        ベーシックプロフィールクレームの標準セットも定義する.
-        クレームの事前に定義されたセットは指定された scope 値を用いて要求することができ,
-        個別のクレームは <spanx style="verb">claims</spanx> リクエストパラメーターを用いて
+        この章は Client が End-User と Authentication イベントについての Claims をどのように
+        付与できるかということについて示す.
+        ベーシックプロフィール Claims の標準セットも定義する.
+        Claims の事前に定義されたセットは指定された scope 値を用いて要求することができ,
+        個々の Claims は <spanx style="verb">claims</spanx> リクエストパラメーターを用いて
         要求することができる.
-        そのクレームは OpenID Provider あるいは同様に分散ソースから直接送られてくる.
+        その Claims は OpenID Provider あるいは同様に分散ソースから直接送られてくる.
       </t>
 
       <section anchor="StandardClaims" title="Standard Claims">
@@ -4623,7 +4629,7 @@
         </t>
         -->
         <t>
-          この仕様は標準クレームのセットを定義する.
+          この仕様は標準 Claims のセットを定義する.
           それらは <xref target="UserInfoResponse"/> の UserInfo レスポンス内
           あるいは <xref target="IDToken"/> の ID Token 内で返却されるように要求できる.
         </t>
