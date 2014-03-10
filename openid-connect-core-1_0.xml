@@ -618,7 +618,7 @@
             <!--
             <t>The RP (Client) sends a request to the OpenID Provider (OP).</t>
             -->
-            <t>RP (クライアント)は OpenID プロバイダー (OP) にリクエストを送る.</t>
+            <t>RP (Client)は OpenID Provider  (OP) にリクエストを送る.</t>
 
             <!--
             <t>The OP authenticates the End-User and obtains authorization.</t>
@@ -628,12 +628,12 @@
             <!--
             <t>The OP responds with an ID Token and usually an Access Token.</t>
             -->
-            <t>OP は ID トークンと通常はアクセストークンによって応答する.</t>
+            <t>OP は ID Token と通常はAccess Token によって応答する.</t>
 
             <!--
             <t>The RP can send a request with the Access Token to the UserInfo Endpoint.</t>
             -->
-            <t>RP はアクセストークンを使って UserInfo エンドポイントにリクエストを送ることができる.</t>
+            <t>RP はAccess Token を使って UserInfo エンドポイントにリクエストを送ることができる.</t>
 
             <!--
             <t>The UserInfo Endpoint returns Claims about the End-User.</t>
@@ -693,7 +693,7 @@
       </t>
       -->
       <t>
-        End-Users の認証を可能にするために OpenID Connect が OAuth 2.0 に行う主要な拡張機能は ID トークンデータ構造である.ID トークンは, あるクライアントを使用している際に認可サーバーによる End-User の認証についてのクレームと, 潜在的な他の要求されるクレームを含むセキュリティトークンである.
+        End-Users の認証を可能にするために OpenID Connect が OAuth 2.0 に行う主要な拡張機能は ID Token データ構造である.ID Token は, あるClientを使用している際にAuthorization Serverによる End-User の認証についてのクレームと, 潜在的な他の要求されるクレームを含むセキュリティトークンである.
       </t>
       <!--
       <t>
@@ -702,7 +702,7 @@
       </t>
       -->
       <t>
-        OpenID Connect で使用されている全ての OAuth 2.0 のフローのために, ID トークン内で以下のクレームが使用される:
+        OpenID Connect で使用されている全ての OAuth 2.0 のフローのために, ID Token 内で以下のクレームが使用される:
       </t>
 
       <t>
@@ -734,7 +734,7 @@
           </t>
           -->
           <t hangText="sub">
-            必須(REQUIRED).Subject 識別子.例えば, <spanx style="verb">24400320</spanx> や <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx> のようなクライアントに使われることを意図し, End-User のための発行者内で一意であり決して再割り当てされない識別子である.ASCII で255文字を超えてはならない(MUST NOT).<spanx style="verb">sub</spanx> の値は大文字と小文字を区別する文字列である.
+            必須(REQUIRED).Subject 識別子.例えば, <spanx style="verb">24400320</spanx> や <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx> のようなClientに使われることを意図し, End-User のための発行者内で一意であり決して再割り当てされない識別子である.ASCII で255文字を超えてはならない(MUST NOT).<spanx style="verb">sub</spanx> の値は大文字と小文字を区別する文字列である.
           </t>
 
           <!--
@@ -753,7 +753,7 @@
           </t>
           -->
           <t hangText="aud">
-            必須(REQUIRED).この ID トークンを対象とする Audience(s).audience の値として Relying Party のOAuth 2.0 の <spanx style="verb">client_id</spanx> を含まなければならない(MUST).また他の audiences のための識別子を含んでもよい(MAY).一般的な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別する文字列の配列である. audience が1つである際の共通の特殊な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別した文字列でもよい(MAY).
+            必須(REQUIRED).この ID Token を対象とする Audience(s).audience の値として Relying Party のOAuth 2.0 の <spanx style="verb">client_id</spanx> を含まなければならない(MUST).また他の audiences のための識別子を含んでもよい(MAY).一般的な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別する文字列の配列である. audience が1つである際の共通の特殊な場合には, <spanx style="verb">aud</spanx> の値は大文字と小文字を区別した文字列でもよい(MAY).
           </t>
 
           <!--
@@ -772,7 +772,7 @@
           </t>
           -->
           <t hangText="exp">
-            必須(REQUIRED).それ以降, ID トークンを処理のために受け入れてはいけない有効期限(MUST NOT).このパラメーターの処理は, 現在の日付/時刻が値の中に記載されている有効期限の日付/時刻以前でなければならない(MUST).実装者は, クロック・キューを考慮するために, 通常は数分間以下の多少の余地を提供してもよい(MAY).その値は, その日付/時刻まで UTC で計測される 1970-01-01T0:0:0Z から秒数を表す JSON 番号である.通常, そして特殊な UTC の日付/時刻に関する詳細は <xref target="RFC3339">RFC 3339</xref> を参照すること.
+            必須(REQUIRED).それ以降, ID Token を処理のために受け入れてはいけない有効期限(MUST NOT).このパラメーターの処理は, 現在の日付/時刻が値の中に記載されている有効期限の日付/時刻以前でなければならない(MUST).実装者は, クロック・キューを考慮するために, 通常は数分間以下の多少の余地を提供してもよい(MAY).その値は, その日付/時刻まで UTC で計測される 1970-01-01T0:0:0Z から秒数を表す JSON 番号である.通常, そして特殊な UTC の日付/時刻に関する詳細は <xref target="RFC3339">RFC 3339</xref> を参照すること.
           </t>
 
           <!--
@@ -824,7 +824,7 @@
           </t>
           -->
           <t hangText="nonce">
-            文字列の値は, ID トークンとクライアントセッションを関連づけるため, リプレイアタックの軽減に使用される.その値は, 認証リクエストから ID トークンに変更されずに通過される.ID トークンの中に存在する場合, クライアントはその <spanx style="verb">nonce</spanx> クレームの値が認証リクエストで送信された <spanx style="verb">nonce</spanx> パラメーターの値と同じであるか検証しなければならない(MUST).認証リクエストに存在する場合, 認可サーバーは認証リクエストで送信された nonce の値であるクレーム値を用いて ID トークンの中に <spanx style="verb">nonce</spanx> クレームを含めなければならない(MUST).認可サーバーは使用される <spanx style="verb">nonce</spanx> 値でその他の処理を行うべきではない(SHOULD).<spanx style="verb">nonce</spanx> 値は大文字と小文字を区別する文字列である.
+            文字列の値は, ID Token とClientセッションを関連づけるため, リプレイアタックの軽減に使用される.その値は, Authentication Request から ID Token に変更されずに通過される.ID Token の中に存在する場合, Clientはその <spanx style="verb">nonce</spanx> クレームの値がAuthentication Request で送信された <spanx style="verb">nonce</spanx> パラメーターの値と同じであるか検証しなければならない(MUST).Authentication Request に存在する場合, Authorization ServerはAuthentication Request で送信された nonce の値であるクレーム値を用いて ID Token の中に <spanx style="verb">nonce</spanx> クレームを含めなければならない(MUST).Authorization Serverは使用される <spanx style="verb">nonce</spanx> 値でその他の処理を行うべきではない(SHOULD).<spanx style="verb">nonce</spanx> 値は大文字と小文字を区別する文字列である.
           </t>
 
           <!--
@@ -896,7 +896,7 @@
           </t>
           -->
           <t hangText="azp">
-            任意(OPTIONAL).Authorized party.ID トークンを発行された Relying Partyである.これがある場合, この party の OAuth 2.0 の Client ID を含めなければならない(MUST).ID トークンは1つの audience 値が含まれ, その audience が authorized party とは異なるときにこのクレームのみ必要である.Authorized party が単一の audience として同じときそれは含まれているかもしれない.<spanx style="verb">azp</spanx> 値は文字列または URI を含む大文字と小文字を区別する文字列である.
+            任意(OPTIONAL).Authorized party.ID Token を発行された Relying Partyである.これがある場合, この party の OAuth 2.0 の Client ID を含めなければならない(MUST).ID Token は1つの audience 値が含まれ, その audience が authorized party とは異なるときにこのクレームのみ必要である.Authorized party が単一の audience として同じときそれは含まれているかもしれない.<spanx style="verb">azp</spanx> 値は文字列または URI を含む大文字と小文字を区別する文字列である.
           </t>
 
         </list>
@@ -915,7 +915,7 @@
       </t>
       -->
       <t>
-        ID トークンは他のクレームを含むかもしれない(MAY).
+        ID Token は他のクレームを含むかもしれない(MAY).
         解明されない使用されるいくつかのクレームは無視しなければならない(MUST).この仕様によって定義される追加のクレームのための
         <xref target="CodeIDToken" format="counter"/>,
         <xref target="HybridIDToken" format="counter"/>,
@@ -944,8 +944,8 @@
       </t>
       -->
       <t>
-        ID トークンは <xref target="JWS">JWS</xref> によって署名される, <xref target="JWS">JWS</xref> と <xref target="JWE">JWE</xref> のそれぞれによって署名された後に暗号化の両方をされていなければならない(MUST).これにより各 <xref target="SigningOrder"/> に, 認証, 完全性, 否認防止, および任意で機密性を提供する.
-        ID トークンが暗号化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗号化されなければならなく(MUST), 認可エンドポイントから ID トークンのない戻り値を使用するレスポンスタイプ(認可コードフローを用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</spanx> の使用を要求したクライアントでない限り, ID トークンは <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</spanx> を使用してはいけない(MUST NOT).
+        ID Token は <xref target="JWS">JWS</xref> によって署名される, <xref target="JWS">JWS</xref> と <xref target="JWE">JWE</xref> のそれぞれによって署名された後に暗号化の両方をされていなければならない(MUST).これにより各 <xref target="SigningOrder"/> に, 認証, 完全性, 否認防止, および任意で機密性を提供する.
+        ID Token が暗号化されている場合, <xref target="JWT"/> で定義されている入れ子 JWT である結果を用いて署名されてから暗号化されなければならなく(MUST), Authorization Endpoint から ID Token のない戻り値を使用するレスポンスタイプ(Authorization Code Flow を用いているときこのようになる)で, 登録時に明示的に <spanx style="verb">none</spanx> の使用を要求したClientでない限り, ID Token は <spanx style="verb">alg</spanx> 値として <spanx style="verb">none</spanx> を使用してはいけない(MUST NOT).
       </t>
       <!--
       <t>
@@ -961,7 +961,7 @@
       </t>
       -->
       <t>
-        ID トークンは JWS あるいは JWE の
+        ID Token は JWS あるいは JWE の
         <spanx style="verb">x5u</spanx>,
         <spanx style="verb">x5c</spanx>,
         <spanx style="verb">jku</spanx> と
@@ -977,7 +977,7 @@
         </preamble>
         -->
         <preamble>
-          以下は ID トークン中のクレームセット(JWT クレームセット)の一例である:
+          以下は ID Token 中のクレームセット(JWT クレームセット)の一例である:
         </preamble>
 
         <artwork><![CDATA[
@@ -999,8 +999,8 @@
     <section anchor="Authentication" title="Authentication">
       <t>
         OpenID Connectではエンドユーザのログインもしくは既にログイン済みのエンドユーザを確定するために認証を行う.
-        OpenID Connectでは, クライアントが信頼できるように安全な方式でサーバからクライアントへ認証結果を返却する.
-        このような理由のため, この場合ではクライアントのことをRelying Party(RP)と呼ぶ.
+        OpenID Connectでは, Clientが信頼できるように安全な方式でサーバからClientへ認証結果を返却する.
+        このような理由のため, この場合ではClientのことをRelying Party(RP)と呼ぶ.
       </t>
       <!--<t>
         OpenID Connect performs authentication to log in the End-User
@@ -1022,7 +1022,7 @@
       </t>-->
       <t>
         認証にはAuthorization Codeフロー (<spanx style="verb">response_type=code</spanx>) とImplicitフロー (<spanx style="verb">response_type=id_token&nbsp;token</spanx>か<spanx style="verb">response_type=id_token</spanx>) およびHybrid Flow (<xref target="OAuth.Responses">Oauth 2.0 Multiple Response Type Encoding Practices</xref>で定義される他のレスポンスタイプ値を利用) の３つのフローのうち１つを選ぶことができる.
-        フローによってID TokenとAccess Tokenがどのようにクライアントへ返却されるか決定される.
+        フローによってID TokenとAccess TokenがどのようにClientへ返却されるか決定される.
       </t>
       <!--<t>
         Authentication can follow one of three paths:
@@ -1070,7 +1070,7 @@
         <c>no</c>
         <c>no</c>
 
-        <c>クライアントを認証することが可能である</c>
+        <c>Clientを認証することが可能である</c>
         <!--<c>Client can be authenticated</c>-->
         <c>yes</c>
         <c>no</c>
@@ -1160,10 +1160,10 @@
         </t>-->
 
         <t>
-            Authorization Codeフローではクライアントに認可コードを返却し, クライアントはそれを直接ID TokenとAccess TOkenと交換できるようになる.
+            Authorization CodeフローではClientに認可コードを返却し, Clientはそれを直接ID TokenとAccess TOkenと交換できるようになる.
             これによりUser AgentやUser Agentにアクセスできる悪意のあるアプリケーションにどのトークンも公開されることがない恩恵が得られる.
-            Authorizationサーバは認可コードをAccess Tokenと交換する前にクライアントの認証を行うこともできる.
-            Authorization CodeフローはClient SecretをクライアントとAuthorizationサーバ間で安全に保持できるクライアントに適している.
+            Authorizationサーバは認可コードをAccess Tokenと交換する前にClientの認証を行うこともできる.
+            Authorization CodeフローはClient SecretをClientとAuthorizationサーバ間で安全に保持できるClientに適している.
         </t>
         <!--<t>The Authorization Code Flow returns an Authorization Code to the
         Client, which can then exchange it for an ID Token and an Access Token directly.
@@ -1185,12 +1185,12 @@
           <t>
             <list style="numbers">
               <t>
-                  クライアントは必要なパラメータを含むAuthorizationリクエストの準備をする.
+                  Clientは必要なパラメータを含むAuthorizationリクエストの準備をする.
               </t>
               <!--<t>Client prepares an Authentication Request containing the desired
               request parameters.</t>-->
 
-              <t>クライアントはAuthorizationサーバへリクエストを送信する</t>
+              <t>ClientはAuthorizationサーバへリクエストを送信する</t>
               <!--<t>Client sends the request to the Authorization Server.</t>-->
 
               <t>Authorizationサーバはエンドユーザを認証する. </t>
@@ -1199,19 +1199,19 @@
               <t>Authorizationサーバはエンドユーザの同意/認可を得る. </t>
               <!--<t>Authorization Server obtains End-User Consent/Authorization.</t>-->
 
-              <t>Authorizationサーバはエンドユーザを認可コードをつけてクライアントへ送信する</t>
+              <t>Authorizationサーバはエンドユーザを認可コードをつけてClientへ送信する</t>
               <!--<t>Authorization Server sends the End-User back to the Client with
               an Authorization Code.</t>-->
 
-              <t>クライアントはToken Endpointへ認可コードを使ってリクエストを送信する. </t>
+              <t>ClientはToken Endpointへ認可コードを使ってリクエストを送信する. </t>
               <!--<t>Client requests a response using the Authorization Code at the
               Token Endpoint.</t>-->
 
-              <t>クライアントはID TokenとAccess Tokenをレスポンスボディに含むレスポンスを受け取る</t>
+              <t>ClientはID TokenとAccess Tokenをレスポンスボディに含むレスポンスを受け取る</t>
               <!--<t>Client receives a response that contains an ID Token
               and Access Token in the response body.</t>-->
 
-              <t>クライアントはID Tokenを検証し, エンドユーザのSubject識別子を取得する. </t>
+              <t>ClientはID Tokenを検証し, エンドユーザのSubject識別子を取得する. </t>
               <!--<t>Client validates the ID token and retrieves the End-User's
               Subject Identifier.</t>-->
 
@@ -1259,7 +1259,7 @@
 
             <t>
               Authorization Server は Authorization Endpoint において <xref target="RFC2616">RFC 2616</xref> で定義された HTTP <spanx style="verb">GET</spanx> メソッドと HTTP <spanx style="verb">POST</spanx> メソッドをサポートしなければならない (MUST).
-              クライアントは Authorization Server への Authorization Request の送信に HTTP <spanx style="verb">GET</spanx> メソッドか HTTP <spanx style="verb">POST</spanx> メソッドを使用できる (MAY).
+              Clientは Authorization Server への Authorization Request の送信に HTTP <spanx style="verb">GET</spanx> メソッドか HTTP <spanx style="verb">POST</spanx> メソッドを使用できる (MAY).
               HTTP <spanx style="verb">GET</spanx> メソッドを使用する場合, リクエストパラメータは URI Query String Serialization ( <xref target="QuerySerialization"/> ) に従ってシリアライズされる.
               HTTP <spanx style="verb">POST</spanx> メソッドを使用する場合, リクエストパラメータは Form Serialization ( <xref target="FormSerialization"/> ) に従ってシリアライズされる.
             </t>
@@ -1696,8 +1696,8 @@
                 -->
                 <t>
                   <spanx style="verb">id_token_hint</spanx> として使用するために RP によって受信された OP からの ID Token が暗号化されていた場合,
-                  クライアントは暗号化された ID Token を含んだ署名済みの ID Token を復号しなければならない (MUST).
-                  クライアントは Authentication Server に送信する署名済みの ID Token をサーバーが ID Token を復号できる鍵を用いて再暗号化し, <spanx style="verb">id_token_hint</spanx> の値として使用してもよい (MAY).
+                  Clientは暗号化された ID Token を含んだ署名済みの ID Token を復号しなければならない (MUST).
+                  Clientは Authentication Server に送信する署名済みの ID Token をサーバーが ID Token を復号できる鍵を用いて再暗号化し, <spanx style="verb">id_token_hint</spanx> の値として使用してもよい (MAY).
                 </t>
                 <!--
                 <t>
@@ -2564,7 +2564,7 @@
             </t>
             -->
             <t>
-              クライアントから有効かつ認可されたトークンリクエストの受信, 確認後, 認可サーバーは ID トークンとアクセストークンを含む正常なレスポンスを返却する.
+              Clientから有効かつ認可されたトークンリクエストの受信, 確認後, Authorization Serverは ID Token とAccess Token を含む正常なレスポンスを返却する.
               正常なレスポンス内のパラメーターは <xref target="RFC6749">OAuth 2.0</xref> の Section 4.1.4 に定義されている.
               レスポンスは <spanx style="verb">application/json</spanx> メディアタイプを使用する.
             </t>
@@ -2579,7 +2579,7 @@
             </t>
             -->
             <t>
-              他のトークンタイプはクライアントと交渉がない場合, OAuth 2.0 の <spanx style="verb">token_type</spanx> レスポンスパラメーターの値は, <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> で指定されている <spanx style="verb">Bearer</spanx> でなければならない(MUST).
+              他のトークンタイプはClientと交渉がない場合, OAuth 2.0 の <spanx style="verb">token_type</spanx> レスポンスパラメーターの値は, <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> で指定されている <spanx style="verb">Bearer</spanx> でなければならない(MUST).
               サーバーは <spanx style="verb">Bearer</spanx> トークンタイプをサポートすべきである(SHOULD); 他のトークンタイプの使用はこの仕様の領域外である.
             </t>
             <!--
@@ -2598,7 +2598,7 @@
                 authenticated session.</t>
                 -->
                 <t hangText="id_token">
-                  ID トークンの値は認証されたセッションに関連づけられる.
+                  ID Token の値は認証されたセッションに関連づけられる.
                 </t>
               </list>
             </t>
@@ -2637,7 +2637,7 @@
               -->
               <preamble>
                 以下は, 正常なトークンレスポンスの一例である.
-                例の ID トークンの署名は <xref target="ExampleRSAKey"/> に鍵を使った検証が可能である.
+                例の ID Token の署名は <xref target="ExampleRSAKey"/> に鍵を使った検証が可能である.
                 <xref target="ExampleRSAKey"/>.
               </preamble>
 
@@ -2671,7 +2671,7 @@
             SHOULD ignore unrecognized response parameters.</t>
             -->
             <t>
-              <xref target="RFC6749">OAuth 2.0</xref> で指定されているように, クライアントは認識されないレスポンスパラメーターは無視すべきである(SHOULD).
+              <xref target="RFC6749">OAuth 2.0</xref> で指定されているように, Clientは認識されないレスポンスパラメーターは無視すべきである(SHOULD).
             </t>
           </section>
 
@@ -2688,7 +2688,7 @@
             </t>
             -->
             <t>
-              トークンリクエストが無効あるいは未認可の場合には, 認可サーバーはエラーレスポンスを構成する.
+              トークンリクエストが無効あるいは未認可の場合には, Authorization Serverはエラーレスポンスを構成する.
               トークンエラーレスポンスのパラメーターは <xref target="RFC6749">OAuth 2.0</xref> の Section 5.2 に定義されている.
               HTTP レスポンスボディは HTTP レスポンスコード 400 を用いて <spanx style="verb">application/json</spanx> メディアタイプを使用する.
             </t>
@@ -2719,7 +2719,7 @@
               <!--
               The Client MUST validate the Token Response as follows:
               -->
-              クライアントは以下のようにトークンレスポンスを確認しなければいけない(MUST):
+              Clientは以下のようにトークンレスポンスを確認しなければいけない(MUST):
               <list style="numbers">
                 <!--
                 <t>
@@ -2736,7 +2736,7 @@
                 </t>
                 -->
                 <t>
-                  <xref target="IDTokenValidation"/> の ID トークン確認規則に従う.
+                  <xref target="IDTokenValidation"/> の ID Token 確認規則に従う.
                 </t>
                 <!--
                 <t>
@@ -2744,7 +2744,7 @@
                 </t>
                 -->
                 <t>
-                  <xref target="CodeFlowTokenValidation"/> のアクセストークン確認規則に従う.
+                  <xref target="CodeFlowTokenValidation"/> のAccess Token 確認規則に従う.
                 </t>
               </list>
             </t>
@@ -3022,8 +3022,8 @@
         </t>
         -->
         <t>
-          本章は Implicit フローを用いた認証を行う方法について述べる.
-          Implicit フローを用いるとき, トークンエンドポイントは使用されず, 全てのトークンは認可エンドポイントから返却される.
+          本章は Implicit Flow を用いた認証を行う方法について述べる.
+          Implicit Flow を用いるとき, Token Endpoint は使用されず, Authorization Endpoint から返却される.
         </t>
 
         <!--
@@ -3035,16 +3035,17 @@
         </t>
         -->
         <t>
-          Implicit フローは主にスクリプト言語を用いてブラウザーで実装されたクライアントによって使用される.
-          アクセストークンと ID トークンは End-User と End-User の User Agent にアクセスするアプリケーションに露出するかもしれないクライアントに直接返却される.
-          認可サーバーはクライアント認証を行ってはいけない.
+          Implicit Flow は主にスクリプト言語を用いてブラウザーで実装された Clients によって使用される.
+          Access Token と ID Token は, Client に直接返却され,
+          その Access Token と ID Token は, End-User と End-User の User Agent にアクセスするアプリケーションに露出する可能性がある.
+          Authorization Server は Client Authentication を行ってはいけない.
         </t>
 
         <section anchor="ImplicitFlowSteps" title="Implicit Flow Steps">
           <!--
           <t>The Implicit Flow follows the following steps:</t>
           -->
-          <t>Implicit フローは以下の手順に従う:</t>
+          <t>Implicit Flow は以下の手順に従う:</t>
 
           <t>
             <list style="numbers">
@@ -3053,30 +3054,30 @@
               request parameters.</t>
               -->
               <t>
-                クライアントは求めるするリクエストパラメーターを含む認証リクエストを準備する.
+                Client は希望するリクエストパラメーターを含む Authentication Request を準備する.
               </t>
 
               <!--
               <t>Client sends the request to the Authorization Server.</t>
               -->
-              <t>クライアントは認可サーバーにリクエストを送信する.</t>
+              <t>Client は Authorization Server にリクエストを送信する.</t>
 
               <!--
               <t>Authorization Server Authenticates the End-User.</t>
               -->
-              <t>認可サーバーは End-User を認証する.</t>
+              <t>Authorization Server は End-User を認証する.</t>
 
               <!--
               <t>Authorization Server obtains End-User Consent/Authorization.</t>
               -->
-              <t>認可サーバーは End-User の同意/認可を取得する.</t>
+              <t>Authorization Server は End-User の Consent/Authorization を取得する.</t>
 
               <!--
                     <t>Authorization Server sends the End-User back to the Client with
               an ID Token and, if requested, an Access Token.</t>
               -->
               <t>
-                認可サーバーは, 要求があればID トークンとアクセストークンと共に End-User をクライアントに送り戻す
+                Authorization Server は, 要求があれば ID Token と Access Token と共に End-User を Client に送り戻す.
               </t>
 
               <!--
@@ -3084,7 +3085,7 @@
               Subject Identifier.</t>
               -->
               <t>
-                クライアントは ID トークンを確認して End-User の Subject 識別子を抽出する.
+                Client は ID Token を確認して End-User の Subject Identifier を抽出する.
               </t>
 
             </list>
@@ -3101,7 +3102,9 @@
           </t>
           -->
           <t>
-            Implicit フローを用いるとき, 本章で指定された相違点を除いて, 認可エンドポイントは <xref target="AuthorizationEndpoint"/> に定義されている認可コードフローと同様の方法が使用される.
+            Implicit Flow を用いるとき, 本章で指定された相違点を除いて,
+            Authorization Endpoint は <xref target="AuthorizationEndpoint"/> に定義されている
+            Authorization Code Flow と同様の方法が使用される.
           </t>
 
           <section anchor="ImplicitAuthRequest" title="Authentication Request">
@@ -3114,7 +3117,8 @@
             </t>
             -->
             <t>
-              次のように使用される認証リクエストパラメーターを除き, 認証リクエストは <xref target="AuthRequest"/> に定義されているように形成される.
+              次のように使用される Authentication Request パラメーターを除き,
+              Authentication Request は <xref target="AuthRequest"/> に定義されているように作られる.
             </t>
             <t>
               <list style="hanging">
@@ -3135,10 +3139,11 @@
                 -->
                 <t hangText="response_type">
                   必須(REQUIRED).
-                  パラメーターが用いられるエンドポイントから返却されるものを含めて, 認可処理のフローを使用するかを決定するための OAuth 2.0 のレスポンスタイプ値である.
-                  Implicit フローを用いるとき, この値は <spanx style="verb">id_token&nbsp;token</spanx> または <spanx style="verb">id_token</spanx> である.
-                  これらの値の両方の意味は <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> に定義されている.
-                  値が <spanx style="verb">id_token</spanx> であるときは, アクセストークンは返却されない.
+                  認可処理のフローを使用するかどうかを決定するための OAuth 2.0 Responses Type 値であり,
+                  エンドポイントから返却されるパラメーターが使用されることを含んでいる.
+                  Implicit Flow を用いるとき, この値は <spanx style="verb">id_token&nbsp;token</spanx> または <spanx style="verb">id_token</spanx> である.
+                  これらの値についてのそれぞれの意味は <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref> に定義されている.
+                  値が <spanx style="verb">id_token</spanx> であるときは, Access Token は返却されない.
                 </t>
                 <!--
                 <t>
@@ -3149,7 +3154,8 @@
                 </t>
                 -->
                 <t>
-                  注記:  OAuth 2.0 も Implicit フローの <spanx style="verb">token</spanx> レスポンスタイプの値を定義しているが, ID トークンを返却しないため OpenID Connect はこのレスポンスタイプを使用しない.
+                  注記:  OAuth 2.0 も Implicit Flow の <spanx style="verb">token</spanx> Response Type の値を定義しているが,
+                  ID Token を返却しないため OpenID Connect はこの Response Type を使用しない.
                 </t>
 
                 <!--
@@ -3169,13 +3175,13 @@
                 -->
                 <t hangText="redirect_uri">
                   必須(REQUIRED).
-                  レスポンスが送られる先のリダイレクト URI である.
+                  レスポンスが送られる先の Redirect URI である.
                   この URI は <xref target="RFC3986"/> (Simple String Comparison) の Section 6.2.1 (Simple String Comparison) に
-                  定義されているように行われる突き合わせを用いて, OpenID プロバイダーで
-                  事前に登録されているクライアントのリダイレクト URI 値のひとつに
+                  定義されているように行われるマッチングを用いて, OpenID Provider で
+                  事前に登録されている Client の Redirect URI 値のひとつに
                   正確に一致しなければならない(MUST).
-                  このフローを用いるとき, クライアントがネイティブアプリケーションでない限り
-                  リダイレクト URI は <spanx style="verb">http</spanx> スキームを使用してはいけない(MUST).
+                  このフローを用いるとき, Client がネイティブアプリケーションでない限り
+                  Redirect URI は <spanx style="verb">http</spanx> スキームを使用してはいけない(MUST).
                   この場合のネイティブアプリケーションは,
                   ホストネームとして <spanx style="verb">localhost</spanx> で <spanx style="verb">http:</spanx>　スキームを使用してもよい(MAY).
                 </t>
@@ -3194,11 +3200,11 @@
                 -->
                 <t hangText="nonce">
                   必須(REQUIRED).
-                  ID トークンでクライアントセッションを関連づけ, リプレイアタックを
+                  ID Token で Client セッションを関連づけ, リプレイアタックを
                   軽減するために用いられる文字列の値である.
-                  この値は認証リクエストから ID トークンに修正されずに受け渡される.
+                  この値は Authentication Request から ID Token に修正されずに受け渡される.
                   値を推測する攻撃者を防ぐために <spanx style="verb">nonce</spanx> の
-                  値は十分なエントロピーが存在していなければならない(MUST).
+                  値は十分なエントロピーがなければならない(MUST).
                   実装の注釈は <xref target="NonceNotes"/> を参考すること.
                 </t>
               </list>
@@ -3214,8 +3220,8 @@
               </preamble>
               -->
               <preamble>
-                以下は, クライアントによる対応する HTTP 302 リダイレクトレスポンスに応じて,
-                User Agent によって認可サーバーへ送信される Implicit フローを用いたリクエストの一例である.
+                以下は, Client による対応する HTTP 302 リダイレクトレスポンスに応じて,
+                User Agent によってAuthorization Server へ送信される Implicit Flow を用いたリクエストの一例である.
               </preamble>
 
               <artwork><![CDATA[
@@ -3241,7 +3247,7 @@
             </t>
             -->
             <t>
-              Implicit フローを用いるとき, <xref target="AuthRequestValidation"/> で定義されている認可コードフローの場合と同様に認証リクエストは確認される.
+              Implicit Flow を用いるとき, <xref target="AuthRequestValidation"/> で定義されている Authorization Code Flow の場合と同様に Authentication Request は確認される.
             </t>
           </section>
 
@@ -3254,7 +3260,7 @@
             </t>
             -->
             <t>
-              Implicit フローを用いるとき, <xref target="Authenticates"/> で定義されている認可コードフローの場合と同様に End-User の認証が行われる.
+              Implicit Flow を用いるとき, <xref target="Authenticates"/> で定義されている Authorization Code Flow の場合と同様に End-User Authentication が行われる.
             </t>
           </section>
 
@@ -3267,14 +3273,15 @@
             </t>
             -->
             <t>
-              Implicit フローを用いるとき, <xref target="Consent"/> で定義されている認可コードフローの場合と同様に End-User の同意は得られる.
+              Implicit Flow を用いるとき, <xref target="Consent"/> で定義されている Authorization Code Flow の場合と同様に End-User Consent が得られる.
             </t>
           </section>
 
 
           <section anchor="ImplicitAuthResponse" title="Successful Authentication Response">
             <t>
-              Implicit Flow を用いるとき, Authentication Responses はこのセクションで指定される違いを除いて <xref target="AuthResponse"/> で定義されている Authorization Code Flow と同様に作成される.
+              Implicit Flow を用いるとき, Authentication Responses はこのセクションで指定される違いを除いて
+              <xref target="AuthResponse"/> で定義されている Authorization Code Flow と同様に作成される.
             </t>
             <!--
             <t>
@@ -3628,7 +3635,7 @@
             <t>
               <list style="numbers">
                 <t>
-                  クライアントは ID Token の署名を, JWT ヘッダ中の <spanx style="verb">alg</spanx> パラメータで指定されたアルゴリズムを使い, <xref target="JWS">JWS</xref> に従って検証しなければならない (MUST).
+                  Clientは ID Token の署名を, JWT ヘッダ中の <spanx style="verb">alg</spanx> パラメータで指定されたアルゴリズムを使い, <xref target="JWS">JWS</xref> に従って検証しなければならない (MUST).
                 </t>
                 <!--
                 <t>
@@ -3641,8 +3648,8 @@
                 <t>
                   <spanx style="verb">nonce</spanx>
                   Claim の値が Authentication Request にて送られたものと一致することを確認しなければならない (MUST).
-                  クライアントは <spanx style="verb">nonce</spanx> の値をリプレイアタック対策のためにチェックすべきである (SHOULD).
-                  リプレイアタック検知方法の詳細はクライアントによって異なる.
+                  Clientは <spanx style="verb">nonce</spanx> の値をリプレイアタック対策のためにチェックすべきである (SHOULD).
+                  リプレイアタック検知方法の詳細はClientによって異なる.
                 </t>
                 <!--
                 <t>
@@ -3692,7 +3699,7 @@
           <t>
             <list style="numbers">
               <t>
-                クライアントは必要なリクエストパラメータを含んだ Authentication Request を構築する.
+                Clientは必要なリクエストパラメータを含んだ Authentication Request を構築する.
               </t>
               <!--
               <t>Client prepares an Authentication Request containing the desired
@@ -3700,7 +3707,7 @@
               -->
 
               <t>
-                クライアントは Authorization Server にリクエストを送信する.
+                Clientは Authorization Server にリクエストを送信する.
               </t>
               <!--
               <t>Client sends the request to the Authorization Server.</t>
@@ -3721,7 +3728,7 @@
               -->
 
               <t>
-                Authorization Server は End-User を Authorization Code と, レスポンスタイプに応じた1つ以上の追加パラメータとともにクライアントに戻す.
+                Authorization Server は End-User を Authorization Code と, レスポンスタイプに応じた1つ以上の追加パラメータとともにClientに戻す.
               </t>
               <!--
               <t>
@@ -3732,7 +3739,7 @@
               -->
 
               <t>
-                クライアントは Token Endpoint で Authorization Code を使用してレスポンスを要求する.
+                Clientは Token Endpoint で Authorization Code を使用してレスポンスを要求する.
               </t>
               <!--
               <t>Client requests a response using the Authorization Code at the
@@ -3740,7 +3747,7 @@
               -->
 
               <t>
-                クライアントは ID Token と Access Token をレスポンスボディに含んだレスポンスを受け取る.
+                Clientは ID Token と Access Token をレスポンスボディに含んだレスポンスを受け取る.
               </t>
               <!--
               <t>Client receives a response that contains an ID Token
@@ -3748,7 +3755,7 @@
               -->
 
               <t>
-                クライアントは ID Token をトークンを検証し, End-User の Subject Identifier を取得する.
+                Clientは ID Token をトークンを検証し, End-User の Subject Identifier を取得する.
               </t>
               <!--
               <t>Client validates the ID Token and retrieves the End-User's
@@ -3763,7 +3770,7 @@
 
 
           <t>
-            ハイブリッドフローを使用する場合, 認可エンドポイントは, このセクションで指定された違いを除いて, <xref target="AuthorizationEndpoint"/>で定義されるように, 認可コードフローと同様の方式で利用される.
+            ハイブリッドフローを使用する場合, Authorization Endpoint は, このセクションで指定された違いを除いて, <xref target="AuthorizationEndpoint"/>で定義されるように, Authorization Code Flow と同様の方式で利用される.
           </t>
           <!-- <t>
             When using the Hybrid Flow, the Authorization Endpoint is used
@@ -3775,7 +3782,7 @@
           <section anchor="HybridAuthRequest" title="Authentication Request">
 
             <t>
-              認証リクエストは, 以下で示される認証リクエストパラメータを除いて, <xref target="AuthRequest"/>で定義されたように作成される.
+              Authentication Request は, 以下で示されるAuthentication Request パラメータを除いて, <xref target="AuthRequest"/>で定義されたように作成される.
             </t>
             <!-- <t>
               Authentication Requests are made
@@ -3811,7 +3818,7 @@
 
             <figure>
               <preamble>
-                クライアントが対応するHTTP302リダイレクト応答に応じて, ユーザエージェントによって,
+                Clientが対応するHTTP302リダイレクト応答に応じて, ユーザエージェントによって,
                 認可サーバへ送信されるであろう, ハイブリッドフローを用いた非標準のリクエスト例を以下に示す.
                 (表示目的のための値の範囲内での行折り返しを含む):
               </preamble>
@@ -3839,7 +3846,7 @@
           <section anchor="HybridValidation" title="Authentication Request Validation">
 
             <t>
-              ハイブリッドフローを使用する場合, 認証リクエストは<xref target="AuthRequestValidation"/>で定義されるように, 認可コードフローと同じ方式で検証される.
+              ハイブリッドフローを使用する場合, Authentication Request は<xref target="AuthRequestValidation"/>で定義されるように, Authorization Code Flow と同じ方式で検証される.
             </t>
             <!-- <t>
               When using the Hybrid Flow, the Authentication Request is validated
@@ -3851,7 +3858,7 @@
           <section anchor="HybridAuthenticates" title="Authorization Server Authenticates End-User">
 
             <t>
-              ハイブリッドフローを使用する場合, エンドユーザの認証は<xref target="Authenticates"/>で定義されるように, 認可コードフローと同じ方式で実施される.
+              ハイブリッドフローを使用する場合, エンドユーザの認証は<xref target="Authenticates"/>で定義されるように, Authorization Code Flow と同じ方式で実施される.
             </t>
             <!-- <t>
               When using the Hybrid Flow, End-User Authentication is performed
@@ -3863,7 +3870,7 @@
           <section anchor="HybridConsent" title="Authorization Server Obtains End-User Consent/Authorization">
 
             <t>
-              ハイブリッドフローを使用する場合, エンドユーザの同意は<xref target="Consent"/>で定義されるように, 認可コードフローと同じ方式で得られる.
+              ハイブリッドフローを使用する場合, エンドユーザの同意は<xref target="Consent"/>で定義されるように, Authorization Code Flow と同じ方式で得られる.
             </t>
             <!-- <t>
               When using the Hybrid Flow, End-User Consent is obtained
@@ -3885,7 +3892,7 @@
             </t> -->
 
             <t>
-              これらの認可エンドポイントの結果は, 以下のように使用される.
+              これらのAuthorization Endpoint の結果は, 以下のように使用される.
             </t>
             <!-- <t>
               These Authorization Endpoint results are used in the following manner:
@@ -3959,7 +3966,7 @@
           <section anchor="HybridAuthError" title="Authentication Error Response">
 
             <t>
-              ハイブリッドフローを使用する場合, 認証エラーレスポンスは, この章で指定された違いを除いて, <xref target="AuthError"/>で定義されるように, 認可コードフローと同じ方式で作成される
+              ハイブリッドフローを使用する場合, 認証エラーレスポンスは, この章で指定された違いを除いて, <xref target="AuthError"/>で定義されるように, Authorization Code Flow と同じ方式で作成される
             </t>
 
             <!-- <t>
@@ -4073,7 +4080,7 @@
           <section anchor="HybridTokenValidation" title="Access Token Validation">
 
 			<t>
-			  ハイブリッドフローを使用する場合, 認可エンドポイントから返却されるAccess Tokenは, <xref target="ImplicitTokenValidation"/>で定義されたようにImplicit Flowと同じルールで検証される.
+			  ハイブリッドフローを使用する場合, Authorization Endpoint から返却されるAccess Tokenは, <xref target="ImplicitTokenValidation"/>で定義されたようにImplicit Flowと同じルールで検証される.
 			</t>
 			<!--
             <t>
@@ -4088,7 +4095,7 @@
           <section anchor="CodeValidation" title="Authorization Code Validation">
 
 			<t>
-			 認可エンドポイントでID Tokenと一緒に発行されたAuthorization codeを検証するために, Clientは以下を行うべきである(SHOULD):
+			 Authorization Endpoint でID Tokenと一緒に発行されたAuthorization codeを検証するために, Clientは以下を行うべきである(SHOULD):
 			</t>
 			<!--
             <t>To validate an Authorization Code issued from the Authorization Endpoint with an ID Token,
@@ -4140,8 +4147,8 @@
             </t>
             -->
             <t>
-              ID トークンの内容は, <xref target="IDToken"/> に記載されている.
-              Hybrid フローを用いるとき, 以下の ID トークンクレームの追加要求は認可エンドポイントから返却される ID トークンに適用される:
+              ID Token の内容は, <xref target="IDToken"/> に記載されている.
+              Hybrid フローを用いるとき, 以下の ID Token クレームの追加要求はAuthorization Endpoint から返却される ID Token に適用される:
             </t>
             <t>
               <list style="hanging">
@@ -4173,10 +4180,10 @@
                 </t>
                 -->
                 <t hangText="at_hash">
-                  アクセストークンのハッシュ値.
+                  Access Token のハッシュ値.
                   その値は <spanx style="verb">access_token</spanx> 値の ASCII 表記のオクテットを
                   ハッシュした値の左端を base64url エンコーディングしたものである.
-                  そのハッシュアルゴリズムは ID トークンの <xref target="JWS">JWS</xref> ヘッダーの
+                  そのハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーの
                   <spanx style="verb">alg</spanx> ヘッダーパラメーターで用いられているハッシュアルゴリズムである.
                   例えば, <spanx style="verb">alg</spanx> が <spanx style="verb">RS256</spanx> である場合,
                   SHA-256 を用いて <spanx style="verb">access_token</spanx> の値をハッシュし,
@@ -4194,8 +4201,8 @@
                 -->
                 <t>
                   <spanx style="verb">response_type</spanx> の値が <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx> で
-                  認可エンドポイントから <spanx style="verb">access_token</spanx> 値と共に
-                  ID トークンが発行された場合, これは必須である(REQUIRED).
+                  Authorization Endpoint から <spanx style="verb">access_token</spanx> 値と共に
+                  ID Token が発行された場合, これは必須である(REQUIRED).
                   それ以外の場合, 含めることは任意である(OPTIONAL).
                 </t>
 
@@ -4219,7 +4226,7 @@
                   コードのハッシュ値.
                   <spanx style="verb">code</spanx> 値の ASCII 表記のオクテットを
                   ハッシュした値の左端を base64url エンコーディングしたものである.
-                  そのハッシュアルゴリズムは ID トークンの <xref target="JWS">JWS</xref> ヘッダーの
+                  そのハッシュアルゴリズムは ID Token の <xref target="JWS">JWS</xref> ヘッダーの
                   <spanx style="verb">alg</spanx> ヘッダーパラメーターで用いられているハッシュアルゴリズムである.
                   例えば, <spanx style="verb">alg</spanx> が <spanx style="verb">HS512</spanx> である場合,
                   SHA-512 を用いて <spanx style="verb">code</spanx> の値をハッシュし,
@@ -4238,7 +4245,7 @@
                 -->
                 <t>
                   <spanx style="verb">response_type</spanx> の値が <spanx style="verb">code&nbsp;id_token</spanx> と <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx> で,
-                  認可エンドポイントから <spanx style="verb">code</spanx> と共に ID トークンが
+                  Authorization Endpoint から <spanx style="verb">code</spanx> と共に ID Token が
                   発行された場合, これは必須である(REQUIRED).
                   それ以外の場合, 含めることは任意である(OPTIONAL).
                 </t>
@@ -4259,8 +4266,8 @@
             -->
             <t>
               Hybrid フローを用いるとき, <xref target="ImplicitIDTValidation"/> に
-              定義されているように, 認可エンドポイントから返却される ID トークンの内容は
-              Implicit フローと同様に確認されなければならない(MUST).
+              定義されているように, Authorization Endpoint から返却される ID Token の内容は
+              Implicit Flow と同様に確認されなければならない(MUST).
             </t>
           </section>
 
@@ -4278,7 +4285,7 @@
           -->
           <t>
             Hybrid フローを用いるとき, このセクションで指定された相違点を除いて,
-            <xref target="TokenEndpoint"/> で定義されている認可コードフローと
+            <xref target="TokenEndpoint"/> で定義されているAuthorization Code Flow と
             同様にトークンエンドポイントが使用される.
           </t>
 
@@ -4293,7 +4300,7 @@
             -->
             <t>
               Hybrid フローが用いられるとき, <xref target="TokenRequest"/> に定義されている
-              認可コードフローと同様にトークンリクエストが作られる.
+              Authorization Code Flow と同様にトークンリクエストが作られる.
             </t>
           </section>
 
@@ -4308,7 +4315,7 @@
             -->
             <t>
               Hybrid フローが用いられるとき, <xref target="TokenRequestValidation"/> に定義されている
-              認可コードフローと同様にトークンリクエストが確認される.
+              Authorization Code Flow と同様にトークンリクエストが確認される.
             </t>
           </section>
 
@@ -4323,7 +4330,7 @@
             -->
             <t>
               Hybrid フローが用いられるとき, <xref target="TokenResponse"/> に定義されている
-              認可コードフローと同様にトークンレスポンスが作られる.
+              Authorization Code Flow と同様にトークンレスポンスが作られる.
             </t>
           </section>
 
@@ -4338,7 +4345,7 @@
             -->
             <t>
               Hybrid フローが用いられるとき, <xref target="TokenErrorResponse"/> に定義されている
-              認可コードフローと同様にトークンエラーレスポンスが作られる.
+              Authorization Code Flow と同様にトークンエラーレスポンスが作られる.
             </t>
           </section>
 
@@ -4353,7 +4360,7 @@
             -->
             <t>
               Hybrid フローが用いられるとき, <xref target="TokenResponseValidation"/> に定義されている
-              認可コードフローと同様にトークンレスポンスは確認される.
+              Authorization Code Flow と同様にトークンレスポンスは確認される.
             </t>
           </section>
 
@@ -4480,8 +4487,8 @@
       </t>
       -->
       <t>
-        いくつかの場合, Relying Party よりもむしろ OpenID プロバイダーあるいは他の Party によってログインフローは開始される.
-        この場合, RP が 指定された OP に認証リクエストを要求する開始プログラムは, 自身のログイン初期化エンドポイントで RP にリダイレクトする.
+        いくつかの場合, Relying Party よりもむしろ OpenID Provider あるいは他の Party によってログインフローは開始される.
+        この場合, RP が 指定された OP にAuthentication Request を要求する開始プログラムは, 自身のログイン初期化エンドポイントで RP にリダイレクトする.
         このログイン初期化エンドポイントは, デフォルトのランディングページよりも, RP で深いリンクにすることができる.
         <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> をサポートする RPs は<spanx style="verb">initiate_login_uri</spanx> レジストレーションパラメーターを用いてこのエンドポイントの値を登録する.
       </t>
@@ -4505,7 +4512,7 @@
           -->
           <t hangText="iss">
             必須(REQUIRED).
-            RP が認証リクエストを送信する OP のための Issuer Identifier.
+            RP がAuthentication Request を送信する OP のための Issuer Identifier.
             その値は <spanx style="verb">https</spanx> スキームを用いた URL でなければならない(MUST).
           </t>
           <!--
@@ -4520,9 +4527,9 @@
           <t hangText="login_hint">
             任意(OPTIONAL).
             End-User が　ログインするために使用されるかもしれないログイン識別子について
-            の認可サーバーへのヒント.
-            クライアントがこの文字列値パラメーターのために値を受け付ける場合,
-            <spanx style="verb">login_hint</spanx> パラメーター値として認証リクエストの中に
+            のAuthorization Serverへのヒント.
+            Clientがこの文字列値パラメーターのために値を受け付ける場合,
+            <spanx style="verb">login_hint</spanx> パラメーター値としてAuthentication Request の中に
             含めなければならない(MUST).
           </t>
           <!--
@@ -4564,7 +4571,7 @@
       -->
       <t>
         拡張によって他のパラメーターが定義される場合, 送られてもよい(MAY).
-        解釈されず使用されたいくつかのパラメーターはクライアントによって無視されなければならない(MUST).
+        解釈されず使用されたいくつかのパラメーターはClientによって無視されなければならない(MUST).
       </t>
 
       <!--
@@ -4576,7 +4583,7 @@
       </t>
       -->
       <t>
-        クライアントはフレームバスティングや End-User をクリックジャッキングのような攻撃を
+        Clientはフレームバスティングや End-User をクリックジャッキングのような攻撃を
         通じてこれらの知識なしに third party サイトによってロギングされることから
         防ぐための他の技術を採用すべきである(SHOULD).
         詳細は <xref target="RFC6819"/> の Section 4.4.1.9 を参照.
@@ -4598,7 +4605,7 @@
       </t>
       -->
       <t>
-        この章はクライアントが End-User と認証イベントについてのクレームをどのように
+        この章はClientが End-User と認証イベントについてのクレームをどのように
         付与することができるかということについて示す.
         ベーシックプロフィールクレームの標準セットも定義する.
         クレームの事前に定義されたセットは指定された scope 値を用いて要求することができ,
@@ -4618,7 +4625,7 @@
         <t>
           この仕様は標準クレームのセットを定義する.
           それらは <xref target="UserInfoResponse"/> の UserInfo レスポンス内
-          あるいは <xref target="IDToken"/> の ID トークン内で返却されるように要求できる.
+          あるいは <xref target="IDToken"/> の ID Token 内で返却されるように要求できる.
         </t>
 
         <texttable anchor="ClaimTable" title="Registered Member Definitions">
@@ -5244,7 +5251,7 @@
 
         <t>
           UserInfo Endpoint は, 認証された End-User に関する Claim を返す OAuth 2.0 Protected Resource である.
-          要求された End-User のクレームを取得するため, クライアントは OpenID Connect Authentication を通して得られた Access Token を用いて UserInfo Endpoint に要求する.
+          要求された End-User のクレームを取得するため, Clientは OpenID Connect Authentication を通して得られた Access Token を用いて UserInfo Endpoint に要求する.
           これらのクレームは通常, クレームの名前と値のペアのコレクションを含んだ JSON オブジェクトで表現される.
         </t>
         <!--
@@ -5290,7 +5297,7 @@
         -->
 
         <t>
-          UserInfo Endpoint は Java Scipt クライアントが Endpoint にアクセスできるように <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> や 必要に応じて他の方法をサポートすべきである (SHOULD).
+          UserInfo Endpoint は Java Scipt Clientが Endpoint にアクセスできるように <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> や 必要に応じて他の方法をサポートすべきである (SHOULD).
         </t>
         <!--
         <t>The UserInfo Endpoint SHOULD support the use of
@@ -5301,7 +5308,7 @@
         <section anchor="UserInfoRequest" title="UserInfo Request">
 
           <t>
-            クライアントは HTTP <spanx style="verb">GET</spanx> か HTTP <spanx style="verb">POST</spanx> のいずれかを用いて UserInfo Request を送信する.
+            Clientは HTTP <spanx style="verb">GET</spanx> か HTTP <spanx style="verb">POST</spanx> のいずれかを用いて UserInfo Request を送信する.
             OpenID Connect Authentication Request で得られた Access Token は <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> のセクション 2 に従って, Bearer Token として送信されなければいけない (MUST).
           </t>
           <!--
@@ -5345,7 +5352,7 @@
 
         <section anchor="UserInfoResponse" title="Successful UserInfo Response">
           <t>
-            クライアントの登録時に署名または暗号化されたレスポンスが要求されていない限り, UserInfo Claim は JSON オブジェクトのメンバーとして返される (MUST).
+            Clientの登録時に署名または暗号化されたレスポンスが要求されていない限り, UserInfo Claim は JSON オブジェクトのメンバーとして返される (MUST).
             <xref target="StandardClaims"/> に定義されている Claim に加え, そこに明記されていない Claim も返却可能である.
           </t>
           <!--
@@ -5534,7 +5541,7 @@
               -->
 
               <t>
-                クライアントが登録時に <spanx style="verb">userinfo_encrypted_response_alg</spanx> パラメータを提供した場合, 登録時に指定した鍵を使用して UserInfo Response を復号する.
+                Clientが登録時に <spanx style="verb">userinfo_encrypted_response_alg</spanx> パラメータを提供した場合, 登録時に指定した鍵を使用して UserInfo Response を復号する.
               </t>
               <!--
               <t>If the Client has provided a
@@ -5544,7 +5551,7 @@
               -->
 
               <t>
-                レスポンスが署名されている場合, クライアントは <xref target="JWS">JWS</xref> に従って署名を検証すべきである (SHOULD).
+                レスポンスが署名されている場合, Clientは <xref target="JWS">JWS</xref> に従って署名を検証すべきである (SHOULD).
               </t>
               <!--
               <t>If the response was signed, the Client SHOULD validate the
@@ -6292,7 +6299,7 @@
             </t>
 -->
             <t>
-              クライアントが <spanx style="verb">acr_values</spanx> request パラメータと ID Token のために要求する特定の値をリストにした個別の <spanx style="verb">acr</spanx> Claim request の両方を用いて <spanx style="verb">acr</spanx> クレームを要求する場合, その結果の振る舞いは規定されていない.
+              Clientが <spanx style="verb">acr_values</spanx> request パラメータと ID Token のために要求する特定の値をリストにした個別の <spanx style="verb">acr</spanx> Claim request の両方を用いて <spanx style="verb">acr</spanx> クレームを要求する場合, その結果の振る舞いは規定されていない.
             </t>
 <!--
             <t>
@@ -6365,7 +6372,7 @@
             the OpenID Provider.</t>
             -->
             <t hangText="Normal Claims">
-              OpenID プロバイダーによって直接アサートされたクレーム.
+              OpenID Provider によって直接アサートされたクレーム.
             </t>
 
             <!--
@@ -6374,8 +6381,8 @@
             by OpenID Provider.</t>
             -->
             <t hangText="Aggregated Claims">
-              OpenID プロバイダー以外のクレームプロバイダーによってアサートされたクレームだが,
-              OpenID プロバイダーから返却される.
+              OpenID Provider 以外のクレームプロバイダーによってアサートされたクレームだが,
+              OpenID Provider から返却される.
             </t>
 
             <!--
@@ -6384,8 +6391,8 @@
             as references by the OpenID Provider.</t>
             -->
             <t hangText="Distributed Claims">
-              OpenID プロバイダー以外のクレームプロバイダーによってアサートされたクレームだが,
-              OpenID プロバイダーによる参照として返却される.
+              OpenID Provider 以外のクレームプロバイダーによってアサートされたクレームだが,
+              OpenID Provider による参照として返却される.
             </t>
           </list>
         </t>
@@ -6559,7 +6566,7 @@
                     </list>
                   </t>
                   <t>
-                    JWT は( OpenID プロバイダーあるいは他の party のためでなく)
+                    JWT は( OpenID Provider あるいは他の party のためでなく)
                     値がクレームプロバイダーで End-User のための識別子でない限り
                     <spanx style="verb">sub</spanx> (subject) クレームを含むべきではない(SHOULD NOT);
                     一般的にこれは <spanx style="verb">sub</spanx> クレームが提供されるべきではない
@@ -6579,18 +6586,18 @@
                       <t hangText="access_token">
                       任意(OPTIONAL).
                       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> プロトコルの使用による
-                      エンドポイント URL からクレームの取得が可能なアクセストークン.
+                      エンドポイント URL からクレームの取得が可能なAccess Token .
                       クレームは認可コードリクエストヘッダーフィールドを用いてリクエストされ
                       なければならず(MUST), クレームプロバイダーはこの方法をサポートしなければならない(MUST).
-                      アクセストークンが使用可能でない場合, RPs は帯域外からアクセストークンを取り出す
+                      Access Token が使用可能でない場合, RPs は帯域外からAccess Token を取り出す
                       必要があってもよく, あるいはクレームプロバイダーと RP 間で事前に交渉された
-                      アクセストークンを使用してもよい(MAY).
+                      Access Token を使用してもよい(MAY).
                       あるいはクレームプロバイダーは End-User を再認証, かつ/もしくは RP を再認可もてもよい(MAY).
                       </t>
                     </list>
                   </t>
                   <t>
-                    ( OpenID プロバイダーあるいは他の party のためでなく)
+                    ( OpenID Provider あるいは他の party のためでなく)
                     値がクレームプロバイダーで End-User のための識別子でない限り
                     <spanx style="verb">sub</spanx> (subject) クレームはクレームプロバイダーから返却される
                     べきではない(SHOULD NOT):
@@ -6628,7 +6635,7 @@
             -->
             <t>
               この一例は, Aggregated Claims として返却されるクレームプロバイダー A からの
-              クレームを用いてクレームプロバイダー A からのクレームは OpenID プロバイダーによって
+              クレームを用いてクレームプロバイダー A からのクレームは OpenID Provider によって
               保有された他のクレームと, 組み合わせられている.
             </t>
             <t>
@@ -6666,7 +6673,7 @@
             <t>
               クレームプロバイダー A は JSON クレームに署名し, signed JWT でそれらを表現する:
               jwt_header.jwt_part2.jwt_part3.
-              この JWT は OpenID プロバイダーによって使用される.
+              この JWT は OpenID Provider によって使用される.
             </t>
             <t>
               <figure>
@@ -6715,7 +6722,7 @@
             </t>
             -->
             <t>
-              この一例は, OpenID プロバイダーが Distributed Claims として B と C によって保持された
+              この一例は, OpenID Provider が Distributed Claims として B と C によって保持された
               クレームのいくつかの参照を組み込んでいる B と C の2つの異なるクレームプロバイダーによって
               保持されたクレームへの参照を保持している Normal Claims を組み合わせる.
             </t>
@@ -6777,7 +6784,7 @@
                 </preamble>
                 -->
                 <preamble>
-                  OpenID プロバイダーは, アクセストークンと Distributed Claims を取り出すことができる
+                  OpenID Provider は, Access Token と Distributed Claims を取り出すことができる
                   URLs を送信することによってクレームプロバイダー B と クレームプロバイダー C からの
                   Distributed Claims の参照先とともに Jane Doe のクレームを返却する.
                 </preamble>
@@ -7756,7 +7763,7 @@
     <section anchor="SelfIssued" title="Self-Issued OpenID Provider">
 
       <t>
-        OpenID Connect は Self-Issued OpenID プロバイダー (私有の self-hosted な OpenID Provider であり, 自己署名つきの ID Token を発行するもの) をサポートしている. Self-Issued OP は <spanx style="verb">https://self-issued.me</spanx> という特別な Issuer 識別子を使用する.
+        OpenID Connect は Self-Issued OpenID Provider  (私有の self-hosted な OpenID Provider であり, 自己署名つきの ID Token を発行するもの) をサポートしている. Self-Issued OP は <spanx style="verb">https://self-issued.me</spanx> という特別な Issuer 識別子を使用する.
       </t>
       <!--
       <t>
@@ -7817,7 +7824,7 @@
         <t>
           注記: OpenID ファウンデーションは
           <spanx style="verb">https://self-issued.me/</spanx>
-          という OpenID プロバイダーサイトを提供することを計画している.
+          という OpenID Provider サイトを提供することを計画している.
           その場合は WebFinger サービスも提供され, ディスカバリを実行すると上記の静的なディスカバリ情報を返すため, RP は Self-Issued OP のディスカバリのために特別な処理を行う必要はない.
           このサイトは実験的に提供される予定である.
           プロダクション環境を実装する際は, OpenID ファウンデーションが当該サイトをプロダクション用途を想定して提供するまでその環境に依存すべきではない.
@@ -7889,7 +7896,7 @@
                  title='Providing Information with the "registration" Request Parameter'>
 
           <t>
-            OpenID Connect は Client が Self-Issued OpenID プロバイダーに追加の登録情報を提供することが出来るようにするために以下の認可リクエストパラメータを定義している.
+            OpenID Connect は Client が Self-Issued OpenID Provider に追加の登録情報を提供することが出来るようにするために以下の認可リクエストパラメータを定義している.
             <!--
             OpenID Connect defines the following Authorization Request parameter
             to enable Clients to provide additional registration information to
@@ -8107,7 +8114,7 @@
         -->
         <figure>
           <preamble>
-            以下は, User Agent が Self-Issued OpenID プロバイダーに対して Authentication Request を生成するためのトリガーとなる, Client による HTTP 302 リダイレクトレスポンスの参考例である.
+            以下は, User Agent が Self-Issued OpenID Provider に対して Authentication Request を生成するためのトリガーとなる, Client による HTTP 302 リダイレクトレスポンスの参考例である.
             (改行は掲載上の都合による)
             <!--
             The following is a non-normative example
@@ -8164,8 +8171,8 @@
         </t>
 
         <t>
-          Self-Issued OpenID プロバイダーのレスポンスは, 通常の Implicit フローのレスポンスに以下の改変をしたものと同じである.
-          Implicit フローのレスポンスなので, 異なる Response Mode が指定されていない限り, レスポンスパラメータは URL フラグメントコンポーネントの中で返される.
+          Self-Issued OpenID Provider のレスポンスは, 通常の Implicit Flow のレスポンスに以下の改変をしたものと同じである.
+          Implicit Flow のレスポンスなので, 異なる Response Mode が指定されていない限り, レスポンスパラメータは URL フラグメントコンポーネントの中で返される.
         </t>
         <!--
         <t>
@@ -8270,7 +8277,7 @@
             </t>
             -->
             <t>
-              Client は, Client が認証リクエストで送信した <spanx style="verb">redirect_uri</spanx> の値が, <spanx style="verb">aud</spanx> Claim にオーディエンスとして含まれていることを検証しなければならない (MUST).
+              Client は, Client がAuthentication Request で送信した <spanx style="verb">redirect_uri</spanx> の値が, <spanx style="verb">aud</spanx> Claim にオーディエンスとして含まれていることを検証しなければならない (MUST).
             </t>
             <!--
             <t>
@@ -9878,7 +9885,7 @@
           <list style="hanging">
 
             <t hangText="ID Tokens をRSA SHA-256で署名できるようにする">
-                OPがToken EndpointからのID Token返却(Authorization Codeフローの場合のように)をサポートし, クライアントに<spanx style="verb">none</spanx>をID Tokenの署名アルゴリズムとして指定することしか許可しないということでなければ, OPはID TokenをRSA SHA-256 アルゴリズム(<spanx style="verb">alg</spanx>値に<spanx style="verb">RS256</spanx>)での署名をサポートしなければならない(MUST).
+                OPがToken EndpointからのID Token返却(Authorization Codeフローの場合のように)をサポートし, Clientに<spanx style="verb">none</spanx>をID Tokenの署名アルゴリズムとして指定することしか許可しないということでなければ, OPはID TokenをRSA SHA-256 アルゴリズム(<spanx style="verb">alg</spanx>値に<spanx style="verb">RS256</spanx>)での署名をサポートしなければならない(MUST).
             </t>
             <!--<t hangText="Signing ID Tokens with RSA SHA-256">
               OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
@@ -9996,7 +10003,7 @@
               <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
             </t>-->
             <t hangText="UserInfo Endpoint">
-                アクセストークンを発行する全て動的なOPは<xref target="UserInfo"/>で定義されているように, UserInfoエンドポイントをサポートしなければならない(MUST).
+                Access Token を発行する全て動的なOPは<xref target="UserInfo"/>で定義されているように, UserInfoエンドポイントをサポートしなければならない(MUST).
             </t>
             <!--<t hangText="UserInfo Endpoint">
               All dynamic OPs that issue Access Tokens MUST support the UserInfo Endpoint,
@@ -10029,7 +10036,7 @@
 
         <t>
             OpenID Connect導入にあたって事前に設定されたOpenIDプロバイダとRelying Partyのセットが使われることがある.
-            その場合において, identityやサービス, クライアントの動的登録の情報について動的にディスカバリをサポートする必要はないかもしれない.
+            その場合において, identityやサービス, Clientの動的登録の情報について動的にディスカバリをサポートする必要はないかもしれない.
         </t>
         <!--<t>Some OpenID Connect installations can use a pre-configured set of
         OpenID Providers and/or Relying Parties. In those cases, it might not be
@@ -10051,9 +10058,9 @@
       <section anchor="RPMTI" title="Mandatory to Implement Features for Relying Parties">
         <t>
             一般的に, OpenIDプロバイダと通信する祭にどの機能を利用するかはRelying Partyに依存する.
-            しかし, 必然的に利用するOAuthクライアントによって決定されてしまうこともある.
-            コンフィデンシャルなクライアントかどうかは, シークレットを安全に保持できるかで決まる. この場合Authorization Codeフローが適しているかもしれない.
-            また, パブリックなクライアントかどうかは, 例えばUser Agentベースのアプリケーションや静的に登録済みのネイティブアプリケーションがある. この場合Implicitフローが適しているかもしれない.
+            しかし, 必然的に利用するOAuthClientによって決定されてしまうこともある.
+            コンフィデンシャルなClientかどうかは, シークレットを安全に保持できるかで決まる. この場合Authorization Codeフローが適しているかもしれない.
+            また, パブリックなClientかどうかは, 例えばUser Agentベースのアプリケーションや静的に登録済みのネイティブアプリケーションがある. この場合Implicitフローが適しているかもしれない.
         </t>
         <!--<t>
           In general, it is up to Relying Parties which features they use
