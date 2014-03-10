@@ -1021,7 +1021,7 @@
         the Subject Identifier, when the authentication expires, etc.
       </t>-->
       <t>
-        認証にはAuthorization Codeフロー（<spanx style="verb">response_type=code</spanx>）とImplicitフロー（<spanx style="verb">response_type=id_token&nbsp;token</spanx>か<spanx style="verb">response_type=id_token</spanx>）およびHybrid Flow（<xref target="OAuth.Responses">Oauth 2.0 Multiple Response Type Encoding Practices</xref>で定義される他のレスポンスタイプ値を利用）の３つのフローのうち１つを選ぶことができる.
+        認証にはAuthorization Codeフロー (<spanx style="verb">response_type=code</spanx>) とImplicitフロー (<spanx style="verb">response_type=id_token&nbsp;token</spanx>か<spanx style="verb">response_type=id_token</spanx>) およびHybrid Flow (<xref target="OAuth.Responses">Oauth 2.0 Multiple Response Type Encoding Practices</xref>で定義される他のレスポンスタイプ値を利用) の３つのフローのうち１つを選ぶことができる.
         フローによってID TokenとAccess Tokenがどのようにクライアントへ返却されるか決定される.
       </t>
       <!--<t>
