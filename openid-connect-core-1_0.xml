@@ -6363,7 +6363,7 @@
         </t>
         -->
         <t>
-          クレーム値の3つの表記法はこの仕様によって定義される:
+          Cliam 値の3つの表現はこの仕様によって定義される:
         </t>
         <t>
           <list style="hanging">
@@ -6372,7 +6372,7 @@
             the OpenID Provider.</t>
             -->
             <t hangText="Normal Claims">
-              OpenID Provider によって直接アサートされたクレーム.
+              OpenID Provider によって直接アサートされた Cliams.
             </t>
 
             <!--
@@ -6381,7 +6381,7 @@
             by OpenID Provider.</t>
             -->
             <t hangText="Aggregated Claims">
-              OpenID Provider 以外のクレームプロバイダーによってアサートされたクレームだが,
+              OpenID Provider 以外の Claims Provider によってアサートされた Claims だが,
               OpenID Provider から返却される.
             </t>
 
@@ -6391,7 +6391,7 @@
             as references by the OpenID Provider.</t>
             -->
             <t hangText="Distributed Claims">
-              OpenID Provider 以外のクレームプロバイダーによってアサートされたクレームだが,
+              OpenID Provider 以外の Claims Provider によってアサートされた Claims だが,
               OpenID Provider による参照として返却される.
             </t>
           </list>
@@ -6415,8 +6415,8 @@
           value.</t>
           -->
           <t>
-            Normal Claims は JSON オブジェクトで要素として表記される.
-            クレーム名はその要素名で, クレーム値はその要素の値である.
+            Normal Claims は JSON オブジェクトの中にメンバーとして表記される.
+            Claim 名はそのメンバー名で, Claim 値はそのメンバーの値である.
           </t>
 
           <!--
@@ -6450,8 +6450,8 @@
           <t>
             Aggregated と distributed Claims は
             特殊な <spanx style="verb">_claim_names</spanx> と
-            クレームに含まれている JSON オブジェクト
-            の <spanx style="verb">_claim_sources</spanx> の要素を用いて表記される.
+            Claims に含まれている JSON オブジェクト
+            の <spanx style="verb">_claim_sources</spanx> のメンバーを用いて表記される.
           </t>
 
           <t>
@@ -6466,10 +6466,10 @@
               </t>
               -->
               <t hangText="_claim_names">
-                要素名が Aggregated と Distributed Claims のためのクレーム名である
+                メンバー名が Aggregated と Distributed Claims のための Claim 名である
                 Json オブジェクトである.
-                その要素の値は, 実際のクレーム値が取り出せる
-                <spanx style="verb">_claim_sources</spanx> の要素の中にある要素名への参照である.
+                そのメンバーの値は, 実際の Claim 値が取り出せる
+                <spanx style="verb">_claim_sources</spanx> メンバーの中にあるメンバー名への参照である.
               </t>
 
               <!--
@@ -6542,66 +6542,67 @@
               -->
 
               <t hangText="_claim_sources">
-                要素名が <spanx style="verb">_claim_names</spanx> の要素の値の要素値によって
-                参照される JSON オブジェクトである.
-                要素の値は Aggregated Claims のセットもしくは Distributed Claims の参照場所を含む.
-                要素値はそれが Aggregated あるいは Distributed Claims を提供しているが
-                どうかに応じて以下のフォーマットの1つを持つことができる:
+                <spanx style="verb">_claim_names</spanx> メンバー値によって
+                参照されるメンバー名を持つ JSON オブジェクトである.
+                メンバー値は Aggregated Claims のセットもしくは Distributed Claims の参照場所を含む.
+                Aggregated あるいは Distributed Claims を提供しているかどうかに応じて
+                メンバー値は以下のフォーマットの1つを持つことができる:
 
                 <list style="hanging">
 
                   <t hangText="Aggregated Claims">
-                    値が 対応した <spanx style="verb">_claim_sources</spanx> 要素を参照する
+                    <xref target="JWT">JWT</xref> である <spanx style="verb">JWT</spanx> メンバーを
+                    含まなければならない(MUST) JSON オブジェクトである.
+                    その JWT は対応した <spanx style="verb">_claim_sources</spanx> メンバーを参照する
                     <spanx style="verb">_claim_names</spanx> オブジェクトの中に
-                    全てのクレームを含まなければならない(MUST) <xref target="JWT">JWT</xref> である
-                    <spanx style="verb">JWT</spanx> 要素を含まなければならない(MUST) JSON オブジェクトである.
-                    他の要素は提供してもよい(MAY).
-                    解釈されずに使用されるいくつかの要素は無視しなければならない(MUST).
+                    全ての Claims を含まなければならない(MUST).
+                    他のメンバーは提供してもよい(MAY).
+                    解釈されずに使用されるいくつかのメンバーは無視しなければならない(MUST).
 
                     <list style="hanging">
                       <t hangText="JWT">
                         必須(REQUIRED).
-                        クレーム値を含んでいる JWT.
+                        Claim 値を含んでいる JWT.
                       </t>
                     </list>
                   </t>
                   <t>
                     JWT は( OpenID Provider あるいは他の party のためでなく)
-                    値がクレームプロバイダーで End-User のための識別子でない限り
-                    <spanx style="verb">sub</spanx> (subject) クレームを含むべきではない(SHOULD NOT);
-                    一般的にこれは <spanx style="verb">sub</spanx> クレームが提供されるべきではない
+                    値が Claims Provider で End-User のための識別子でない限り
+                    <spanx style="verb">sub</spanx> (subject) Claim を含むべきではない(SHOULD NOT);
+                    一般的にこれは <spanx style="verb">sub</spanx> Claim が提供されるべきではない
                     ということを意味している.
                   </t>
 
                   <t hangText="Distributed Claims">
-                    以下の要素と値を含む JSON オブジェクトである:
+                    以下のメンバーと値を含む JSON オブジェクトである:
 
                     <list style="hanging">
                       <t hangText="endpoint">
                         必須(REQUIRED).
-                        関連したクレームが取り出すことができる OAuth 2.0 リソースエンドポイント.
-                        エンドポイント URL は JWT としてのクレームを返却しなければならない(MUST).
+                        関連した Claim が取り出すことができる OAuth 2.0 リソースエンドポイント.
+                        エンドポイント URL は JWT としての Claim を返却しなければならない(MUST).
                       </t>
 
                       <t hangText="access_token">
                       任意(OPTIONAL).
                       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> プロトコルの使用による
-                      エンドポイント URL からクレームの取得が可能なAccess Token .
-                      クレームは認可コードリクエストヘッダーフィールドを用いてリクエストされ
-                      なければならず(MUST), クレームプロバイダーはこの方法をサポートしなければならない(MUST).
-                      Access Token が使用可能でない場合, RPs は帯域外からAccess Token を取り出す
-                      必要があってもよく, あるいはクレームプロバイダーと RP 間で事前に交渉された
+                      エンドポイント URL から Claim の取得が可能な Access Token.
+                      Claims は Authorization Request ヘッダーフィールドを用いてリクエストされ
+                      なければならず(MUST), Claims Providers はこの方法をサポートしなければならない(MUST).
+                      Access Token が使用可能でない場合, RPs は帯域外から Access Token を取り出す
+                      必要がある場合もあり, あるいは Claims Provider と RP 間で事前に交渉された
                       Access Token を使用してもよい(MAY).
-                      あるいはクレームプロバイダーは End-User を再認証, かつ/もしくは RP を再認可もてもよい(MAY).
+                      あるいは Claims Provider は End-User を再認証, かつ/もしくは RP を再認可もてもよい(MAY).
                       </t>
                     </list>
                   </t>
                   <t>
                     ( OpenID Provider あるいは他の party のためでなく)
-                    値がクレームプロバイダーで End-User のための識別子でない限り
-                    <spanx style="verb">sub</spanx> (subject) クレームはクレームプロバイダーから返却される
-                    べきではない(SHOULD NOT):
-                    一般的にこれは <spanx style="verb">sub</spanx> クレームが提要されるできではない(SHOULD NOT)
+                    値が Claims Provider で End-User のための識別子でない限り
+                    <spanx style="verb">sub</spanx> (subject) Claim は Claims Provider から
+                    返却されるべきではない(SHOULD NOT):
+                    一般的にこれは <spanx style="verb">sub</spanx> Claim が提要されるできではない(SHOULD NOT)
                     ということを意味している.
                   </t>
                 </list>
@@ -6620,7 +6621,7 @@
           <t>
             一般に, Aggregated Claims と Distributed Claims を使用することが適切であるとき,
             OP はやるべきである.
-            いくつかの場合では, どのようなクレームタイプの使用をするときについての情報は
+            いくつかの場合では, どの Claim Types をいつ使用かについての情報は
             RPs と OPs の間で帯域外で交渉されるかもしれない.
           </t>
 
@@ -6634,9 +6635,9 @@
             </t>
             -->
             <t>
-              この一例は, Aggregated Claims として返却されるクレームプロバイダー A からの
-              クレームを用いてクレームプロバイダー A からのクレームは OpenID Provider によって
-              保有された他のクレームと, 組み合わせられている.
+              この一例は, Claims Provider A からの Claims は
+              Aggregated Claims として返却される Claims Provider A からのClaims で,
+              OpenID Provider によって保有される他の Claims と組み合わされる.
             </t>
             <t>
               <figure>
@@ -6647,7 +6648,8 @@
                 </preamble>
                 -->
                 <preamble>
-                  この例では, Jane Doe についてのこれらのクレームはクレームプロバイダー A によって発行された:
+                  この例は, Cliams Provider A によって発行された
+                  Jane Doe についての Claims である:
                 </preamble>
                 <artwork><![CDATA[
   {
@@ -6671,7 +6673,7 @@
             </t>
             -->
             <t>
-              クレームプロバイダー A は JSON クレームに署名し, signed JWT でそれらを表現する:
+              Claims Provider A は JSON Cliams に署名し, signed JWT でそれらを表現する:
               jwt_header.jwt_part2.jwt_part3.
               この JWT は OpenID Provider によって使用される.
             </t>
@@ -6685,9 +6687,9 @@
                 </preamble>
                 -->
                 <preamble>
-                  この例では, クレームプロバイダー A からの Jane Doe の Aggregated Claims を
-                  含んでいるこの JWT は他の Normal Claims 組み合わせられており,
-                  以下のクレームセットとして返却される:
+                  この例では, Claims Provider A からの Jane Doe の Aggregated Claims を
+                  含んでいるこの JWT は他の Normal Claims と組み合わせられ,
+                  以下の Claims セットとして返却される:
                 </preamble>
                 <artwork><![CDATA[
   {
@@ -6722,9 +6724,9 @@
             </t>
             -->
             <t>
-              この一例は, OpenID Provider が Distributed Claims として B と C によって保持された
-              クレームのいくつかの参照を組み込んでいる B と C の2つの異なるクレームプロバイダーによって
-              保持されたクレームへの参照を保持している Normal Claims を組み合わせる.
+              この一例では, OpenID Provider は Distributed Claims として B と C によって保持された
+              Claims のいくつかの参照を組み込んでおり, B と C の2つの異なる Claims Provider によって
+              保持されたクレームへの参照を保持している Normal Claims と組み合わせられる.
             </t>
             <t>
               <figure>
@@ -6735,8 +6737,8 @@
                 </preamble>
                 -->
                 <preamble>
-                  この例では, Jane Doe についてのクレームは
-                  クレームプロバイダー B (Jane Doe's bank) によって保持されている:
+                  この例は, Claims Provider B (Jane Doe's bank) によって
+                  保持されている Jane Doe についての Claims である:
                 </preamble>
                 <artwork><![CDATA[
   {
@@ -6762,8 +6764,8 @@
                 </preamble>
                 -->
                 <preamble>
-                  またこの例では, Jane Doe についてのこのクレームは
-                  クレームプロバイダー C (a credit agency) によって保持されている:
+                  またこの例では, Claims Provider C (a credit agency) によって
+                  保持されている Jane Doe についての Claims である:
                 </preamble>
                 <artwork><![CDATA[
   {
@@ -6785,8 +6787,8 @@
                 -->
                 <preamble>
                   OpenID Provider は, Access Token と Distributed Claims を取り出すことができる
-                  URLs を送信することによってクレームプロバイダー B と クレームプロバイダー C からの
-                  Distributed Claims の参照先とともに Jane Doe のクレームを返却する.
+                  URLs を送信することによって Claims Provider B と Claims Provider C からの
+                  Distributed Claims の参照先とともに Jane Doe の Claims を返却する.
                 </preamble>
                 <artwork><![CDATA[
   {
@@ -6835,13 +6837,13 @@
         -->
         <t>
           <xref target="IDToken"></xref> で説明されているように
-          <spanx style="verb">sub</spanx> クレームはローカルで一意でなければならず(MUST),
-          特定の End-User のために Issuer 内で決して再割り当てされないため,
-          共に使用される <spanx style="verb">sub</spanx> (subject) と
-          <spanx style="verb">iss</spanx> (issuer) クレームは End-User のための安定した識別子として信頼できる.
+          <spanx style="verb">sub</spanx> Claims はローカルで一意でなければならず(MUST),
+          特定の End-User のために Issuer 内で決して再割り当てされない.
+          そのため, 一緒に用いられる <spanx style="verb">sub</spanx> (subject) と
+          <spanx style="verb">iss</spanx> (issuer) Claims は End-User のための安定した識別子として信頼できる.
           ゆえに, End-User に与えられた唯一保証された一意の識別子は
-          <spanx style="verb">iss</spanx> クレームと
-           <spanx style="verb">sub</spanx> クレームの組み合わせである.
+          <spanx style="verb">iss</spanx> Claim と
+           <spanx style="verb">sub</spanx> Claim の組み合わせである.
         </t>
         <!--
         <t>
@@ -6859,13 +6861,13 @@
         </t>
         -->
         <t>
-          他の全てのクレームは, 時間経過あるいはユーザ間の一意性の安定の観点から異なる issuers 間で
+          他の全ての Claims は, 時間経過あるいはユーザ間の一意性の安定の観点から, 異なる issuers 間で
           このような保証を伝えず, Issuers はローカルの制限やポリシーを適用することを許可する.
           例えば, Issuer は異なる時点で異なる End-Users 間で <spanx style="verb">email</spanx>
-          クレーム値を再利用してもよく(MAY), 指定された End-User のための
+          Claim 値を再利用してもよく(MAY), 指定された End-User のための
           claimed <spanx style="verb">email</spanx> address は時間の経過とともに変更してもよい(MAY).
           ゆえに, <spanx style="verb">email</spanx>, <spanx style="verb">phone_number</spanx>,
-          <spanx style="verb">preferred_username</spanx> のような他のクレームは
+          <spanx style="verb">preferred_username</spanx> のような他の Claims は
           End-User の一意な識別子として使用してはいけない(MUST NOT).
         </t>
 
