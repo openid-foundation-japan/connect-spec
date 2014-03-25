@@ -11081,33 +11081,57 @@
 
       <section anchor="PII" title="Personally Identifiable Information">
 
+        <t>UserInfo Responseは，通常 Personally Identifiable Information (PII)を含んでいる．
+        よって，特定の目的の情報提供に対して，規定されている同意取得の時かそれより前に，
+        エンドユーザの同意を取得しなければならない．
+        利用の目的は，通常 <spanx style="verb">redirect_uris</spanx> に関連づけて登録されている．</t>
+        <!--
         <t>The UserInfo Response typically contains Personally Identifiable
         Information (PII). As such, End-User consent for the release of the information
         for the specified purpose should be obtained at or prior to the
         authorization time in accordance with relevant regulations. The purpose
         of use is typically registered in association with the <spanx
         style="verb">redirect_uris</spanx>.</t>
+        -->
 
+        <t>Clientに保存するのは必要な UserInfo のみとするべきであり，
+        Clientは受け取ったデータを，利用するステートメントの目的と関連付けるべきである(SHOULD)．</t>
+        <!--
         <t>Only necessary UserInfo data should be stored at the Client and the
         Client SHOULD associate the received data with the purpose of use
         statement.</t>
+        -->
       </section>
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
+        <t>誰が自分のデータにアクセスしのたかをEnd-Uer 自身が確認できるように，
+        Resource Server は End-User の UserInfo へのアクセスログを取得しておくべきである(SHOULD)．</t>
+        <!--
         <t>
           The Resource Server SHOULD make End-Users' UserInfo access logs
           available to them so that they can monitor who accessed their data.
         </t>
+        -->
       </section>
 
       <section anchor="Correlation" title="Correlation">
+        <t>Client間でエンドユーザが名寄せされないように，
+        sub（subject）にはPairwise Pseudonymous Identifier (PPID）の使用を考慮すべきである(SHOULD)．</t>
+        <!--
         <t>To protect the End-User from a possible correlation among Clients, the
         use of a Pairwise Pseudonymous Identifier (PPID) as the
         <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+        -->
       </section>
-
+     
       <section anchor="OfflineAccessPrivacy" title="Offline Access">
 
+        <t>オフラインアクセスは，ユーザが介在しなくてもClaimへのアクセスを可能にするが，
+        ユーザが介在する場合のClaimの流通と比較すると，プライバシーリスクが大きい．
+        それゆえ，リソースへのオフラインアクセスに対しては，明確な同意を得るのが賢明である．
+        本仕様では，それぞれのシナリオにおけるリクエストが条件に準拠していることが既知でない限り，
+        同意を得るために <spanx style="verb">prompt</spanx> パラメータを利用することを義務付けている．</t>
+        <!--
         <t>
           Offline access enables access to Claims when the user is not present,
           posing greater privacy risk than the Claims transfer when the user is present.
@@ -11117,6 +11141,19 @@
           parameter to obtain consent unless it is already known that the
           request complies with the conditions for processing the request in each jurisdiction.
         </t>
+        -->
+        <t>Implicit Flow あるいは Hybrid Flowを利用してUser Agent 経由でAccessTokenが返却された場合は，
+        UserInfo endpointにアクセスできてしまう AccessToken が攻撃者に漏洩してしまうリスクが非常に大きい．
+        Access Tokeをオフラインアクセスでは利用できないものにしておき，
+        サーバがClientからのリクエストがオフラインなのかオンラインなのかを区別すれば，リスクは事実上減少する．
+        よって，本仕様では Access Token が User Agent 経由で流通された場合、
+        オフラインアクセスを無視することを義務付けている．
+        サーバにとって，特に native client からのアクセスがオフラインなのかオンラインなのかを区別することは，
+        非常に難しいことに気をつけて欲しい．サーバは経験に頼らざるを得ない．
+        Response Types が code token や token の際に UserAgent 経由で流通される Access Token も同様の漏洩リスクがある．
+        よって，Access Token が UserAgent 経由で取得されたのか，Token Endpoint から直接取得されたのかを識別し，
+        UserAgent 経由で取得された場合，オフラインアクセスを拒否できるように実装しておくべきである．</t>
+        <!--
         <t>
           When an Access Token is returned via the User Agent
           using the Implicit Flow or Hybrid Flow, there is
@@ -11140,6 +11177,18 @@
           or directly from the Token Endpoint and deny offline access
           if the token was issued through the User Agent.
         </t>
+        -->
+        <t>これらのプロビジョンは <spanx style="verb">prompt</spanx>パラメータによる明確な同意のダイアログを必要としているが，
+        単にユーザが「同意する」のボタンを押したという事実だけでは，
+        有効な同意とみなすことができないことに気をつけて欲しい．
+        同意することによる影響がエンドユーザに理解されており，
+        他のオプションを用意するなどして自由に選択できる状況下において強制でなく取られた同意であり，
+        公正かつ公平に扱われる同意であってはじめて、その同意は有効になるということに，
+        開発者は気をつけるべきである．
+        オンラインセルフサービスの「明示的な同意」が多くの場合いくつかのシナリオでは有効な同意の体をなしていないように，
+        一般的に，サービスはそれぞれの範囲内でプライバシーの原則にしたがって，単に明示的に同意済ということよりも，
+        他の状態を確認することを推奨する．</t>
+        <!--
         <t>
           Note that although these provisions require an explicit
           consent dialogue through the <spanx style="verb">prompt</spanx> parameter,
@@ -11156,6 +11205,7 @@
           as online self-service "explicit consent" often does not
           form a valid consent in some jurisdictions.
         </t>
+        -->
       </section>
     </section>
 
