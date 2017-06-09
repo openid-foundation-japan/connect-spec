@@ -7306,7 +7306,7 @@
         </t>
         -->
         <t>
-          <spanx style="verb">request_uri</spanx> パラメータを利用する際には, 参照先の JWT に含まれる OpenID Connect パラメータ値が OAuth 2.0 リクエストシンタックスで送信されるパラメータに取って代わる.
+          <spanx style="verb">request_uri</spanx> パラメータを利用する際には, 参照先の JWT に含まれる OpenID Connect パラメータ値が OAuth 2.0 リクエストシンタックスで送信されるパラメータよりも優先される.
           しかしながら, <spanx style="verb">request_uri</spanx> を利用する場合にでも, パラメータを OAuth 2.0 リクエストシンタックスでも送信することができる (MAY).
           こうすることで, キャッシュ可能で署名済 (および暗号化済) の Request Object 値に静的なリクエストパラメータを含め, リクエストごとに可変パラメータ (<spanx style="verb">state</spanx> , <spanx style="verb">nonce</spanx> 等) を OAuth 2.0 パラメータとして送信することなどが可能になる.
         </t>
